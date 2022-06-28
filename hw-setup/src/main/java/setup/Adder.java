@@ -30,9 +30,6 @@ public class Adder {
         System.out.print("Enter second number: ");
         int y = console.nextInt();
         int sum = computeSum(x, y);
-//        System.out.println(x);
-//        System.out.println(y);
-//        System.out.println(sum);
         System.out.println("The sum of the two numbers is: " + sum);
     }
 

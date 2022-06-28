@@ -46,14 +46,13 @@ public class Finder {
    * @return an index i such that A[i] = val or -1 if none exists
    */
   public static int find2(int[] A, int val) {
-    int i = -1;  // TO: change the initial value
+    int i = -1;
 
     // Inv: A[0] != val, A[1] != val, ..., A[i] != val
-    while (i + 1 != A.length) {  // TO: change the condition
+    while (i + 1 != A.length) {
       assert checkInv(A, val, i);  // NOTE: this statement must remain here
       i = i + 1;  // NOTE: this statement must remain here
 
-      // TO: fill in the missing code here
       if (A[i] == val) {
         return i;
       }
@@ -70,14 +69,13 @@ public class Finder {
    * @return an index i such that A[i] = val or -1 if none exists
    */
   public static int find3(int[] A, int val) {
-    int i = 0;  // TO: change the initial value
+    int i = 0;
 
     // Inv: A[0] != val, A[1] != val, ..., A[i-1] != val
-    while (i != A.length) {  // TO: change the condition
+    while (i != A.length) {
       assert checkInv(A, val, i-1);  // NOTE: this statement must remain here
       i = i + 1;  // NOTE: this statement must remain here
 
-      // TO: fill in the missing code here
       if (A[i - 1] == val) {
         return i - 1;
       }
@@ -93,13 +91,12 @@ public class Finder {
    * @return an index i such that A[i] = val or -1 if none exists
    */
   public static int find4(int[] A, int val) {
-    int i = -1;  // TO: change the initial value
+    int i = -1;
 
     // Inv: A[0] != val, A[1] != val, ..., A[i] != val
-    while (i + 1 != A.length) {  // TO: change the condition
+    while (i + 1 != A.length) {
       assert checkInv(A, val, i);  // NOTE: this statement must remain here
 
-      // TO: fill in the missing code here
       if (A[i + 1] == val) {
         return i + 1;
       }
