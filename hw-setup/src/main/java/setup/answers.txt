@@ -32,14 +32,20 @@ output.
 1. What are the values of "x", "y", and "sum" printed by your statement? Why was x not equal 
 to the first integer entered here, and how could we fix this?
 
+The value of "x" printed is 4, "y" is 4, and the sum is 0. x is not equal to the first
+integer entered because the integer is divided by 2 (result: 5 / 2 = 2) and then multiplied
+by 2, which eliminates the decimals during the division. To fix this, we can simply receive
+the entered value as is, which is "console.nextInt()".
 
 
 2. What are all the names and values listed in the “Variables” panel? What does the “frames” 
 tab list as the current method and line number? (Write down the text that was highlighted when 
 the Debug perspective first opened.)
 
+In the "Variables" panel, there are "x = 5" and "y = 4". The current method is "computeSum" at
+line 45.
 
 
 3. What are all the names and values listed in the “Variables” panel after each of the two step overs?
 
-
+The names and values are "x" = 5, "y" = 4, and "sum" = 1.
