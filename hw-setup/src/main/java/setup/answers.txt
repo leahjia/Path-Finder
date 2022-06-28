@@ -4,16 +4,27 @@
 1. Why did Fibonacci fail the testThrowsIllegalArgumentException< test? What (if anything) did
 you have to do to fix it? If you did not have to change anything to fix this issue, explain why.
 
+Fibonacci fails the testThrowsIllegalArgumentException test because it includes 0 in the
+first if statement which will throw new IllegalArgumentException with the statement "0 is
+negative" when it evaluates zero, which is incorrect. So to fix this issue, I had to change the
+condition to n < 0.
 
 
 2. Why did Fibonacci fail the testBaseCase test? What (if anything) did you have to do to fix
 it? If you did not have to change anything to fix this issue, explain why.
 
+Fibonacci fails the testBaseCase test for the same reason described in question 1. The original
+codes throw an exception when it encounters zero when it should have returned 1. By removing "="
+in the first if statement, it is able to enter the second if statement, which will then return 1.
 
 
 3.Why did Fibonacci fail the testInductiveCase test? What (if anything) did you have to do to
 fix it? If you did not have to change anything to fix this issue, explain why.
 
+It fails the testInductiveCase test for including 2 in the base case. When n = 2, it should enter
+the recursive call in the last if statement and return 1 + 1 = 2. To fix this issue, I had to
+remove the "=" from "n <= 2" so that it will enter the last if statement and return the correct
+output.
 
 
 ## Part 8: Debugger Tutorial
