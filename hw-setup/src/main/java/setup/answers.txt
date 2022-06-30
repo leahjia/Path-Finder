@@ -39,7 +39,7 @@ the entered value as is, which is "console.nextInt()".
 
 
 2. What are all the names and values listed in the “Variables” panel? What does the “frames” 
-tab list as the current method and line number? (Write down the text that was highlighted when 
+tab list as the current method and line number? (Write down the text that was highlighted when
 the Debug perspective first opened.)
 
 In the "Variables" panel, there are "x = 5" and "y = 4". The current method is "computeSum" at
