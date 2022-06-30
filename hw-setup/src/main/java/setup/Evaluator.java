@@ -58,11 +58,7 @@ public class Evaluator {
 
     // Inv: val = A[j] v^0 + ... + A[1] v^{j-1} + A[0] v^j
     while (j != A.length - 1) {
-      if (j + 1 == 0) {
-        val = A[0];
-      } else {
-        val = val * v + A[j + 1];
-      }
+      val = val * v + A[j + 1];
       j++;
     }
 
