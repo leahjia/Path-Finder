@@ -76,24 +76,29 @@ public class Natural {
    *     0 if none are non-zero
    */
   public static int leadingDigit(int[] digits) {
-    // TODO: Implement this method with a loop, and include a loop invariant.
+    // DONE: Implement this method with a loop, and include a loop invariant.
     //       Your code must be correct with the invariant you write (tests don't check this!).
     //       Include an explanation of why postcondition holds at each return statement.
     //       You can use the template given right before the postcondition in this method.
 
-    // TODO: Choose an initial value for this variable that matches your loop invariant
-    int i = 999;
+    // DONE: Choose an initial value for this variable that matches your loop invariant
+    int i = digits.length - 1;
 
-    // TODO: Fill out the invariant below
-    // Inv:
-    while (i != 999) {
-      // TODO: Fix the loop condition above
-      // TODO: Add code to the loop body. Your code must match your invariant (tests don't check this!).
+    // DONE: Fill out the invariant below
+    // Inv: D[i+1] = ... = D[n-1] = 0 and D != null and n >= 0
+    //      where D = digits and n = digits.length.
+    while (i != 0) {
+      // DONE: Fix the loop condition above
+      // DONE: Add code to the loop body. Your code must match your invariant (tests don't check this!).
+      if (digits[i] != 0) {
+        return i;
+      }
+      i--;
     }
 
-    // TODO: Include an explanation of why postcondition holds at each return statement. For example:
-    // At this point in the code, we know that _________.
-    // This implies the postcondition below, since __________.
+    // DONE: Include an explanation of why postcondition holds at each return statement. For example:
+    // At this point in the code, we know that D[i+1] = ... = D[n-1] = 0 and (D[i] != 0 or i = 0).
+    // This implies the postcondition below, since it is the same as the post condition.
 
     // Post: D[i+1], ..., D[n-1] are all zero and (D[i] != 0 or i = 0)
     return i;
