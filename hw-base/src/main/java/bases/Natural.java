@@ -230,11 +230,14 @@ public class Natural {
       // DONE: Implement the body of this loop, so that it's correct with the given invariant.
       j = j + 1;
       i = i - 1;
-      // val = val * this.base + this.digits[i];
-      r = r.times(base).plus(r.toBase(base));
+      int val = r.getValue();
+      r = r.times(base).plus(b);
     }
 
     // Explain why the postcondition holds at the end of this code.
+    // After the while loop, all elements in r are checked and converted to
+    // the given base with the value itself unchanged, thus maintained the
+    // post condition.
     // Post: r = (base, this.value)
     return r;
   }
