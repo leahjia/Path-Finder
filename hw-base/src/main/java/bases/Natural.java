@@ -228,6 +228,7 @@ public class Natural {
     //      where D = this.digits, n = this.digits.length, and b = this.base.
     while (j != this.digits.length - 1) {  // DONE: Replace the condition here with a suitable one.
       // DONE: Implement the body of this loop, so that it's correct with the given invariant.
+
       j = j + 1;
       i = i - 1;
       int val = r.getValue();
