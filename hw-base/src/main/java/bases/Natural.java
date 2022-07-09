@@ -251,10 +251,19 @@ public class Natural {
 
     StringBuilder buf = new StringBuilder();
 
-    // TODO: write your loop here
+    // DONE: write your loop here
+    int i = digits.length - 1;
 
-    // At this point in the code, we know that _________.
-    // This implies the postcondition below, since __________.
+    // Inv: buf = ch(D[n-1]), ch(D[n-2]), ..., ch(D[i])
+    //      where D = digits and n = digits.length.
+    while (i != -1) {
+      buf.append(digits[i]);
+      i--;
+    }
+
+    // At this point in the code, we know that buf = ch(D[n-1]), ch(D[n-2]), ..., ch(D[i]) and i = 0.
+    // This implies the postcondition below, since by plugging in the value of i in buf, we have:
+    // buf = ch(D[n-1]), ch(D[n-2]), ..., ch(D[0]), which matches the post condition.
 
     // Post: buf = ch(D[n-1]), ch(D[n-2]), ..., ch(D[0])
     return buf.toString();
