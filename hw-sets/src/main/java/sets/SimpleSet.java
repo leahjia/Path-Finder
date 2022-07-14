@@ -35,7 +35,6 @@ public class SimpleSet {
    */
   public SimpleSet(float[] vals) {
     // TODO: implement this
-
   }
 
   // NOTE: feel free to create other constructors
