@@ -24,7 +24,9 @@ public class SimpleSetTest {
   @Test
   public void testSize() {
     // TODO: implement this
-
+    assertEquals(S.size(), S1.size(), 0);
+    assertEquals(S12.size(), S13.size(), 0);
+    assertEquals(S12.complement().size(), S13.complement().size(), 0);
   }
 
   /** Tests converting a set to a string. */

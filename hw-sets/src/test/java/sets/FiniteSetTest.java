@@ -121,9 +121,9 @@ public class FiniteSetTest {
     // other is a subset of this
     assertEquals(S2.intersection(S22), FiniteSet.of(new float[] {-3, 0, 3}));
     // this is an empty set
-    assertEquals(S4.intersection(S2), FiniteSet.of(new float[] {-3, 0, 3}));
+    assertEquals(S4.intersection(S2), FiniteSet.of(new float[] {}));
     // other is an empty set
-    assertEquals(S2.intersection(S4), FiniteSet.of(new float[] {-3, 0, 3}));
+    assertEquals(S2.intersection(S4), FiniteSet.of(new float[] {-3, -1, 0, 1, 3}));
     // both sets are empty
     assertEquals(S4.intersection(S4), FiniteSet.of(new float[] {}));
   }
