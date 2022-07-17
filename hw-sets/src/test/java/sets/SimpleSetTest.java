@@ -24,18 +24,20 @@ public class SimpleSetTest {
   @Test
   public void testSize() {
     // DONE: implement this
+    assertTrue(S.size() == 0);
+    assertTrue(S2.size() == 1);
+    assertTrue(S13.size() == 2);
+    assertEquals(R3.size(), Float.POSITIVE_INFINITY, 0);
+    assertEquals(R123.size(), Float.POSITIVE_INFINITY, 0);
+    assertTrue(R12.size() == Float.POSITIVE_INFINITY);
     assertTrue(S.size() != S1.size());
-    assertTrue(S.size() != S12.size());
-    assertTrue(S.size() != S123.size());
     assertTrue(S.size() != R.size());
-    assertTrue(S.size() != R123.size());
     assertTrue(S1.size() == S2.size());
     assertTrue(S2.size() == S3.size());
-    assertTrue(S12.size() == S13.size());
     assertTrue(S12.size() == S23.size());
     assertTrue(S12.size() != R23.size());
-    assertTrue(R.size() == R3.size());
-    assertTrue(R1.size() == R2.size());
+    assertTrue(R.size() == R2.size());
+    assertTrue(R1.size() == R3.size());
     assertTrue(R2.size() == R123.size());
     assertTrue(R12.size() == R13.size());
     assertTrue(R23.size() == R123.size());
@@ -45,13 +47,14 @@ public class SimpleSetTest {
   @Test
   public void testToString() {
     // DONE: implement this
-    assertEquals("{}", S.toString());
-    assertEquals("{1.0}", S1.toString());
-    assertEquals("{1.0, 2.0}", S12.toString());
-    assertEquals("{1.0, 2.0, 3.0}", S123.toString());
-    assertEquals("R \\ {2.0}", R2.toString());
-    assertEquals( "R \\ {1.0, 3.0}", R13.toString());
-    assertEquals( "R \\ {1.0, 2.0, 3.0}", R123.toString());
+    assertEquals(S.toString(), "{}");
+    assertEquals(S1.toString(), "{1.0}");
+    assertEquals(S12.toString(), "{1.0, 2.0}");
+    assertEquals(S123.toString(), "{1.0, 2.0, 3.0}");
+    assertEquals(R.toString(), "R");
+    assertEquals(R2.toString(), "R \\ {2.0}");
+    assertEquals(R13.toString(), "R \\ {1.0, 3.0}");
+    assertEquals(R123.toString(), "R \\ {1.0, 2.0, 3.0}");
   }
 
   private static SimpleSet S = new SimpleSet(new float[0]);
