@@ -64,13 +64,6 @@ public class FiniteSetTest {
     assertEquals(S12.size(), 2);
   }
 
-//  // TODO: Feel free to initialize (private static) FiniteSet objects here
-//  //       if you plan to use them for the tests below.
-//  private static FiniteSet S2 = FiniteSet.of(new float[] {-3, -1, 0, 1, 3});
-//  private static FiniteSet S3 = FiniteSet.of(new float[] {-2, 2});
-//  private static FiniteSet S4 = FiniteSet.of(new float[] {});
-//  private static FiniteSet S5 = FiniteSet.of(new float[] {-2, 0});
-
   /** Tests forming the union of two finite sets. */
   @Test
   public void testUnion() {
@@ -111,21 +104,20 @@ public class FiniteSetTest {
   @Test
   public void testDifference() {
     // TODO: implement this
-    // no intersections, expecting to return all elements in this(?)
-    assertEquals(S2.intersection(S3), FiniteSet.of(new float[] {-3, -1, 0, 1, 3}));
+    // no intersections, expecting to return all elements in this
+    assertTrue(S2.difference(S3).equals(FiniteSet.of(new float[] {-3, -1, 0, 1, 3})));
     // some intersections, expecting elements in this but not in other
-    //    do we care about points in other that is not in this?
-    assertEquals(S3.intersection(S5), FiniteSet.of(new float[] {2}));
+    assertTrue(S3.difference(S5).equals(FiniteSet.of(new float[] {2})));
     // this is a subset of other
-    assertEquals(S22.intersection(S2), FiniteSet.of(new float[] {}));
+    assertTrue(S22.difference(S2).equals(FiniteSet.of(new float[] {})));
     // other is a subset of this
-    assertEquals(S2.intersection(S22), FiniteSet.of(new float[] {-3, 0, 3}));
+    assertTrue(S2.difference(S22).equals(FiniteSet.of(new float[] {-3, 0, 3})));
     // this is an empty set
-    assertEquals(S4.intersection(S2), FiniteSet.of(new float[] {}));
+    assertTrue(S4.difference(S2).equals(FiniteSet.of(new float[] {})));
     // other is an empty set
-    assertEquals(S2.intersection(S4), FiniteSet.of(new float[] {-3, -1, 0, 1, 3}));
+    assertTrue(S2.difference(S4).equals(FiniteSet.of(new float[] {-3, -1, 0, 1, 3})));
     // both sets are empty
-    assertEquals(S4.intersection(S4), FiniteSet.of(new float[] {}));
+    assertTrue(S4.difference(S4).equals(FiniteSet.of(new float[] {})));
   }
 
 }
