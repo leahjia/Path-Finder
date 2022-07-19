@@ -1,0 +1,6 @@
+# University Map new Node creation testing file.
+# Tests that a single node can be created/added to the university map
+
+# Add a pair of nodes
+added node A to UnivMap
+added node B to UnivMap

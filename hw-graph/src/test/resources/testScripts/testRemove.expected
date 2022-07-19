@@ -1,0 +1,6 @@
+# University Map Node Removal testing file.
+# Tests that a single node can be removed from the university map
+
+# Remove a pair of nodes
+removed node A from UnivMap
+removed node B from UnivMap

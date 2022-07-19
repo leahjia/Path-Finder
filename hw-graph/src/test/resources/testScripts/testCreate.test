@@ -1,13 +1,5 @@
 # University Map Creation testing file.
-# Tests that a graph can be created, a single node can be created and removed
+# Tests that a graph can be created
 
 # Create a graph
 CreateGraph UnivMap
-
-# Add a pair of nodes
-AddNode UnivMap A
-AddNode UnivMap B
-
-# Remove a pair of nodes
-RemoveNode UnivMap A
-RemoveNode UnivMap B
