@@ -1,10 +1,9 @@
 package graph;
 
 import org.w3c.dom.Node;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import graph.*;
 
 /**
  * This class represents the UW campus map, containing information such as the names
@@ -17,7 +16,12 @@ import java.util.Map;
  */
 public class UnivMap {
 
-    private Map UnivMap;
+    // fields, abstraction function, rep invariant , fields, methods, etc
+
+    // Abstraction Function:
+    // AF(this) =
+
+    // Rep Invariant:
 
     /**
      * Adds a new building to the university map
@@ -37,7 +41,6 @@ public class UnivMap {
      * @spec.effects Removes the Node A from UnivMap
      */
     public void RemoveNode(Node A) {
-        // Note: all the edges from and to A will be removed as well
     }
 
     /**
