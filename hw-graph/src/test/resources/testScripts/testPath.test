@@ -1,0 +1,8 @@
+# University Map path testing file.
+# Tests the path from one building to another in the university map
+
+# tests the path from building A to B in UnivMap
+FidnPath Node A Node B
+
+# tests the path from building B to A in UnivMap
+FidnPath Node B Node A

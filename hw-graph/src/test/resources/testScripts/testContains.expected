@@ -1,0 +1,8 @@
+# University Map Contains Node testing file.
+# Tests whether a Node is contained in the university map
+
+# checks whether building A exists in UnivMap
+checked node A in UnivMap
+
+# checks whether building B exists in UnivMap
+checked node B in UnivMap

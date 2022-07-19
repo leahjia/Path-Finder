@@ -1,0 +1,6 @@
+# University Map new Edge creation testing file.
+# Tests that a single Edge can be created/added to the university map
+
+# Add a pair of edges
+added edge e1 from A to B to UnivMap
+added edge e2 from A to B to UnivMap

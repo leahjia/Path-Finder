@@ -1,0 +1,8 @@
+# University Map Distance testing file.
+# Tests the distance from one building to another in the university map
+
+# tests the distance from building A to B in UnivMap
+tests distance from building A to B
+
+# tests the distance from building B to A in UnivMap
+tests distance from building B to A

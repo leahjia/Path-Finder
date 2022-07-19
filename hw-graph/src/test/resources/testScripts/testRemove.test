@@ -2,5 +2,5 @@
 # Tests that a single node can be removed from the university map
 
 # Remove a pair of nodes
-RemoveNode UnivMap A
-RemoveNode UnivMap B
+RemoveNode Node A
+RemoveNode Node B
