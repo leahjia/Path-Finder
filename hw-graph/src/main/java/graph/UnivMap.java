@@ -2,6 +2,8 @@ package graph;
 
 import org.w3c.dom.Node;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,7 +32,7 @@ public class UnivMap {
     /**
      * Removes an existing building from the university map
      * @param A Node representing building to be removed from university map
-     * @spec.requires A != null && UnivMap.contains(A)
+     * @spec.requires A != null and UnivMap.contains(A)
      * @spec.modifies this.UnivMap
      * @spec.effects Removes the Node A from UnivMap
      */
@@ -44,7 +46,7 @@ public class UnivMap {
      * @param B Node representing building B on the university map
      * @param dist weight on the Edge to be added to the university map,
      *             representing the distance of that route between A and B
-     * @spec.requires A != null && B != null && !A.equals(B) && dist > 0
+     * @spec.requires A != null, B != null, !A.equals(B), and dist is greater than 0
      * @spec.modifies this.UnivMap
      * @spec.effects Adds a new Edge from A to B to UnivMap
      */
@@ -55,7 +57,7 @@ public class UnivMap {
      * Removes the route from building A to B from the university map
      * @param A Node representing building A on the university map
      * @param B Node representing building B on the university map
-     * @spec.requires A != null && B != null && UnivMap.contains(A) && UnivMap.contains(A)
+     * @spec.requires A != null, B != null, UnivMap.contains(A), and UnivMap.contains(A)
      * @spec.modifies this.UnivMap
      * @spec.effects Removes the Edge from A to B from UnivMap
      */
@@ -68,36 +70,39 @@ public class UnivMap {
      * @return a boolean that will be true if A exists and false otherwise
      * @spec.requires A != null
      */
-    public void contains(Node A) {
-        // include the case when A is null
+    public boolean contains(Node A) {
+        return true; // implement in hw6
     }
 
     /**
      * Lists all the buildings that can be reached starting from building A
      * @param A the Node representing the starting building
-     * @return a series of 
-     * @spec.requires A != null && UnivMap.contains(A)
+     * @return A List of Nodes that are children of Node A
+     * @spec.requires A != null and UnivMap.contains(A)
      */
-    public void ListChildren(Node A) {
+    public List ListChildren(Node A) {
+        return new ArrayList(); // implement this in hw6
     }
 
     /**
      * Lists all the parent Nodes of A
      * @param A the Node we want to find the parents of
-     * @return All the Nodes that are parent(s) of Node A
+     * @return A List of all the Nodes that are parent(s) of Node A
      * @spec.requires UnivMap.contains(A)
      */
-    public void ListParents(Node A) {
+    public List ListParents(Node A) {
+        return new ArrayList(); // implement this in hw6
     }
 
     /**
      * Finds an available path that can be taken from building A to building B
      * @param A the source, or starting point
      * @param B the destination
-     * @return a series of Edges from A to B
-     * @spec.requires UnivMap.contains(A) && UnivMap.contains(B) && !A.equals(B)
+     * @return a List of Edges from A to B
+     * @spec.requires UnivMap.contains(A), UnivMap.contains(B), and !A.equals(B)
      */
-    public void FindPath(Node A, Node B) {
+    public List FindPath(Node A, Node B) {
+        return new ArrayList(); // implement this in hw6
     }
 
     /**
@@ -105,9 +110,10 @@ public class UnivMap {
      * @param A the source, or starting point
      * @param B the destination
      * @return an integer representing the distance from A to B
-     * @spec.requires UnivMap.contains(A) && UnivMap.contains(B) && !A.equals(B)
+     * @spec.requires UnivMap.contains(A), UnivMap.contains(B), and !A.equals(B)
      */
-    public void FindDistance(Node A, Node B) {
+    public int FindDistance(Node A, Node B) {
+        return -1; // implement this in hw6
     }
 
 }
