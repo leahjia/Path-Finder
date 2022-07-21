@@ -1,8 +1,0 @@
-# University Map path testing file.
-# Tests the path from one building to another in the university map
-
-# tests the path from building A to B in UnivMap
-tested path from building A to B
-
-# tests the path from building B to A in UnivMap
-tested path from building B to A
