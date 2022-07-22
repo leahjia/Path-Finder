@@ -2,4 +2,4 @@
 # Tests that a graph can be created
 
 # Create a graph
-CreateGraph UnivMap
+CreateMap map1

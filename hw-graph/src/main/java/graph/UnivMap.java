@@ -17,9 +17,19 @@ public class UnivMap {
     // fields, abstraction function, rep invariant , fields, methods, etc
 
     /**
+     * creates a new map
+     * @spec.modifies this
+     * @spec.effects Creates a new map
+     */
+    public void CreateMap() {
+
+    }
+
+    /**
      * Adds a new building to the campus map
      * @param A Node representing the building to be added to the map
-     * @spec.requires A != null
+     * @throws IllegalArgumentException if the same node already exist
+     * @spec.requires A != null and !UnivMap.contains(A)
      * @spec.modifies this
      * @spec.effects Adds a new Node A to UnivMap
      */

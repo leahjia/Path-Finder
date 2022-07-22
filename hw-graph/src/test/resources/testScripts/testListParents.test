@@ -1,0 +1,8 @@
+# University Map parents of Node testing file.
+# Tests that a list of sources that can directly reach a node
+
+# Finds the parents of node A
+ListParents Node A
+
+# Finds the parents of node B
+ListParents Node B

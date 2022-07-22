@@ -2,7 +2,7 @@
 # Tests whether a Node is contained in the university map
 
 # checks whether building A exists in UnivMap
-checked node A in UnivMap
+checked node A in map1
 
 # checks whether building B exists in UnivMap
-checked node B in UnivMap
+checked node B in map1

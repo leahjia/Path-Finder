@@ -1,0 +1,8 @@
+# University Map Children of Node testing file.
+# Tests that a list of destinations from a node can be computed
+
+# Finds the children of node A
+Found all children of node A
+
+# Finds the children of node B
+Found all children of node B

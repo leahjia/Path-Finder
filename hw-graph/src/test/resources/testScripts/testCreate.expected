@@ -1,5 +1,5 @@
 # University Map Creation testing file.
-# Tests that a graph can be created
+# Tests that a UnivMap can be created
 
 # Create a graph
-created graph UnivMap
+created UnivMap map1
