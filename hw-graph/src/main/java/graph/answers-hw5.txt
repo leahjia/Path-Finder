@@ -8,7 +8,7 @@ interface to a graph. If your design includes multiple classes or interfaces, ex
 included each one; if not, explain whether you considered additional classes and why you decided
 not to include them.
 
-My design include one interface that is Map, because I think using Map is sufficient to create a
+My design includes one interface that is Map, because I think using Map is sufficient to create a
 graph that depicts the campus map, if we are not considering sorting algorithms that might need
 a SortedMap.
 I included AddNode and RemoveNode which allow clients to add a node to and remove a node from the
