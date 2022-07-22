@@ -23,5 +23,10 @@ what a particular node is connected to and from.
 What was your testing strategy for this assignment? How do your script tests and JUnit tests
 differ from each other (if they do), and why?
 
-
-TODO: Your answer here!
+In my script tests, I separately test each method with only few commands as opposed to
+multiple interconnected commands. For example, the script test for AddNode only tests
+for adding a single Node at a time and nothing else. My JUnit tests differ from the script
+tests because in each individual test method in JUnit tests, I included multiple calls where
+one method from UnivMap is called followed by some other methods from UnivMap, as a way to
+make sure the methods can work in a more general scenario, such as how the state of the
+map changes after adding and removing a Node.
