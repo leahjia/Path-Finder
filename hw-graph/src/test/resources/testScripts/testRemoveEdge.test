@@ -1,0 +1,6 @@
+# University Map Edge Removal testing file.
+# Tests that an edge can be removed from the university map
+
+# Remove a pair of edges
+RemoveEdge e1
+RemoveEdge e2
