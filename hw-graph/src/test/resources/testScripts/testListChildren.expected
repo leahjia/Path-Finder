@@ -2,7 +2,7 @@
 # Tests that a list of destinations from a node can be computed
 
 # Finds the children of node A
-Found all children of node A
+the children of parentNode in map1 are: Node B
 
 # Finds the children of node B
-Found all children of node B
+the children of parentNode in map1 are: Node A

@@ -11,8 +11,10 @@ public class UnivMapTest {
     String X = null;
     String A = "A";
     String B = "B";
+    String C = "C";
     String e1 = "e1";
     String e2 = "e2";
+    String e3 = "e3";
 
     /** Tests add and remove node successful. */
     @Test
@@ -34,16 +36,21 @@ public class UnivMapTest {
         UnivMap map1 = new UnivMap();
         map1.AddEdge(A, B, e1);
         map1.AddEdge(B, A, e2);
+        map1.AddEdge(A, C, e3);
         assertTrue(map1.ListParents(A).contains(B));
         assertTrue(map1.ListParents(B).contains(A));
         assertTrue(map1.ListChildren(A).contains(B));
         assertTrue(map1.ListChildren(B).contains(A));
+        assertTrue(map1.ListChildren(A).contains(C));
+        assertTrue(map1.ListParents(C).contains(A));
         map1.RemoveEdge(e1);
         map1.RemoveEdge(e2);
         assertFalse(map1.ListParents(A).contains(B));
         assertFalse(map1.ListParents(B).contains(A));
         assertFalse(map1.ListParents(A).contains(B));
         assertFalse(map1.ListParents(B).contains(A));
+        assertTrue(map1.ListChildren(A).contains(C));
+        assertTrue(map1.ListParents(C).contains(A));
     }
 
     /** Tests ListChildren and ListParents accuracy. */

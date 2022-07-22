@@ -2,5 +2,5 @@
 # Tests that a single node can be created/added to the university map
 
 # Add a pair of nodes
-added node A to map1
-added node B to map1
+added Node A in map1
+added Node B in map1
