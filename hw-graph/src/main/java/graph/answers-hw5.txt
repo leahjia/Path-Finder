@@ -23,7 +23,7 @@ what a particular node is connected to and from.
 What was your testing strategy for this assignment? How do your script tests and JUnit tests
 differ from each other (if they do), and why?
 
-In my script tests, I separately test each method with only few commands as opposed to
+In my script tests, I separately tested each method with only few commands as opposed to
 multiple interconnected commands. For example, the script test for AddNode only tests
 for adding a single Node at a time and nothing else. My JUnit tests differ from the script
 tests because in each individual test method in JUnit tests, I included multiple calls where
