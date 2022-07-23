@@ -59,7 +59,9 @@ public class UnivMap {
      * @spec.effects Adds a new Edge from A to B to campus map
      */
     public void AddEdge(String source, String destination, int weight) {
-        UnivMap.get(source).put(destination, weight);
+        if (contains(source) && contains(destination)) {
+            UnivMap.get(source).put(destination, weight);
+        }
     }
 
     /**
