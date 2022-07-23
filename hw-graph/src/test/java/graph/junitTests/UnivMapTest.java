@@ -12,9 +12,10 @@ public class UnivMapTest {
     String A = "A";
     String B = "B";
     String C = "C";
-    String e1 = "e1";
-    String e2 = "e2";
-    String e3 = "e3";
+    int x = 0;
+    int e1 = 1;
+    int e2 = 2;
+    int e3 = 3;
 
     /** Tests add and remove node successful. */
     @Test
@@ -43,8 +44,8 @@ public class UnivMapTest {
         assertTrue(map1.ListChildren(B).contains(A));
         assertTrue(map1.ListChildren(A).contains(C));
         assertTrue(map1.ListParents(C).contains(A));
-        map1.RemoveEdge(e1);
-        map1.RemoveEdge(e2);
+        map1.RemoveEdge(A, B);
+        map1.RemoveEdge(B, A);
         assertFalse(map1.ListParents(A).contains(B));
         assertFalse(map1.ListParents(B).contains(A));
         assertFalse(map1.ListParents(A).contains(B));
@@ -86,7 +87,7 @@ public class UnivMapTest {
         UnivMap map1 = new UnivMap();
 
         try {
-            map1.AddEdge(A, B, X);
+            map1.AddEdge(A, B, x);
         } catch (IllegalArgumentException e) {
             fail("Threw IllegalArgumentException for adding null label: "
                     + e);
@@ -116,7 +117,7 @@ public class UnivMapTest {
     public void testRemoveThrowsIllegalArgumentException() {
         UnivMap map1 = new UnivMap();
         try {
-            map1.RemoveEdge(e1);
+            map1.RemoveEdge(A, B);
         } catch (IllegalArgumentException e) {
             fail("Threw IllegalArgumentException for non-existent edge: "
                     + e);

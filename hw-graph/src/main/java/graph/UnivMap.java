@@ -1,6 +1,9 @@
 package graph;
 
 import java.util.List;
+import java.util.*;
+
+
 import org.w3c.dom.Node;
 
 /**
@@ -14,15 +17,20 @@ import org.w3c.dom.Node;
 public class UnivMap {
 
     // fields, abstraction function, rep invariant , fields, methods, etc
+    private final Map<String, Map<String, Integer>> UnivMap;
 
-    /**
-     * creates a new map
-     * @spec.modifies this
-     * @spec.effects Creates a new map
-     */
     public UnivMap() {
-
+        this.UnivMap = new HashMap<>();
     }
+
+//    static class Edge {
+//        String destination;
+//        int weight;
+//        public Edge(String destination, int weight) {
+//            this.destination = destination;
+//            this.weight = weight;
+//        }
+//    }
 
     /**
      * Adds a new building to the campus map
@@ -33,7 +41,25 @@ public class UnivMap {
      * @spec.effects Adds a new Node A to UnivMap
      */
     public void AddNode(String A) {
-        throw new RuntimeException("Not implemented yet.");
+        if (!this.contains(A)) {
+            UnivMap.put(A, new HashMap<>());
+        }
+    }
+
+    /**
+     * Adds a new route from building A to B on the campus map
+     * @param source the source of the new edge
+     * @param destination the destination of this new edge
+     * @param weight label of the Edge from A to B to be added to the campus map
+     * @throws IllegalArgumentException if source is null, destination is null,
+     *         label != null, source.equals(destination), or UnivMap.contains(label)
+     * @spec.requires source != null, destination != null, label != null,
+     *                !source.equals(destination), and !UnivMap.contains(label)
+     * @spec.modifies this.UnivMap
+     * @spec.effects Adds a new Edge from A to B to campus map
+     */
+    public void AddEdge(String source, String destination, int weight) {
+        UnivMap.get(source).put(destination, weight);
     }
 
     /**
@@ -45,28 +71,18 @@ public class UnivMap {
      * @spec.effects Removes the Node A from UnivMap
      */
     public void RemoveNode(String A) {
-        throw new RuntimeException("Not implemented yet.");
-    }
-
-    /**
-     * Adds a new route from building A to B on the campus map
-     * @param source the source of the new edge
-     * @param destination the destination of this new edge
-     * @param label label of the Edge from A to B to be added to the campus map
-     * @throws IllegalArgumentException if source is null, destination is null,
-     *         label != null, source.equals(destination), or UnivMap.contains(label)
-     * @spec.requires source != null, destination != null, label != null,
-     *                !source.equals(destination), and !UnivMap.contains(label)
-     * @spec.modifies this.UnivMap
-     * @spec.effects Adds a new Edge from A to B to campus map
-     */
-    public void AddEdge(String source, String destination, String label) {
-        throw new RuntimeException("Not implemented yet.");
+        if (this.contains(A)) {
+            for (String str: UnivMap.keySet()) {
+                UnivMap.get(str).remove(A);
+            }
+            UnivMap.remove(A);
+        }
     }
 
     /**
      * Removes the route from building A to B from the campus map
-     * @param label the edge representing the connection from source to destination
+     * @param source the source of the edge
+     * @param destination the destination of the edge
      * @throws IllegalArgumentException if source is null, destination is null,
      *         or source.equals(destination)
      * @spec.requires source != null, destination != null,
@@ -74,8 +90,10 @@ public class UnivMap {
      * @spec.modifies this.UnivMap
      * @spec.effects Removes the Edge from A to B from UnivMap
      */
-    public void RemoveEdge(String label) {
-        throw new RuntimeException("Not implemented yet.");
+    public void RemoveEdge(String source, String destination) {
+        if (this.contains(source)) {
+            UnivMap.get(source).remove(destination);
+        }
     }
 
     /**
@@ -86,7 +104,7 @@ public class UnivMap {
      * @spec.requires A != null
      */
     public boolean contains(String A) {
-        throw new RuntimeException("Not implemented yet.");
+        return UnivMap.containsKey(A);
     }
 
     /**
@@ -109,6 +127,10 @@ public class UnivMap {
      */
     public List<String> ListParents(String A) {
         throw new RuntimeException("Not implemented yet.");
+    }
+
+    private boolean checkRep() {
+        return false;
     }
 
 }
