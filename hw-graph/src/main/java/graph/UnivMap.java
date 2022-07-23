@@ -17,6 +17,7 @@ import org.w3c.dom.Node;
 public class UnivMap {
 
     // fields, abstraction function, rep invariant , fields, methods, etc
+    // Note: UnivMap = Map<source, Map<destination, weight>>
     private final Map<String, Map<String, Integer>> UnivMap;
 
     public UnivMap() {
@@ -41,7 +42,9 @@ public class UnivMap {
      * @spec.effects Adds a new Node A to UnivMap
      */
     public void AddNode(String A) {
-        if (!this.contains(A)) {
+        if (this.contains(A)) {
+            throw new IllegalArgumentException("Node already exists.");
+        } else {
             UnivMap.put(A, new HashMap<>());
         }
     }
@@ -52,14 +55,18 @@ public class UnivMap {
      * @param destination the destination of this new edge
      * @param weight label of the Edge from A to B to be added to the campus map
      * @throws IllegalArgumentException if source is null, destination is null,
-     *         label != null, source.equals(destination), or UnivMap.contains(label)
+     *         weight != null, source.equals(destination), or UnivMap.contains(label)
      * @spec.requires source != null, destination != null, label != null,
      *                !source.equals(destination), and !UnivMap.contains(label)
      * @spec.modifies this.UnivMap
-     * @spec.effects Adds a new Edge from A to B to campus map
+     * @spec.effects Adds new Edge with weight to UnivMap
      */
     public void AddEdge(String source, String destination, int weight) {
-        if (contains(source) && contains(destination)) {
+        if (!contains(source) || !contains(destination)) {
+            throw new IllegalArgumentException("source or destination doesn't exist.");
+        } else if (weight <= 0) {
+            throw new IllegalArgumentException("label much be positive.");
+        } else {
             UnivMap.get(source).put(destination, weight);
         }
     }
