@@ -13,10 +13,10 @@ import java.util.*;
  *  no duplicate edges from the same source to the same destination
  */
 public class UnivMap {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     // The map of nodes and their outgoing edges and destinations
-    private final Map<String, HashMap<String, List<Integer>>> UnivMap;
+    private final Map<String, Map<String, List<Integer>>> UnivMap;
     // Representation Invariant:
     //  !UnivMap.keySet().contains(null), and
     //  !UnivMap.get(node 1).keySet().contains(null),
@@ -34,7 +34,6 @@ public class UnivMap {
     //      map.get(node n).keySet() = outgoing edges from node n,
     //   where n = map.size()
 
-
     // Checks representation invariant for the entire map, including
     //  checking nulls for all nodes and their outgoing edges, and checking
     //  non-positive and duplicate edges with the same source and destination
@@ -44,7 +43,7 @@ public class UnivMap {
         // expensive tests:
         if (DEBUG) {
             for (String source: UnivMap.keySet()) { // take each node
-                for (String destination: UnivMap.get(source).keySet()) { // go to destinations
+                for (String destination: UnivMap.get(source).keySet()) { // go to its destinations
                     List<Integer> edges = UnivMap.get(source).get(destination);
                     int n = edges.size();
                     for (int i = 0; i < n; i++) {
@@ -73,9 +72,11 @@ public class UnivMap {
     }
 
 //    static class Edge {
-//        int label;
-//        public Edge(int label) {
-//            this.label = label;
+//        String destination;
+//        List<Integer> labels;
+//        public Edge(String destination, List<Integer> labels) {
+//            this.destination = destination;
+//            this.labels = labels;
 //        }
 //    }
 
@@ -91,7 +92,7 @@ public class UnivMap {
         // RI: A != null
         // AF(A) = a node in UnivMap named A
         if (A == null) {
-            throw new IllegalArgumentException("Null node.");
+            throw new IllegalArgumentException("Tried to add a null node.");
         }
         UnivMap.put(A, new HashMap<>());
         checkRep();

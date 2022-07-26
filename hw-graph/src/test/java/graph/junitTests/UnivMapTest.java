@@ -7,18 +7,7 @@ import static org.junit.Assert.fail;
 
 public class UnivMapTest {
 
-    String node0 = null;
-    String A = "A";
-    String B = "B";
-    String C = "C";
-    String D = "D";
-    int edge_1 = -1;
-    int edge0 = 0;
-    int edge1 = 1;
-    int edge2 = 2;
-    int edge3 = 3;
-
-    /** Tests add and remove node successful. */
+    /** Tests add and remove nodes successful. */
     @Test
     public void testAddRemoveNode() {
         UnivMap map1 = new UnivMap();
@@ -30,6 +19,19 @@ public class UnivMapTest {
         map1.RemoveNode(B);
         assertFalse(map1.contains(A));
         assertFalse(map1.contains(B));
+
+        // add the same node twice, remove only once
+        map1.AddNode(A);
+        map1.AddNode(A);
+        assertTrue(map1.contains(A));
+        map1.RemoveNode(A);
+        assertFalse(map1.contains(A));
+
+        // remove non-existent and null nodes without errors
+        map1.RemoveNode(D);
+        map1.RemoveNode(N);
+        assertFalse(map1.contains(D));
+        assertFalse(map1.contains(N));
     }
 
     /**
@@ -39,13 +41,24 @@ public class UnivMapTest {
     public void testAddNodeThrowsIllegalArgumentException() {
         UnivMap map1 = new UnivMap();
         try {
-            map1.AddNode(node0);
+            map1.AddNode(N);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } finally {
             System.out.close();
         }
     }
+
+    String N = null;
+    String A = "A";
+    String B = "B";
+    String C = "C";
+    String D = "D";
+    int edge_1 = -1;
+    int edge0 = 0;
+    int edge1 = 1;
+    int edge2 = 2;
+    int edge3 = 3;
 
     /** Tests add and remove edge successful. */
     @Test
