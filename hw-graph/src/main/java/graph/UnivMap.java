@@ -44,7 +44,7 @@ public class UnivMap {
         if (DEBUG) {
             for (String source: UnivMap.keySet()) { // take each node
                 for (String destination: UnivMap.get(source).keySet()) { // go to its destinations
-                    List<Integer> edges = UnivMap.get(source).get(destination);
+                    List<Integer> edges = getLabels(source, destination);
                     int n = edges.size();
                     for (int i = 0; i < n; i++) {
                         for (int j = i + 1; j < n; j++) {
@@ -53,7 +53,7 @@ public class UnivMap {
                             // verify that edges are all positive
                             assert edges.get(i) > 0: "Non-positive edge";
                             // verify that edges contains no duplicates
-                            assert edges.get(i).equals(edges.get(j)): "Dup edges";
+                            assert !edges.get(i).equals(edges.get(j)): "Dup edges";
                         }
                     }
                 }
@@ -130,7 +130,7 @@ public class UnivMap {
         // AF(label) = an edge (named label) from source to destination in this
 
         if (UnivMap.get(source).containsKey(destination)) {
-            List<Integer> existingEdges = UnivMap.get(source).get(destination);
+            List<Integer> existingEdges = getLabels(source, destination);
             for (int edge : existingEdges) {
                 if (edge == label) {
                     throw new IllegalArgumentException("Duplicate edges.");
@@ -166,16 +166,17 @@ public class UnivMap {
     }
 
     /**
-     * Removes from the map the edge (if exists) from source node to destination node
+     * Removes from the map an edge (if exists) from source node to destination node
      * @param source the source of the edge
      * @param destination the destination of the edge
+     * @param label the label of the edge
      * @throws IllegalArgumentException if source.equals(destination)
      * @throws NoSuchElementException if this doesn't contain source
      * @spec.requires source != null, destination != null, and UnivMap.contains(source)
      * @spec.modifies this.UnivMap
      * @spec.effects edge named label from source to destination is removed from this
      */
-    public void RemoveEdge(String source, String destination)
+    public void RemoveEdge(String source, String destination, int label)
             throws IllegalArgumentException, NoSuchElementException {
         checkRep();
         if (equals(source, destination)) {
@@ -186,8 +187,18 @@ public class UnivMap {
         }
 
         // RI: !equals(source, destination), this.contains(source)
-        // AF(this) = an edge from source to destination
-        UnivMap.get(source).remove(destination);
+        // AF(this) = an edge from source to destination with given label
+        List<Integer> ListLabels = getLabels(source, destination);
+        for (int i = 0; i < ListLabels.size(); i++) {
+            if (ListLabels.get(i).equals(label)) {
+                UnivMap.get(source).get(destination).remove(i);
+                i--; // not necessary since there's no dups, but just in case
+                if (getLabels(source, destination).size() == 0) {
+                    // get rid of empty list with no edges
+                    UnivMap.get(source).remove(destination);
+                }
+            }
+        }
         checkRep();
     }
 
@@ -250,6 +261,13 @@ public class UnivMap {
         }
         checkRep();
         return output;
+    }
+
+    public List<Integer> getLabels(String source, String destination) {
+        if (!this.contains(source) || !UnivMap.get(source).containsKey(destination)) {
+            return new ArrayList<>();
+        }
+        return new ArrayList<>(UnivMap.get(source).get(destination));
     }
 
     /**
