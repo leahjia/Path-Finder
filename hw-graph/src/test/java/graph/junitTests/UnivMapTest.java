@@ -87,24 +87,15 @@ public class UnivMapTest {
         UnivMap map1 = new UnivMap();
 
         try {
-            map1.AddEdge(A, B, x);
-        } catch (IllegalArgumentException e) {
-            fail("Threw IllegalArgumentException for adding null label: "
-                    + e);
-        }
-
-        try {
             map1.AddEdge(A, X, e1);
         } catch (IllegalArgumentException e) {
-            fail("Threw IllegalArgumentException for adding edge to null destination: "
-                    + e);
+            fail("Threw IllegalArgumentException for adding edge to null destination: " + e);
         }
 
         try {
             map1.AddEdge(X, B, e1);
         } catch (IllegalArgumentException e) {
-            fail("Threw IllegalArgumentException for adding edge from null source: "
-                    + e);
+            fail("Threw IllegalArgumentException for adding edge from null source: " + e);
         }
     }
 
@@ -119,28 +110,24 @@ public class UnivMapTest {
         try {
             map1.RemoveEdge(A, B);
         } catch (IllegalArgumentException e) {
-            fail("Threw IllegalArgumentException for non-existent edge: "
-                    + e);
+            fail("" + e);
         }
 
         try {
             map1.RemoveNode(A);
         } catch (IllegalArgumentException e) {
-            fail("Threw IllegalArgumentException for non-existent node: "
-                    + e);
+            fail("Threw IllegalArgumentException for non-existent node: " + e);
         }
 
         try {
             map1.ListChildren(A);
         } catch (IllegalArgumentException e) {
-            fail("Threw IllegalArgumentException for non-existent node: "
-                    + e);
+            fail("" + e);
         }
         try {
             map1.ListParents(A);
         } catch (IllegalArgumentException e) {
-            fail("Threw IllegalArgumentException for non-existent node: "
-                    + e);
+            fail("Threw IllegalArgumentException for non-existent node: " + e);
         }
     }
 
