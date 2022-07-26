@@ -45,7 +45,7 @@ public class UnivMapTest {
         try {
             map1.AddNode(N);
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            e.getStackTrace();
         } finally {
             System.out.close();
         }
@@ -232,56 +232,34 @@ public class UnivMapTest {
     int edge1 = 1;
     int edge2 = 2;
 
-//    /**
-//     * Tests that AddEdge throws IllegalArgumentException when adding null values
-//     */
-//    @Test
-//    public void testAddEdgeThrowsIllegalArgumentException() {
-//        UnivMap map1 = new UnivMap();
-//
-//        try {
-//            map1.AddEdge(A, X, e1);
-//        } catch (IllegalArgumentException e) {
-//            fail("Threw IllegalArgumentException for adding edge to null destination: " + e);
-//        }
-//
-//        try {
-//            map1.AddEdge(X, B, e1);
-//        } catch (IllegalArgumentException e) {
-//            fail("Threw IllegalArgumentException for adding edge from null source: " + e);
-//        }
-//    }
-//
-//
-//    /**
-//     * Tests that RemoveNode, RemoveEdge, ListChildren, and ListParents throws
-//     * IllegalArgumentException when asking for elements not in map
-//     */
-//    @Test
-//    public void testRemoveThrowsIllegalArgumentException() {
-//        UnivMap map1 = new UnivMap();
-//        try {
-//            map1.RemoveEdge(A, B);
-//        } catch (IllegalArgumentException e) {
-//            fail("" + e);
-//        }
-//
-//        try {
-//            map1.RemoveNode(A);
-//        } catch (IllegalArgumentException e) {
-//            fail("" + e);
-//        }
-//
-//        try {
-//            map1.ListChildren(A);
-//        } catch (IllegalArgumentException e) {
-//            fail("" + e);
-//        }
-//        try {
-//            map1.ListParents(A);
-//        } catch (IllegalArgumentException e) {
-//            fail("" + e);
-//        }
-//    }
+    /**
+     * Tests that ListChildren and ListParents throws IllegalArgumentException when
+     * passing in null value or non-existent nodes in map
+     */
+    @Test
+    public void testRemoveThrowsIllegalArgumentException() {
+        UnivMap map1 = new UnivMap();
+        try {
+            map1.ListChildren(N);
+            fail("Expected IllegalArgumentException not occurred.");
+        } catch (IllegalArgumentException e) {
+            e.getStackTrace();
+        } try {
+            map1.ListChildren(A);
+            fail("Expected NoSuchElementException not occurred.");
+        } catch (NoSuchElementException e) {
+            e.getStackTrace();
+        } try {
+            map1.ListParents(N);
+            fail("Expected IllegalArgumentException not occurred.");
+        } catch (IllegalArgumentException e) {
+            e.getStackTrace();
+        } try {
+            map1.ListParents(A);
+            fail("Expected NoSuchElementException not occurred.");
+        } catch (NoSuchElementException e) {
+            e.getStackTrace();
+        }
+    }
 
 }
