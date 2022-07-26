@@ -115,7 +115,7 @@ public class UnivMap {
         checkRep();
         if (label <= 0) {
             throw new IllegalArgumentException("Label must be positive.");
-        } else if (equals(source, destination)) {
+        } else if (source.equals(destination)) {
             throw new IllegalArgumentException("Source and destination must be different.");
         }
         if (!this.contains(source)) {
@@ -128,7 +128,6 @@ public class UnivMap {
 
         // RI: label > 0, !equals(source, destination), source != null, destination != null
         // AF(label) = an edge (named label) from source to destination in this
-
         if (UnivMap.get(source).containsKey(destination)) {
             List<Integer> existingEdges = getLabels(source, destination);
             for (int edge : existingEdges) {
@@ -138,7 +137,7 @@ public class UnivMap {
             }
             UnivMap.get(source).get(destination).add(label);
         } else {
-            List<Integer> newEdgeList = new ArrayList<>();
+            List<Integer> newEdgeList = new ArrayList<>(label);
             newEdgeList.add(label);
             UnivMap.get(source).put(destination, newEdgeList);
         }
@@ -167,8 +166,8 @@ public class UnivMap {
 
     /**
      * Removes from the map an edge (if exists) from source node to destination node
-     * @param source the source of the edge
-     * @param destination the destination of the edge
+     * @param source the source node of the edge
+     * @param destination the destination node of the edge
      * @param label the label of the edge
      * @throws IllegalArgumentException if source.equals(destination)
      * @throws NoSuchElementException if this doesn't contain source
@@ -179,7 +178,7 @@ public class UnivMap {
     public void RemoveEdge(String source, String destination, int label)
             throws IllegalArgumentException, NoSuchElementException {
         checkRep();
-        if (equals(source, destination)) {
+        if (source.equals(destination)) {
             throw new IllegalArgumentException("Source and destination are the same.");
         }
         if (!this.contains(source)) {
@@ -189,10 +188,9 @@ public class UnivMap {
         // RI: !equals(source, destination), this.contains(source)
         // AF(this) = an edge from source to destination with given label
         List<Integer> ListLabels = getLabels(source, destination);
-        for (int i = 0; i < ListLabels.size(); i++) {
+        for (int i = ListLabels.size() - 1; i >= 0; i--) {
             if (ListLabels.get(i).equals(label)) {
                 UnivMap.get(source).get(destination).remove(i);
-                i--; // not necessary since there's no dups, but just in case
                 if (getLabels(source, destination).size() == 0) {
                     // get rid of empty list with no edges
                     UnivMap.get(source).remove(destination);
@@ -263,7 +261,15 @@ public class UnivMap {
         return output;
     }
 
+    /**
+     * Lists all the nodes that can directly reach the given destination node
+     * @param source the source node of the edges
+     * @param destination the destination node of the edges
+     * @return Copy of list of all edges from source node to destination node
+     */
     public List<Integer> getLabels(String source, String destination) {
+        // RI: Same as the class
+        // AF(this) = List of all labels from source node to destination node
         if (!this.contains(source) || !UnivMap.get(source).containsKey(destination)) {
             return new ArrayList<>();
         }
@@ -281,11 +287,11 @@ public class UnivMap {
         return UnivMap.containsKey(A);
     }
 
-    // private method to check if A and B are the same
-    private boolean equals(String A, String B) {
-        checkRep();
-        // RI: same as the class
-        // AF(this) = boolean whether A and B are the same
-        return A.hashCode() == B.hashCode();
-    }
+//    // private method to check if A and B are the same
+//    private boolean equals(String A, String B) {
+//        checkRep();
+//        // RI: same as the class
+//        // AF(this) = boolean whether A and B are the same
+//        return A.hashCode() == B.hashCode();
+//    }
 }
