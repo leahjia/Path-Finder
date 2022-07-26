@@ -103,8 +103,8 @@ public class UnivMap {
      * @param source the source of the new edge
      * @param destination the destination of this new edge
      * @param label the Edge from source to destination to be added to the map
-     * @throws IllegalArgumentException if label is not positive, label already exists,
-     *         source == destination, source == null, or destination == null.
+     * @throws IllegalArgumentException if label is not positive, source == destination,
+     *         source == null, or destination == null.
      * @spec.requires source and destination are different from each other and not null,
      *                label is positive and is not a duplicate from source to destination
      * @spec.modifies this
@@ -113,10 +113,14 @@ public class UnivMap {
     public void AddEdge(String source, String destination, int label)
             throws IllegalArgumentException {
         checkRep();
+        if (source == null || destination == null) {
+            throw new IllegalArgumentException("Null nodes received.");
+        }
         if (label <= 0) {
             throw new IllegalArgumentException("Label must be positive.");
-        } else if (source.equals(destination)) {
-            throw new IllegalArgumentException("Source and destination must be different.");
+        }
+        if (source.equals(destination)) {
+            throw new IllegalArgumentException("Source = destination.");
         }
         if (!this.contains(source)) {
             this.AddNode(source);

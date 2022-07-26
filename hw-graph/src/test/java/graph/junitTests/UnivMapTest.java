@@ -2,6 +2,8 @@ package graph.junitTests;
 import graph.*;
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
+
 import static org.junit.Assert.*;
 import static org.junit.Assert.fail;
 
@@ -49,17 +51,6 @@ public class UnivMapTest {
         }
     }
 
-    String N = null;
-    String A = "A";
-    String B = "B";
-    String C = "C";
-    String D = "D";
-    int edge_1 = -1;
-    int edge0 = 0;
-    int edge1 = 1;
-    int edge2 = 2;
-    int edge3 = 3;
-
     /** Tests add and remove edges operate correctly.
      */
     @Test
@@ -70,12 +61,118 @@ public class UnivMapTest {
         map1.AddEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
+        assertTrue(map1.getLabels(A, B).contains(edge1));
+        assertFalse(map1.getLabels(B, A).contains(edge1));
+
+        map1.RemoveEdge(A, B, edge1);
+        assertTrue(map1.contains(A));
+        assertTrue(map1.contains(B));
+        assertFalse(map1.getLabels(A, B).contains(edge1));
+        assertFalse(map1.getLabels(B, A).contains(edge1));
+
+        // Case 2: Add 2 edges in the same direction
+        map1.AddEdge(A, B, edge1);
+        map1.AddEdge(A, B, edge2);
+        assertTrue(map1.contains(A));
+        assertTrue(map1.contains(B));
+        assertTrue(map1.getLabels(A, B).contains(edge1));
+        assertFalse(map1.getLabels(B, A).contains(edge1));
+        assertTrue(map1.getLabels(A, B).contains(edge2));
+        assertFalse(map1.getLabels(B, A).contains(edge2));
+
+        map1.RemoveEdge(A, B, edge1);
+        assertTrue(map1.contains(A));
+        assertTrue(map1.contains(B));
+        assertFalse(map1.getLabels(A, B).contains(edge1));
+        assertFalse(map1.getLabels(B, A).contains(edge1));
+        assertTrue(map1.getLabels(A, B).contains(edge2));
+        assertFalse(map1.getLabels(B, A).contains(edge2));
+
+        // Case 3: Add 2 edges in the opposite direction
+        map1 = new UnivMap();
+
+        map1.AddEdge(A, B, edge1);
+        map1.AddEdge(B, A, edge2);
+        assertTrue(map1.contains(A));
+        assertTrue(map1.contains(B));
+        assertTrue(map1.getLabels(A, B).contains(edge1));
+        assertFalse(map1.getLabels(B, A).contains(edge1));
+        assertFalse(map1.getLabels(A, B).contains(edge2));
+        assertTrue(map1.getLabels(B, A).contains(edge2));
+
+        map1.RemoveEdge(A, B, edge1);
+        assertTrue(map1.contains(A));
+        assertTrue(map1.contains(B));
+        assertFalse(map1.getLabels(A, B).contains(edge1));
+        assertFalse(map1.getLabels(B, A).contains(edge1));
+        assertFalse(map1.getLabels(A, B).contains(edge2));
+        assertTrue(map1.getLabels(B, A).contains(edge2));
+    }
+
+    /** Tests add and remove edges throw exceptions when needed.
+     */
+    @Test
+    public void testAddRemoveEdgeThrowsIllegalArgumentException() {
+        UnivMap map1 = new UnivMap();
+        try {
+            map1.AddEdge(A, B, edge_minus1);
+            fail("Expected IllegalArgumentException not occurred.");
+        } catch (IllegalArgumentException e) {
+            e.getStackTrace();
+        } try {
+            map1.AddEdge(A, B, edge0);
+            fail("Expected IllegalArgumentException not occurred.");
+        } catch (IllegalArgumentException e) {
+            e.getStackTrace();
+        } try {
+            map1.AddEdge(N, A, edge1);
+            fail("Expected IllegalArgumentException not occurred.");
+        } catch (IllegalArgumentException e) {
+            e.getStackTrace();
+        } try {
+            map1.AddEdge(A, N, edge1);
+            fail("Expected IllegalArgumentException not occurred.");
+        } catch (IllegalArgumentException e) {
+            e.getStackTrace();
+        } try {
+            map1.AddEdge(A, A, edge1);
+            fail("Expected IllegalArgumentException not occurred.");
+        } catch (IllegalArgumentException e) {
+            e.getStackTrace();
+        } try {
+            map1.AddEdge(A, B, edge1);
+            map1.AddEdge(A, B, edge1);
+            fail("Expected IllegalArgumentException not occurred.");
+        } catch (IllegalArgumentException e) {
+            e.getStackTrace();
+        } try {
+            map1.RemoveEdge(A, A, edge1);
+            fail("Expected IllegalArgumentException not occurred.");
+        } catch (IllegalArgumentException e) {
+            e.getStackTrace();
+        } try {
+            map1.RemoveEdge(C, D, edge1);
+            fail("Expected NoSuchElementException not occurred.");
+        } catch (NoSuchElementException e) {
+            e.getStackTrace();
+        } finally {
+            System.out.close();
+        }
+    }
+
+    /** Tests ListChildren and ListParents accuracy. */
+    @Test
+    public void testListChildrenParents() {
+        UnivMap map1 = new UnivMap();
+
+        // Case 1: add & remove one label
+        map1.AddEdge(A, B, edge1);
+        assertTrue(map1.contains(A));
+        assertTrue(map1.contains(B));
         assertTrue(map1.ListChildren(A).contains(B));
         assertFalse(map1.ListParents(A).contains(B));
         assertFalse(map1.ListChildren(B).contains(A));
         assertTrue(map1.ListParents(B).contains(A));
-        assertTrue(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
 
         map1.RemoveEdge(A, B, edge1);
         assertTrue(map1.contains(A));
@@ -84,8 +181,6 @@ public class UnivMapTest {
         assertFalse(map1.ListParents(A).contains(B));
         assertFalse(map1.ListChildren(B).contains(A));
         assertFalse(map1.ListParents(B).contains(A));
-        assertFalse(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
 
         // Case 2: Add 2 edges in the same direction
         map1.AddEdge(A, B, edge1);
@@ -96,10 +191,6 @@ public class UnivMapTest {
         assertFalse(map1.ListParents(A).contains(B));
         assertFalse(map1.ListChildren(B).contains(A));
         assertTrue(map1.ListParents(B).contains(A));
-        assertTrue(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
-        assertTrue(map1.getLabels(A, B).contains(edge2));
-        assertFalse(map1.getLabels(B, A).contains(edge2));
 
         map1.RemoveEdge(A, B, edge1);
         assertTrue(map1.contains(A));
@@ -108,10 +199,6 @@ public class UnivMapTest {
         assertFalse(map1.ListParents(A).contains(B));
         assertFalse(map1.ListChildren(B).contains(A));
         assertTrue(map1.ListParents(B).contains(A));
-        assertFalse(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
-        assertTrue(map1.getLabels(A, B).contains(edge2));
-        assertFalse(map1.getLabels(B, A).contains(edge2));
 
 
         // Case 3: Add 2 edges in the opposite direction
@@ -125,10 +212,6 @@ public class UnivMapTest {
         assertTrue(map1.ListParents(A).contains(B));
         assertTrue(map1.ListChildren(B).contains(A));
         assertTrue(map1.ListParents(B).contains(A));
-        assertTrue(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
-        assertFalse(map1.getLabels(A, B).contains(edge2));
-        assertTrue(map1.getLabels(B, A).contains(edge2));
 
         map1.RemoveEdge(A, B, edge1);
         assertTrue(map1.contains(A));
@@ -137,35 +220,18 @@ public class UnivMapTest {
         assertTrue(map1.ListParents(A).contains(B));
         assertTrue(map1.ListChildren(B).contains(A));
         assertFalse(map1.ListParents(B).contains(A));
-        assertFalse(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
-        assertFalse(map1.getLabels(A, B).contains(edge2));
-        assertTrue(map1.getLabels(B, A).contains(edge2));
     }
 
-//    /** Tests ListChildren and ListParents accuracy. */
-//    @Test
-//    public void testListChildrenParents() {
-//        UnivMap map1 = new UnivMap();
-//        map1.AddEdge(A, B, edge1);
-//        map1.AddEdge(B, A, edge2);
-//        map1.AddEdge(A, C, edge3);
-//        assertTrue(map1.ListParents(A).contains(B));
-//        assertTrue(map1.ListParents(B).contains(A));
-//        assertTrue(map1.ListChildren(A).contains(B));
-//        assertTrue(map1.ListChildren(B).contains(A));
-//        assertTrue(map1.ListChildren(A).contains(C));
-//        assertTrue(map1.ListParents(C).contains(A));
-//        map1.RemoveEdge(A, B);
-//        map1.RemoveEdge(B, A);
-//        assertFalse(map1.ListParents(A).contains(B));
-//        assertFalse(map1.ListParents(B).contains(A));
-//        assertFalse(map1.ListParents(A).contains(B));
-//        assertFalse(map1.ListParents(B).contains(A));
-//        assertTrue(map1.ListChildren(A).contains(C));
-//        assertTrue(map1.ListParents(C).contains(A));
-//    }
-//
+    String N = null;
+    String A = "A";
+    String B = "B";
+    String C = "C";
+    String D = "D";
+    int edge_minus1 = -1;
+    int edge0 = 0;
+    int edge1 = 1;
+    int edge2 = 2;
+
 //    /**
 //     * Tests that AddEdge throws IllegalArgumentException when adding null values
 //     */
