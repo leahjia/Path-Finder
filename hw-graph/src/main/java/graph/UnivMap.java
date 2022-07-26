@@ -3,16 +3,13 @@ package graph;
 import java.util.List;
 import java.util.*;
 
-
-import org.w3c.dom.Node;
-
 /**
  * UnivMap is a mutable representation of the UW campus map with nodes and edges.
  * The nodes represent the buildings and an edge represents the connection of two buildings.
  *
  * Abstract Invariant:
  *  All nodes and edges must not be null, and
- *  no duplicate edges from the same source to the same destination must be unique
+ *  no duplicate edges from the same source to the same destination
  */
 public class UnivMap {
     private static final boolean DEBUG = false;
@@ -65,6 +62,8 @@ public class UnivMap {
      * @spec.effects Constructs an empty UnivMap
      */
     public UnivMap() {
+        // RI: same as the class
+        // AF(this) = a newly constructed UnivMap
         this.UnivMap = new HashMap<>();
     }
 
@@ -85,7 +84,7 @@ public class UnivMap {
     public void AddNode(String A) {
         checkRep();
         // RI: A != null
-        // AF(this) = a node in UnivMap named A
+        // AF(A) = a node in UnivMap named A
         UnivMap.put(A, new HashMap<>());
         checkRep();
     }
@@ -95,7 +94,7 @@ public class UnivMap {
      * @param source the source of the new edge
      * @param destination the destination of this new edge
      * @param label the Edge from source to destination to be added to the map
-     * @throws IllegalArgumentException if label <= 0, label already exists,
+     * @throws IllegalArgumentException if label is not positive, label already exists,
      *         source == destination, source == null, or destination == null.
      * @spec.requires source and destination are different from each other and not null,
      *                label is positive and is not a duplicate from source to destination
@@ -106,7 +105,7 @@ public class UnivMap {
             throws IllegalArgumentException {
         checkRep();
         if (label <= 0) {
-            throw new IllegalArgumentException("Label much be positive.");
+            throw new IllegalArgumentException("Label must be positive.");
         } else if (equals(source, destination)) {
             throw new IllegalArgumentException("Source and destination must be different.");
         }
@@ -116,6 +115,11 @@ public class UnivMap {
         if (!this.contains(destination)) {
             this.AddNode(destination);
         }
+        checkRep();
+
+        // RI: label > 0, !equals(source, destination), source != null, destination != null
+        // AF(label) = an edge (named label) from source to destination in this
+
         if (UnivMap.get(source).containsKey(destination)) {
             List<Integer> existingEdges = UnivMap.get(source).get(destination);
             for (int edge : existingEdges) {
@@ -140,6 +144,9 @@ public class UnivMap {
      */
     public void RemoveNode(String A) {
         checkRep();
+        // RI: same as RI of the class
+        // AF(A) = a node named A
+
         // remove edges that go to A
         for (String str: UnivMap.keySet()) {
             UnivMap.get(str).remove(A);
@@ -167,6 +174,9 @@ public class UnivMap {
         if (!this.contains(source)) {
             throw new IllegalArgumentException("Source not in map.");
         }
+
+        // RI: !equals(source, destination), this.contains(source)
+        // AF(this) = an edge from source to destination
         UnivMap.get(source).remove(destination);
         checkRep();
     }
@@ -187,6 +197,11 @@ public class UnivMap {
         if (!this.contains(A)) {
             throw new IllegalArgumentException("Node does not exist.");
         }
+        checkRep();
+
+        // RI: A != null, this.contains(A)
+        // AF(A) = a node in UnivMap named A
+        // AF(output) = List<all children nodes of A in UnivMap>
         List<String> output = new ArrayList<>(UnivMap.get(A).keySet());
         // for (String str: UnivMap.get(A).keySet()) {output.add(str);}
         // output.addAll(UnivMap.get(A).keySet());
@@ -209,6 +224,11 @@ public class UnivMap {
         if (!this.contains(A)) {
             throw new IllegalArgumentException("Node does not exist.");
         }
+        checkRep();
+
+        // RI: A != null, this.contains(A)
+        // AF(A) = a node in UnivMap named A
+        // AF(output) = List<all parent nodes of A in UnivMap>
         List<String> output = new ArrayList<>();
         for (String str: UnivMap.keySet()) {
             if (UnivMap.get(str).containsKey(A)) {
@@ -221,18 +241,20 @@ public class UnivMap {
 
 
     /**
-     * Checks if building A exists on the map
-     * @param A Node representing the building A to be checked on the map
-     * @throws IllegalArgumentException if A is null
-     * @return a boolean that will be true if A exists and false otherwise
-     * @spec.requires A != null
+     * Checks if map contains node A
+     * @param A node to be checked on the map
+     * @return a boolean that will be true if A exists in UnivMap and false otherwise
      */
     public boolean contains(String A) {
+        // RI: same as the class
+        // AF(this) = boolean whether A is in map
         return UnivMap.containsKey(A);
     }
 
     private boolean equals(String A, String B) {
         checkRep();
+        // RI: same as the class
+        // AF(this) = boolean whether A and B are the same
         return A.hashCode() == B.hashCode();
     }
 }
