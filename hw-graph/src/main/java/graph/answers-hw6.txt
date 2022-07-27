@@ -17,6 +17,12 @@ A few examples of possible Graph representations:
 representations listed above (for example, in terms of runtime complexity, space
 complexity, or ease of implementation).
 
+A:
+B: An advantage using adjacency list is the reduce of memory usage, for it stores information in
+    a two-dimensional array.
+C: One advantage using this is that it works better in storing constant factors as matrices.
+   But a disadvantage is that the space complexity for a adjacency matrix is n * n which is higher
+    than that of an adjacency list.
 
 
 

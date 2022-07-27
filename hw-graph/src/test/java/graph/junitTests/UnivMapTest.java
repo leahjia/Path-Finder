@@ -9,20 +9,30 @@ import static org.junit.Assert.fail;
 
 public class UnivMapTest {
 
+    String N = null;
+    String A = "A";
+    String B = "B";
+    String C = "C";
+    String D = "D";
+    int edge_minus1 = -1;
+    int edge0 = 0;
+    int edge1 = 1;
+    int edge2 = 2;
+
     /** Tests add and remove nodes successful. */
     @Test
     public void testAddRemoveNode() {
         UnivMap map1 = new UnivMap();
         map1.AddNode(A);
-        map1.AddNode(B);
         assertTrue(map1.contains(A));
+        map1.AddNode(B);
         assertTrue(map1.contains(B));
         map1.RemoveNode(A);
-        map1.RemoveNode(B);
         assertFalse(map1.contains(A));
+        map1.RemoveNode(B);
         assertFalse(map1.contains(B));
 
-        // add the same node twice, remove only once
+        // add the same node twice, test remove only needed once
         map1.AddNode(A);
         map1.AddNode(A);
         assertTrue(map1.contains(A));
@@ -44,10 +54,9 @@ public class UnivMapTest {
         UnivMap map1 = new UnivMap();
         try {
             map1.AddNode(N);
+            fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
-        } finally {
-            System.out.close();
         }
     }
 
@@ -61,32 +70,31 @@ public class UnivMapTest {
         map1.AddEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertTrue(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
+        int i = map1.DistanceTo(A, B);
+        assertEquals(edge1, map1.DistanceTo(A, B));
+        assertEquals(edge_minus1, map1.DistanceTo(B, A));
 
-        map1.RemoveEdge(A, B, edge1);
+        map1.RemoveEdge(A, B);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertFalse(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
+        assertEquals(edge_minus1, map1.DistanceTo(A, B));
+        assertEquals(edge_minus1, map1.DistanceTo(B, A));
 
         // Case 2: Add 2 edges in the same direction
+        map1 = new UnivMap();
+
         map1.AddEdge(A, B, edge1);
         map1.AddEdge(A, B, edge2);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertTrue(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
-        assertTrue(map1.getLabels(A, B).contains(edge2));
-        assertFalse(map1.getLabels(B, A).contains(edge2));
+        assertEquals(Math.min(edge1, edge2), map1.DistanceTo(A, B));
+        assertEquals(edge_minus1, map1.DistanceTo(B, A));
 
-        map1.RemoveEdge(A, B, edge1);
+        map1.RemoveEdge(A, B);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertFalse(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
-        assertTrue(map1.getLabels(A, B).contains(edge2));
-        assertFalse(map1.getLabels(B, A).contains(edge2));
+        assertEquals(edge_minus1, map1.DistanceTo(A, B));
+        assertEquals(edge_minus1, map1.DistanceTo(B, A));
 
         // Case 3: Add 2 edges in the opposite direction
         map1 = new UnivMap();
@@ -95,18 +103,14 @@ public class UnivMapTest {
         map1.AddEdge(B, A, edge2);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertTrue(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
-        assertFalse(map1.getLabels(A, B).contains(edge2));
-        assertTrue(map1.getLabels(B, A).contains(edge2));
+        assertEquals(edge1, map1.DistanceTo(A, B));
+        assertEquals(edge2, map1.DistanceTo(B, A));
 
-        map1.RemoveEdge(A, B, edge1);
+        map1.RemoveEdge(A, B);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertFalse(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
-        assertFalse(map1.getLabels(A, B).contains(edge2));
-        assertTrue(map1.getLabels(B, A).contains(edge2));
+        assertEquals(edge_minus1, map1.DistanceTo(A, B));
+        assertEquals(edge_minus1, map1.DistanceTo(B, A));
     }
 
     /** Tests add and remove edges throw exceptions when needed.
@@ -146,12 +150,12 @@ public class UnivMapTest {
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
-            map1.RemoveEdge(A, A, edge1);
+            map1.RemoveEdge(A, A);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
-            map1.RemoveEdge(C, D, edge1);
+            map1.RemoveEdge(C, D);
             fail("Expected NoSuchElementException not occurred.");
         } catch (NoSuchElementException e) {
             e.getStackTrace();
@@ -160,45 +164,45 @@ public class UnivMapTest {
         }
     }
 
-    /** Tests ListChildren and ListParents accuracy. */
+    /** Tests ListNeighborsTo and ListNeighborsTo accuracy. */
     @Test
-    public void testListChildrenParents() {
+    public void testListNeighbors() {
         UnivMap map1 = new UnivMap();
 
         // Case 1: add & remove one label
         map1.AddEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertTrue(map1.ListChildren(A).contains(B));
-        assertFalse(map1.ListParents(A).contains(B));
-        assertFalse(map1.ListChildren(B).contains(A));
-        assertTrue(map1.ListParents(B).contains(A));
+        assertTrue(map1.ListNeighborsFrom(A).contains(B));
+        assertFalse(map1.ListNeighborsTo(A).contains(B));
+        assertFalse(map1.ListNeighborsFrom(B).contains(A));
+        assertTrue(map1.ListNeighborsTo(B).contains(A));
 
-        map1.RemoveEdge(A, B, edge1);
+        map1.RemoveEdge(A, B);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertFalse(map1.ListChildren(A).contains(B));
-        assertFalse(map1.ListParents(A).contains(B));
-        assertFalse(map1.ListChildren(B).contains(A));
-        assertFalse(map1.ListParents(B).contains(A));
+        assertFalse(map1.ListNeighborsFrom(A).contains(B));
+        assertFalse(map1.ListNeighborsTo(A).contains(B));
+        assertFalse(map1.ListNeighborsFrom(B).contains(A));
+        assertFalse(map1.ListNeighborsTo(B).contains(A));
 
         // Case 2: Add 2 edges in the same direction
         map1.AddEdge(A, B, edge1);
         map1.AddEdge(A, B, edge2);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertTrue(map1.ListChildren(A).contains(B));
-        assertFalse(map1.ListParents(A).contains(B));
-        assertFalse(map1.ListChildren(B).contains(A));
-        assertTrue(map1.ListParents(B).contains(A));
+        assertTrue(map1.ListNeighborsFrom(A).contains(B));
+        assertFalse(map1.ListNeighborsTo(A).contains(B));
+        assertFalse(map1.ListNeighborsFrom(B).contains(A));
+        assertTrue(map1.ListNeighborsTo(B).contains(A));
 
-        map1.RemoveEdge(A, B, edge1);
+        map1.RemoveEdge(A, B);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertTrue(map1.ListChildren(A).contains(B));
-        assertFalse(map1.ListParents(A).contains(B));
-        assertFalse(map1.ListChildren(B).contains(A));
-        assertTrue(map1.ListParents(B).contains(A));
+        assertTrue(map1.ListNeighborsFrom(A).contains(B));
+        assertFalse(map1.ListNeighborsTo(A).contains(B));
+        assertFalse(map1.ListNeighborsFrom(B).contains(A));
+        assertTrue(map1.ListNeighborsTo(B).contains(A));
 
 
         // Case 3: Add 2 edges in the opposite direction
@@ -208,29 +212,19 @@ public class UnivMapTest {
         map1.AddEdge(B, A, edge2);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertTrue(map1.ListChildren(A).contains(B));
-        assertTrue(map1.ListParents(A).contains(B));
-        assertTrue(map1.ListChildren(B).contains(A));
-        assertTrue(map1.ListParents(B).contains(A));
+        assertTrue(map1.ListNeighborsFrom(A).contains(B));
+        assertTrue(map1.ListNeighborsTo(A).contains(B));
+        assertTrue(map1.ListNeighborsFrom(B).contains(A));
+        assertTrue(map1.ListNeighborsTo(B).contains(A));
 
-        map1.RemoveEdge(A, B, edge1);
+        map1.RemoveEdge(A, B);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertFalse(map1.ListChildren(A).contains(B));
-        assertTrue(map1.ListParents(A).contains(B));
-        assertTrue(map1.ListChildren(B).contains(A));
-        assertFalse(map1.ListParents(B).contains(A));
+        assertFalse(map1.ListNeighborsFrom(A).contains(B));
+        assertTrue(map1.ListNeighborsTo(A).contains(B));
+        assertTrue(map1.ListNeighborsFrom(B).contains(A));
+        assertFalse(map1.ListNeighborsTo(B).contains(A));
     }
-
-    String N = null;
-    String A = "A";
-    String B = "B";
-    String C = "C";
-    String D = "D";
-    int edge_minus1 = -1;
-    int edge0 = 0;
-    int edge1 = 1;
-    int edge2 = 2;
 
     /**
      * Tests that ListChildren and ListParents throws IllegalArgumentException when
@@ -240,22 +234,22 @@ public class UnivMapTest {
     public void testRemoveThrowsIllegalArgumentException() {
         UnivMap map1 = new UnivMap();
         try {
-            map1.ListChildren(N);
+            map1.ListNeighborsTo(N);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
-            map1.ListChildren(A);
+            map1.ListNeighborsTo(A);
             fail("Expected NoSuchElementException not occurred.");
         } catch (NoSuchElementException e) {
             e.getStackTrace();
         } try {
-            map1.ListParents(N);
+            map1.ListNeighborsTo(N);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
-            map1.ListParents(A);
+            map1.ListNeighborsTo(A);
             fail("Expected NoSuchElementException not occurred.");
         } catch (NoSuchElementException e) {
             e.getStackTrace();
