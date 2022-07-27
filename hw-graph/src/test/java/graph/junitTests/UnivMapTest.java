@@ -110,7 +110,7 @@ public class UnivMapTest {
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
         assertEquals(edge_minus1, map1.DistanceTo(A, B));
-        assertEquals(edge_minus1, map1.DistanceTo(B, A));
+        assertEquals(edge2, map1.DistanceTo(B, A));
     }
 
     /** Tests add and remove edges throw exceptions when needed.
@@ -140,12 +140,6 @@ public class UnivMapTest {
             e.getStackTrace();
         } try {
             map1.AddEdge(A, A, edge1);
-            fail("Expected IllegalArgumentException not occurred.");
-        } catch (IllegalArgumentException e) {
-            e.getStackTrace();
-        } try {
-            map1.AddEdge(A, B, edge1);
-            map1.AddEdge(A, B, edge1);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();

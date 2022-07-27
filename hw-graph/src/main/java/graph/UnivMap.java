@@ -127,12 +127,16 @@ public class UnivMap {
 
         // RI: label > 0, !source.equals(destination), source != null, destination != null
         // AF(label) = an edge (named label) from source to destination in this
-        if (!ListNeighborsFrom(source).contains(destination)) {
+        boolean labelReplaced = false;
+        for (int i = 0; i < UnivMap.get(source).size(); i++) {
+            if (UnivMap.get(source).get(i).edgeTo.equals(destination)) {
+                int oldLabel = UnivMap.get(source).get(i).label;
+                UnivMap.get(source).get(i).label = Math.min(oldLabel, label);
+                labelReplaced = true;
+            }
+        }
+        if (!labelReplaced) {
             UnivMap.get(source).add(new Edge(destination, label));
-        } else {
-            int index = UnivMap.get(source).indexOf(destination);
-            int oldLabel = UnivMap.get(source).get(index).label;
-            UnivMap.get(source).get(index).label = Math.min(oldLabel, label);
         }
         checkRep();
     }
@@ -179,7 +183,15 @@ public class UnivMap {
 
         // RI: !equals(source, destination), this.contains(source)
         // AF(this) = edge from source to destination
-        UnivMap.get(source).remove(destination);
+        int indexEdgeTo = -1;
+        for (Edge edge: UnivMap.get(source)) {
+            if (edge.edgeTo.equals(destination)) {
+                indexEdgeTo = UnivMap.get(source).indexOf(edge);
+            }
+        }
+        if (indexEdgeTo != -1) {
+            UnivMap.get(source).remove(indexEdgeTo);
+        }
         checkRep();
     }
 
@@ -261,12 +273,15 @@ public class UnivMap {
         if (!this.contains(source)) {
             throw new IllegalArgumentException("Source not in map.");
         }
-        int indexEdgeTo = UnivMap.get(source).indexOf(destination);
-        if (indexEdgeTo != -1) { // then there is a path
-            int output = UnivMap.get(source).get(indexEdgeTo).label;
-            return output;
+        int indexEdgeTo = -1;
+        for (Edge edge: UnivMap.get(source)) {
+            if (edge.edgeTo.equals(destination)) {
+                indexEdgeTo = UnivMap.get(source).indexOf(edge);
+                int output = UnivMap.get(source).get(indexEdgeTo).label;
+                return output;
+            }
         }
-        return -1; // there is no path
+        return indexEdgeTo; // there is no path
     }
 
     /**
