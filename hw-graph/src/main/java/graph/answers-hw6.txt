@@ -17,11 +17,13 @@ A few examples of possible Graph representations:
 representations listed above (for example, in terms of runtime complexity, space
 complexity, or ease of implementation).
 
-A:
-B: Advantage: reduce of memory usage because it stores information in two-dimensional arrays.
-C: Advantage: it works better in storing constant factors as matrices.
-   Disadvantage: the space complexity of adjacency matrices is n * n, higher than that of
-    adjacency lists.
+A: Advantage: element search in collections results in faster runtime.
+   Disadvantage: elements in the collection are unordered and may contain duplicate elements.
+B: Advantage: it reduces memory usage because it stores information in two-dimensional arrays.
+   Disadvantage:
+C: Advantage: matrices make it easier to store constant factors and less runtime to remove edges.
+   Disadvantage: the space complexity of adjacency matrices is n * n, and higher runtime when
+   adding new nodes and searching through neighbor nodes.
 
 
 
@@ -29,6 +31,10 @@ C: Advantage: it works better in storing constant factors as matrices.
 chose it. If you chose to use a different representation than one of the three we described
 above, be sure to list its advantages and disadvantages, too.
 
+I chose an adjacency list, because I want to specify no duplicate labels with the same source
+    and destination, but collections/sets allow duplicates; I also want to store information
+    of each edge (weight of the edge), but an adjacency matrix stores only the number of edges.
+    An adjacency list can work with both of these cases, which is why I chose it.
 
 
 

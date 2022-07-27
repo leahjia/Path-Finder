@@ -11,7 +11,7 @@ import java.util.*;
  * Abstract Invariant:
  *  All nodes and edges must not be null, and
  *  all edges have positive labels, and
- *  no duplicate edges from the same source to the same destination
+ *  no duplicate edges (edges with the same label) from the same source to the same destination
  */
 public class UnivMap {
     private static final boolean DEBUG = true;

@@ -141,18 +141,8 @@ public class UnivMapTest {
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
-            map1.AddEdge(A, A, edge1);
-            fail("Expected IllegalArgumentException not occurred.");
-        } catch (IllegalArgumentException e) {
-            e.getStackTrace();
-        } try {
             map1.AddEdge(A, B, edge1);
             map1.AddEdge(A, B, edge1);
-            fail("Expected IllegalArgumentException not occurred.");
-        } catch (IllegalArgumentException e) {
-            e.getStackTrace();
-        } try {
-            map1.RemoveEdge(A, A, edge1);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
