@@ -177,14 +177,19 @@ public class GraphTestDriver {
         List<String> printOutput = graphs.get(graphName).getNodes();
 
         StringBuilder str = new StringBuilder();
-        str.append(printOutput.get(0));
-        for (int i = 1; i < printOutput.size(); i++) {
-            str.append(" ");
-            str.append(printOutput.get(i));
+        if (printOutput.size() > 0) {
+            str.append(printOutput.get(0));
+            for (int i = 1; i < printOutput.size(); i++) {
+                str.append(" ");
+                str.append(printOutput.get(i));
+            }
+            // ___ = graphs.get(graphName);
+            output.println(graphName + " contains: " + str);
+        } else {
+            // ___ = graphs.get(graphName);
+            output.println(graphName + " contains:");
         }
 
-        // ___ = graphs.get(graphName);
-        output.println("the nodes in " + graphName + " are: " + str);
     }
 
     private void listChildren(List<String> arguments) {
@@ -199,17 +204,23 @@ public class GraphTestDriver {
 
     private void listChildren(String graphName, String parentName) {
         // Done Insert your code here.
-        List<String> printOutput = graphs.get(graphName).ListChildren(parentName);
-
+        List<String> childrenList = graphs.get(graphName).ListChildren(parentName);
         StringBuilder str = new StringBuilder();
-        str.append(printOutput.get(0));
-        for (int i = 1; i < printOutput.size(); i++) {
-            str.append(" ");
-            str.append(printOutput.get(i));
+        for (String child: childrenList) {
+            str.append(child);
+            str.append("(");
+            List<String> edges = graphs.get(graphName).getLabels(parentName, child);
+            str.append(edges.get(0));
+            for (int j = 1; j < edges.size(); j++) {
+                str.append(" ");
+                str.append(edges.get(j));
+            }
+            str.append(") ");
         }
 
         // ___ = graphs.get(graphName);
-        output.println("the children of " + parentName + " in " + graphName + " are: " + str);
+        output.println("the children of " + parentName + " in " + graphName + " are: " +
+                str.substring(0, str.lastIndexOf(" ")));
     }
 
     /**

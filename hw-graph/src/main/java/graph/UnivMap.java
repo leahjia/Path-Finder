@@ -93,8 +93,8 @@ public class UnivMap {
      * @param source the source of the new edge
      * @param destination the destination of this new edge
      * @param label the Edge from source to destination to be added to the map
-     * @throws IllegalArgumentException if label is not positive, source == destination,
-     *         source == null, or destination == null.
+     * @throws IllegalArgumentException if label is not positive, source == null,
+     *         or destination == null.
      * @spec.requires source and destination are different from each other and not null,
      *                label is not null and is not a duplicate from source to destination
      * @spec.modifies this
@@ -105,9 +105,6 @@ public class UnivMap {
         checkRep();
         if (source == null || destination == null || label == null) {
             throw new IllegalArgumentException("Null node/label received.");
-        }
-        if (source.equals(destination)) {
-            throw new IllegalArgumentException("Source = destination.");
         }
         if (!this.contains(source)) {
             this.AddNode(source);
@@ -160,7 +157,6 @@ public class UnivMap {
      * @param source the source node of the edge
      * @param destination the destination node of the edge
      * @param label the label of the edge
-     * @throws IllegalArgumentException if source.equals(destination)
      * @throws NoSuchElementException if this doesn't contain source
      * @spec.requires source != null, destination != null, and UnivMap.contains(source)
      * @spec.modifies this.UnivMap
@@ -169,9 +165,6 @@ public class UnivMap {
     public void RemoveEdge(String source, String destination, String label)
             throws IllegalArgumentException, NoSuchElementException {
         checkRep();
-        if (source.equals(destination)) {
-            throw new IllegalArgumentException("Source and destination are the same.");
-        }
         if (!this.contains(source)) {
             throw new NoSuchElementException("Source not in map.");
         }

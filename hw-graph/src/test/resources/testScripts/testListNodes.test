@@ -4,7 +4,7 @@
 # Create a graph
 CreateGraph map1
 
-# Add a pair of nodes
+# Add nodes
 AddNode map1 n1
 AddNode map1 n2
 AddNode map1 n3
