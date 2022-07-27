@@ -116,9 +116,8 @@ public class GraphTestDriver {
 
     private void createGraph(String graphName) {
         // Done Insert your code here.
-        UnivMap graph1 = new UnivMap();
 
-        graphs.put(graphName, graph1);
+        graphs.put(graphName, new UnivMap());
         output.println("created graph " + graphName);
     }
 
@@ -137,8 +136,8 @@ public class GraphTestDriver {
         // Done Insert your code here.
         graphs.get(graphName).AddNode(nodeName);
 
-        UnivMap addNodeOutput = graphs.get(graphName);
-        output.println(addNodeOutput);
+//        ___ = graphs.get(graphName);
+        output.println("added node " + nodeName + " to " + graphName);
     }
 
     private void addEdge(List<String> arguments) {
@@ -159,8 +158,9 @@ public class GraphTestDriver {
         // Done Insert your code here.
         graphs.get(graphName).AddEdge(parentName, childName, edgeLabel);
 
-        UnivMap addEdgeOutput = graphs.get(graphName);
-        output.println(addEdgeOutput);
+//        ___ = graphs.get(graphName);
+        output.println("added edge " + edgeLabel + " from " + parentName +
+                " to " + childName + " in " + graphName);
     }
 
     private void listNodes(List<String> arguments) {
@@ -174,9 +174,17 @@ public class GraphTestDriver {
 
     private void listNodes(String graphName) {
         // Done Insert your code here.
+        List<String> printOutput = graphs.get(graphName).getNodes();
 
-        List<String> listOutput = graphs.get(graphName).getNodes();
-        output.println(listOutput);
+        StringBuilder str = new StringBuilder();
+        str.append(printOutput.get(0));
+        for (int i = 1; i < printOutput.size(); i++) {
+            str.append(" ");
+            str.append(printOutput.get(i));
+        }
+
+        // ___ = graphs.get(graphName);
+        output.println(graphName + " contains: " + str);
     }
 
     private void listChildren(List<String> arguments) {
@@ -191,9 +199,17 @@ public class GraphTestDriver {
 
     private void listChildren(String graphName, String parentName) {
         // Done Insert your code here.
+        List<String> printOutput = graphs.get(graphName).ListChildren(parentName);
 
-        List<String> listChildrenOutput = graphs.get(graphName).ListChildren(parentName);
-        output.println(listChildrenOutput);
+        StringBuilder str = new StringBuilder();
+        str.append(printOutput.get(0));
+        for (int i = 1; i < printOutput.size(); i++) {
+            str.append(" ");
+            str.append(printOutput.get(i));
+        }
+
+        // ___ = graphs.get(graphName);
+        output.println("the children of " + parentName + " in " + graphName + " are: " + str);
     }
 
     /**

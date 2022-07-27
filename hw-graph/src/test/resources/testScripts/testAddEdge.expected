@@ -2,5 +2,6 @@
 # Tests that a single Edge can be created/added to the university map
 
 # Add a pair of edges
-added edge e1 from A to B in map1
-added edge e2 from B to A in map1
+created graph map1
+added edge e1 from n1 to n2 in map1
+added edge e2 from n2 to n1 in map1

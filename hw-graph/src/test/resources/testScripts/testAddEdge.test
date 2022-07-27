@@ -2,5 +2,6 @@
 # Tests that a single Edge can be created/added to the university map
 
 # Add a pair of edges
-AddEdge map1 Node A Node B e1
-AddEdge map1 Node B Node A e2
+CreateGraph map1
+AddEdge map1 n1 n2 e1
+AddEdge map1 n2 n1 e2

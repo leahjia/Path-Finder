@@ -1,8 +1,12 @@
 # University Map Children of Node testing file.
 # Tests that a list of destinations from a node can be computed
 
-# Finds the children of node A
-ListChildren Node A
+CreateGraph map1
+AddEdge map1 n1 n2 e1
+AddEdge map1 n2 n1 e2
 
-# Finds the children of node B
-ListChildren Node B
+# Finds the children of node n1
+ListChildren map1 n1
+
+# Finds the children of node n2
+ListChildren map1 n2
