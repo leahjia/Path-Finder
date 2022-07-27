@@ -193,10 +193,10 @@ public class UnivMapTest {
         map1.RemoveEdge(A, B);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertTrue(map1.ListNeighborsFrom(A).contains(B));
+        assertFalse(map1.ListNeighborsFrom(A).contains(B));
         assertFalse(map1.ListNeighborsTo(A).contains(B));
         assertFalse(map1.ListNeighborsFrom(B).contains(A));
-        assertTrue(map1.ListNeighborsTo(B).contains(A));
+        assertFalse(map1.ListNeighborsTo(B).contains(A));
 
 
         // Case 3: Add 2 edges in the opposite direction

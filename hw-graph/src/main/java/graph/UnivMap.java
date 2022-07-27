@@ -154,7 +154,11 @@ public class UnivMap {
 
         // remove all edges that go to A
         for (String node: UnivMap.keySet()) {
-            UnivMap.get(node).remove(A);
+            for (int i = UnivMap.get(node).size() - 1; i >= 0; i--) {
+                if (UnivMap.get(node).get(i).edgeTo.equals(A)) {
+                    UnivMap.get(node).remove(i);
+                }
+            }
         }
         // remove A and its outgoing edges
         UnivMap.remove(A);
@@ -251,8 +255,11 @@ public class UnivMap {
         // AF(output) = List of all parent nodes of A in this map
         List<String> output = new ArrayList<>();
         for (String node: UnivMap.keySet()) {
-            if (UnivMap.get(node).contains(A)) {
-                output.add(node);
+            List<Edge> listEdges = UnivMap.get(node);
+            for (Edge edge: listEdges) {
+                if (edge.edgeTo.equals(A)) {
+                    output.add(node);
+                }
             }
         }
         checkRep();
@@ -277,7 +284,8 @@ public class UnivMap {
         for (Edge edge: UnivMap.get(source)) {
             if (edge.edgeTo.equals(destination)) {
                 indexEdgeTo = UnivMap.get(source).indexOf(edge);
-                int output = UnivMap.get(source).get(indexEdgeTo).label;
+                int output;
+                output = UnivMap.get(source).get(indexEdgeTo).label;
                 return output;
             }
         }
