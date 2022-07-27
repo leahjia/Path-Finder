@@ -1,0 +1,13 @@
+# University Map list of nodes testing file.
+# Tests that a list of nodes in map can be computed
+
+# Create a graph
+CreateGraph map1
+
+# Add a pair of nodes
+AddNode map1 n1
+AddNode map1 n2
+AddNode map1 n3
+
+# Finds the nodes of map1
+ListNodes map1

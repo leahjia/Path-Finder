@@ -1,7 +1,10 @@
 # University Map Children of Node testing file.
 # Tests that a list of destinations from a node can be computed
 
+# Create a graph
 CreateGraph map1
+
+# Add a pair of edges
 AddEdge map1 n1 n2 e1
 AddEdge map1 n2 n1 e2
 

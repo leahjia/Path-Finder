@@ -184,7 +184,7 @@ public class GraphTestDriver {
         }
 
         // ___ = graphs.get(graphName);
-        output.println(graphName + " contains: " + str);
+        output.println("the nodes in " + graphName + " are: " + str);
     }
 
     private void listChildren(List<String> arguments) {
