@@ -1,6 +1,8 @@
 package graph.junitTests;
 import graph.*;
 import org.junit.Test;
+import org.junit.Rule;
+import org.junit.rules.Timeout;
 
 import java.util.NoSuchElementException;
 
@@ -8,16 +10,15 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.fail;
 
 public class UnivMapTest {
+    @Rule public Timeout globalTimeout = Timeout.seconds(10); // 10 seconds max per method tested
 
     String N = null;
     String A = "A";
     String B = "B";
     String C = "C";
     String D = "D";
-    int edge_minus1 = -1;
-    int edge0 = 0;
-    int edge1 = 1;
-    int edge2 = 2;
+    String edge1 = "1";
+    String edge2 = "2";
 
     /** Tests add and remove nodes successful. */
     @Test
@@ -125,12 +126,7 @@ public class UnivMapTest {
     public void testAddRemoveEdgeThrowsIllegalArgumentException() {
         UnivMap map1 = new UnivMap();
         try {
-            map1.AddEdge(A, B, edge_minus1);
-            fail("Expected IllegalArgumentException not occurred.");
-        } catch (IllegalArgumentException e) {
-            e.getStackTrace();
-        } try {
-            map1.AddEdge(A, B, edge0);
+            map1.AddEdge(A, B, N);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();

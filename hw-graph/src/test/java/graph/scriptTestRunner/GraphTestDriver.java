@@ -11,10 +11,10 @@
 
 package graph.scriptTestRunner;
 
+import graph.UnivMap;
+
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * This class implements a testing driver which reads test scripts
@@ -29,8 +29,8 @@ public class GraphTestDriver {
     /**
      * String -> Graph: maps the names of graphs to the actual graph
      **/
-    // TODO for the student: Uncomment and parameterize the next line correctly:
-    //private final Map<String, _______> graphs = new HashMap<String, ________>();
+    // Done for the student: Uncomment and parameterize the next line correctly:
+    private final Map<String, UnivMap> graphs = new HashMap<>();
     private final PrintWriter output;
     private final BufferedReader input;
 
@@ -49,12 +49,12 @@ public class GraphTestDriver {
      * @throws IOException if the input or output sources encounter an IOException
      * @spec.effects Executes the commands read from the input and writes results to the output
      **/
-    // Leave this method public
+    // Leave this method publicD
     public void runTests() throws IOException {
         String inputLine;
         while((inputLine = input.readLine()) != null) {
             if((inputLine.trim().length() == 0) ||
-               (inputLine.charAt(0) == '#')) {
+                    (inputLine.charAt(0) == '#')) {
                 // echo blank and comment lines
                 output.println(inputLine);
             } else {
@@ -115,10 +115,11 @@ public class GraphTestDriver {
     }
 
     private void createGraph(String graphName) {
-        // TODO Insert your code here.
+        // Done Insert your code here.
+        UnivMap graph1 = new UnivMap();
 
-        // graphs.put(graphName, ___);
-        // output.println(...);
+        graphs.put(graphName, graph1);
+        output.println("created graph " + graphName);
     }
 
     private void addNode(List<String> arguments) {
@@ -133,10 +134,11 @@ public class GraphTestDriver {
     }
 
     private void addNode(String graphName, String nodeName) {
-        // TODO Insert your code here.
+        // Done Insert your code here.
+        graphs.get(graphName).AddNode(nodeName);
 
-        // ___ = graphs.get(graphName);
-        // output.println(...);
+        UnivMap addNodeOutput = graphs.get(graphName);
+        output.println(addNodeOutput);
     }
 
     private void addEdge(List<String> arguments) {
@@ -154,10 +156,11 @@ public class GraphTestDriver {
 
     private void addEdge(String graphName, String parentName, String childName,
                          String edgeLabel) {
-        // TODO Insert your code here.
+        // Done Insert your code here.
+        graphs.get(graphName).AddEdge(parentName, childName, edgeLabel);
 
-        // ___ = graphs.get(graphName);
-        // output.println(...);
+        UnivMap addEdgeOutput = graphs.get(graphName);
+        output.println(addEdgeOutput);
     }
 
     private void listNodes(List<String> arguments) {
@@ -170,10 +173,10 @@ public class GraphTestDriver {
     }
 
     private void listNodes(String graphName) {
-        // TODO Insert your code here.
+        // Done Insert your code here.
 
-        // ___ = graphs.get(graphName);
-        // output.println(...);
+        List<String> listOutput = graphs.get(graphName).getNodes();
+        output.println(listOutput);
     }
 
     private void listChildren(List<String> arguments) {
@@ -187,10 +190,10 @@ public class GraphTestDriver {
     }
 
     private void listChildren(String graphName, String parentName) {
-        // TODO Insert your code here.
+        // Done Insert your code here.
 
-        // ___ = graphs.get(graphName);
-        // output.println(...);
+        List<String> listChildrenOutput = graphs.get(graphName).ListChildren(parentName);
+        output.println(listChildrenOutput);
     }
 
     /**
