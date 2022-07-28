@@ -4,54 +4,52 @@ import java.util.List;
 import java.util.*;
 
 /**
- * UnivMap is a mutable representation of the UW campus map with nodes and edges.
- * The nodes represent the buildings and an edge represents the connection of two buildings,
- * and each edge only goes from one node to another, but not the other way around.
+ * UnivMap is a mutable representation of the campus map with nodes and edges, where
+ *  the nodes represent the buildings and edges represent routes from one node to another.
  *
  * Abstract Invariant:
- *  All nodes and edges must not be null, and
- *  all edges have positive labels, and
- *  no duplicate edges (edges with the same label) from the same source to the same destination
+ *  All nodes and edges must not be null, and edges with the same source and destination
+ *   have unique labels
  */
 public class UnivMap {
     private static final boolean DEBUG = true;
 
     // The map of nodes and their outgoing edges and destinations
-    private final Map<String, Map<String, List<String>>> UnivMap;
     // Representation Invariant:
-    //  !UnivMap.keySet().contains(null), and
-    //  !UnivMap.get(node 1).keySet().contains(null),
-    //      !UnivMap.get(node 2).keySet().contains(null), ...
-    //      !UnivMap.get(node n).keySet().contains(null), and
-    //  UnivMap.get(source).get(destination): edge 1 != edge 2 != ... != edge r
-    //  where n = map.size(), r = UnivMap.get(source).get(destination).size(),
-    //  source and destination are nodes in the map
+    //  !UnivMap.contains(null), and
+    //  !UnivMap.get(node 1).contains(null), !UnivMap.get(node 2).contains(null), ...
+    //      !UnivMap.get(node n).contains(null), where n = map.size(), and
+    //  UnivMap.get(source).get(destination).get(0)
+    //      != UnivMap.get(source).get(destination).get(1) != ...
+    //      != UnivMap.get(source).get(destination).get(i - 1),
+    //      where i = UnivMap.get(source).get(destination).size(),
     //
     // Abstraction Function:
     //  AF(this) = a UnivMap, map, such that
-    //   map.keySet() = node 1, node 2, ..., node n
-    //   map.get(node 1).keySet() = outgoing edges from node 1,
-    //      map.get(node 2).keySet() = outgoing edges from node 2, ...,
-    //      map.get(node n).keySet() = outgoing edges from node n,
+    //   map.keySet() = node 1, node 2, ..., node n, and
+    //   map.get(node 1) = list of outgoing edges from node 1,
+    //      map.get(node 2) = list of outgoing edges from node 2, ...,
+    //      map.get(node n) = list of outgoing edges from node n,
     //   where n = map.size()
+    private final Map<String, Map<String, List<String>>> UnivMap;
 
     // Checks representation invariant for the entire map, including
-    //  checking nulls for all nodes and their outgoing edges, and checking
-    //  non-positive and duplicate edges with the same source and destination
+    //  checking nulls for all nodes, their outgoing edges, and duplicate edges
+    //  with the same source and destination
     private void checkRep() {
         // cheap tests:
         assert !this.contains(null): "Null node";
         // expensive tests:
         if (DEBUG) {
             for (String source: UnivMap.keySet()) { // take each node
-                for (String destination: UnivMap.get(source).keySet()) { // go to its destinations
-                    List<String> edges = getLabels(source, destination);
+                for (String destination: UnivMap.get(source).keySet()) { // go to each child
+                    List<String> edges = getLabels(source, destination); // go to list of edges
+                    // verify that edges contains no nulls
+                    assert !edges.contains(null): "Null edge";
                     int n = edges.size();
                     for (int i = 0; i < n; i++) {
                         for (int j = i + 1; j < n; j++) {
-                            // verify that edges contains no nulls
-                            assert edges.get(i) != null: "Null edge";
-                            // verify that edges contains no duplicates
+                            // verify no duplicates edges
                             assert !edges.get(i).equals(edges.get(j)): "Dup edges";
                         }
                     }
@@ -61,12 +59,10 @@ public class UnivMap {
     }
 
     /**
-     * Overview: A UnivMap is a mutable map of nodes and edges
-     * @spec.effects an empty UnivMap is constructed
+     * Constructs an empty UnivMap which is a mutable HashMap
+     * @spec.effects this = a new empty HashMap
      */
     public UnivMap() {
-        // RI: same as the class
-        // AF(this) = a newly constructed UnivMap
         this.UnivMap = new HashMap<>();
     }
 
