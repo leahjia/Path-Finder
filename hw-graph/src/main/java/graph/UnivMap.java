@@ -88,8 +88,9 @@ public class UnivMap {
      * Adds an edge from a source node to a destination node in this map
      * @param src the source node of the edge
      * @param dst the destination node of this edge
-     * @param label the edge from source to destination to be added to the map
-     * @throws IllegalArgumentException if label is null, src is null, or dst is null.
+     * @param label the edge to be added from src to dst in the map
+     * @throws IllegalArgumentException if label is null, src is null, dst is null,
+     *         or the same label already exists from src to dst
      * @spec.requires src, dst, and label are not null, and edges from src to dst
      *                do not already contain label.
      * @spec.modifies this
@@ -250,4 +251,5 @@ public class UnivMap {
 //    public int hashCode() {
 //        return super.hashCode();
 //    }
+
 }

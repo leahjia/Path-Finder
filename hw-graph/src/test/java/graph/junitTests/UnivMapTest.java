@@ -4,8 +4,6 @@ import org.junit.Test;
 import org.junit.Rule;
 import org.junit.rules.Timeout;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.junit.Assert.*;
@@ -43,6 +41,7 @@ public class UnivMapTest {
         assertFalse(map1.contains(A));
 
         // remove non-existent and null nodes without errors
+        map1 = new UnivMap();
         map1.RemoveNode(D);
         map1.RemoveNode(N);
         assertFalse(map1.contains(D));
@@ -78,6 +77,7 @@ public class UnivMapTest {
         assertTrue(map1.getLabels(A, B).contains(edge2));
         assertFalse(map1.getLabels(B, A).contains(edge2));
 
+        // remove one of the two edges
         map1.RemoveEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
@@ -98,6 +98,7 @@ public class UnivMapTest {
         assertFalse(map1.getLabels(A, B).contains(edge2));
         assertTrue(map1.getLabels(B, A).contains(edge2));
 
+        // remove one of the two edges
         map1.RemoveEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
@@ -113,25 +114,30 @@ public class UnivMapTest {
     public void testNodeAndEdgeThrowsIllegalArgumentException() {
         UnivMap map1 = new UnivMap();
         try {
+            // add null node
             map1.AddNode(N);
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
+            // add null edge
             map1.AddEdge(A, B, N);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
+            // add null src
             map1.AddEdge(N, A, edge1);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
+            // add null dst
             map1.AddEdge(A, N, edge1);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
+            // add dup edges
             map1.AddEdge(A, B, edge1);
             map1.AddEdge(A, B, edge1);
             fail("Expected IllegalArgumentException not occurred.");
@@ -149,7 +155,7 @@ public class UnivMapTest {
         }
     }
 
-    /** Tests ListChildren and ListParents accuracy. */
+    /** Tests ListChildren and ListParents operations. */
     @Test
     public void testListChildrenParents() {
         UnivMap map1 = new UnivMap();
@@ -170,8 +176,6 @@ public class UnivMapTest {
         assertFalse(map1.ListParents(A).contains(B));
         assertFalse(map1.ListChildren(B).contains(A));
         assertFalse(map1.ListParents(B).contains(A));
-//        List<String> randomT = new ArrayList<>();
-//        randomT.remove(-1);
 
         // Case 2: Add 2 edges in the same direction
         map1.AddEdge(A, B, edge1);

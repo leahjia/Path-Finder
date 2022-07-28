@@ -49,10 +49,10 @@ I chose an adjacency list, because I want to specify no duplicate labels with th
 tests alone are sufficient.
 
 - Added extra tests for add and remove nodes to make sure of no unexpected errors
-- Used getLabels method in tests to check the exact edges from A to B
+- Used getLabels method in tests to check the exact edges from A to B besides checking contains
 - Updated exception tests for add and remove nodes to not only catch exceptions but make sure
   they were thrown
-- Added more cases for add and remove edge to include both directions
+- Added more cases for add and remove edge to include both directions operate properly
 - Added more cases for list parents and children to include both directions
 - Added exception tests for list parents and list children methods to make sure exceptions are
   thrown as expected.
@@ -62,4 +62,12 @@ tests alone are sufficient.
 If yes, describe your changes and why you made them.
 
 Yes.
+I changed to allow self pointing edge (source = destination) to follow the sample scrip tests.
+Some exceptions are reduced:
+    I changed to allow null or non-existent nodes for both remove methods, since these methods are
+     called to remove elements and the job is already done if nodes are null or don't exist.
+    To improve convenience, when adding edges to non-existent nodes, I changed to add the nodes
+     to the map for the clients instead of throwing exceptions.
+    Null check for contains method is also eliminated because it is not necessary.
+
 
