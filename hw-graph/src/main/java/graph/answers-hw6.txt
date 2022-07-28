@@ -34,9 +34,9 @@ chose it. If you chose to use a different representation than one of the three w
 above, be sure to list its advantages and disadvantages, too.
 
 I chose an adjacency list, because I want to specify no duplicate labels with the same source
-    and destination, but collections/sets allow duplicates; I also want to store information
-    of each edge (weight of the edge), but an adjacency matrix stores only the number of edges.
-    An adjacency list can work with both of these cases, which is why I chose it.
+ and destination, but collections/sets allow duplicates; I also want to store information
+ of each edge (weight of the edge), but an adjacency matrix stores only the number of edges.
+ An adjacency list can work with both of these cases, which is why I chose it.
 
 
 
@@ -61,13 +61,13 @@ tests alone are sufficient.
 2. Did you make any changes to your specifications as you were implementing your Graph? (yes/no)
 If yes, describe your changes and why you made them.
 
-Yes.
+Yes there are some changes.
 I changed to allow self pointing edge (source = destination) to follow the sample scrip tests.
 Some exceptions are reduced:
-    I changed to allow null or non-existent nodes for both remove methods, since these methods are
-     called to remove elements and the job is already done if nodes are null or don't exist.
-    To improve convenience, when adding edges to non-existent nodes, I changed to add the nodes
-     to the map for the clients instead of throwing exceptions.
-    Null check for contains method is also eliminated because it is not necessary.
+- I changed to allow null or non-existent nodes for both remove methods, since these methods are
+  called to remove elements and the job is already done if nodes are null or don't exist.
+- To improve convenience, when adding edges to non-existent nodes, I changed to add the nodes
+  to the map for the clients instead of throwing exceptions.
+- Null check for contains method is also eliminated because it is not necessary.
 
 

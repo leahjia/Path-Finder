@@ -1,5 +1,5 @@
-# University Map list of nodes testing file.
-# Tests that a list of nodes in map can be computed
+# UnivMap list of nodes testing file.
+# Tests that a list of all nodes in map can be computed
 
 # Create a graph
 created graph map1

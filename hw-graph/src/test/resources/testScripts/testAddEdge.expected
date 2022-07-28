@@ -1,5 +1,5 @@
-# University Map new Edge creation testing file.
-# Tests that a single Edge can be created/added to the university map
+# UnivMap adding edges testing file.
+# Tests that edges can be added to the university map
 
 # Create a graph
 created graph map1
