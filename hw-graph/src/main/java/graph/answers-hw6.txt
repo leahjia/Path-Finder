@@ -48,14 +48,12 @@ I chose an adjacency list, because I want to specify no duplicate labels with th
 1. Describe any new tests you added and why you added them, or why you feel that your original
 tests alone are sufficient.
 
-- Added extra tests for adding and removing nodes to make sure of no unexpected errors
-- Added getLabel method in tests to check that edges from A to B contains the exact edge we expect
-- Updated formats of exception tests to not only catch them but make sure the exceptions were
-  actually thrown as expected
-- Separated cases for add and remove edge tests to include adding edges in both directions
-  operates correctly
-- Created several more cases for list parents and children method tests (similar cases
-  for add and remove edge tests)
+- Added extra tests for add and remove nodes to make sure of no unexpected errors
+- Used getLabels method in tests to check the exact edges from A to B
+- Updated exception tests for add and remove nodes to not only catch exceptions but make sure
+  they were thrown
+- Added more cases for add and remove edge to include both directions
+- Added more cases for list parents and children to include both directions
 - Added exception tests for list parents and list children methods to make sure exceptions are
   thrown as expected.
 

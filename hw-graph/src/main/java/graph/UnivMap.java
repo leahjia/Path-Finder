@@ -9,6 +9,9 @@ import java.util.*;
  *  destination node has a unique label.
  */
 public class UnivMap {
+    // RI: either true or false
+    // AF(this) = true when running expensive rep invariant tests, false when running
+    //            only cheap tests
     private static final boolean DEBUG = true;
 
     // The map of nodes and their outgoing edges and destinations
@@ -22,32 +25,33 @@ public class UnivMap {
     //      where i = UnivMap.get(source).get(destination).size(),
     //
     // Abstraction Function:
-    //  AF(this) = a UnivMap, map, such that
-    //   map.keySet() = node 1, node 2, ..., node n, and
-    //   map.get(node 1) = list of outgoing edges from node 1,
-    //      map.get(node 2) = list of outgoing edges from node 2, ...,
-    //      map.get(node n) = list of outgoing edges from node n,
-    //   where n = map.size()
+    //  AF(this) = a map such that
+    //   map.keySet() = {node 1, node 2, ..., node i}, and
+    //   map.get(node i) = an inner map, where each key represents each child node of node i,
+    //      and map.get(node i).get(child j) = {edge 1, edge 2, ..., edge k}.
+    //      i = String representation of node in UnivMap,
+    //      j = String representation of child node of node i, and
+    //      k = label of edge from node i to node j.
     private final Map<String, Map<String, List<String>>> UnivMap;
 
     // Checks representation invariant for the entire map, including
     //  checking nulls for all nodes, their outgoing edges, and duplicate edges
-    //  with the same source and destination
+    //  with the same source and destination.
     private void checkRep() {
         // cheap tests:
         assert !this.contains(null): "Null node";
         // expensive tests:
         if (DEBUG) {
-            for (String source: UnivMap.keySet()) { // take each node
+            for (String source: getNodes()) { // take each node
                 for (String destination: UnivMap.get(source).keySet()) { // go to each child
                     List<String> edges = getLabels(source, destination); // go to list of edges
-                    // verify that edges contains no nulls
+                    // verify no null edges
                     assert !edges.contains(null): "Null edge";
                     int n = edges.size();
                     for (int i = 0; i < n; i++) {
                         for (int j = i + 1; j < n; j++) {
                             // verify no duplicates edges
-                            assert !edges.get(i).equals(edges.get(j)): "Dup edges";
+                            assert !edges.get(i).equals(edges.get(j)): "Duplicate edges";
                         }
                     }
                 }
@@ -65,16 +69,14 @@ public class UnivMap {
 
     /**
      * Adds a node to this map if it does not already exist
-     * @param A the new node to be added to the map
+     * @param A the node to be added to this map
      * @throws IllegalArgumentException if A is null
      * @spec.requires A != null
      * @spec.modifies this
-     * @spec.effects node A is added to this
+     * @spec.effects this with node A in it
      */
     public void AddNode(String A) throws IllegalArgumentException {
         checkRep();
-        // RI: A != null
-        // AF(A) = a node in UnivMap named A
         if (A == null) {
             throw new IllegalArgumentException("Tried to add a null node.");
         }
@@ -83,62 +85,55 @@ public class UnivMap {
     }
 
     /**
-     * Adds a new route from building A to B on the campus map
-     * @param source the source of the new edge
-     * @param destination the destination of this new edge
-     * @param label the Edge from source to destination to be added to the map
-     * @throws IllegalArgumentException if label is null, source is null, or destination is null.
-     * @spec.requires source and destination are different from each other and not null,
-     *                label is not null and is not a duplicate from source to destination
+     * Adds an edge from a source node to a destination node in this map
+     * @param src the source node of the edge
+     * @param dst the destination node of this edge
+     * @param label the edge from source to destination to be added to the map
+     * @throws IllegalArgumentException if label is null, src is null, or dst is null.
+     * @spec.requires src, dst, and label are not null, and edges from src to dst
+     *                do not already contain label.
      * @spec.modifies this
-     * @spec.effects edge named label from source to destination is added to this
+     * @spec.effects edges from src to dst in this now contain label
      */
-    public void AddEdge(String source, String destination, String label)
-            throws IllegalArgumentException {
+    public void AddEdge(String src, String dst, String label) throws IllegalArgumentException {
         checkRep();
-        if (source == null || destination == null || label == null) {
+        if (src == null || dst == null || label == null) {
             throw new IllegalArgumentException("Null node/label received.");
         }
-        if (!this.contains(source)) {
-            this.AddNode(source);
+        if (!this.contains(src)) {
+            this.AddNode(src);
         }
-        if (!this.contains(destination)) {
-            this.AddNode(destination);
+        if (!this.contains(dst)) {
+            this.AddNode(dst);
         }
-        checkRep();
 
-        // RI: label > 0, !equals(source, destination), source != null, destination != null
-        // AF(label) = an edge (named label) from source to destination in this
-        if (UnivMap.get(source).containsKey(destination)) {
-            List<String> existingEdges = getLabels(source, destination);
-            for (String edge : existingEdges) {
-                if (equals(edge, label)) {
-                    throw new IllegalArgumentException("Duplicate edges.");
-                }
+        checkRep();
+        if (UnivMap.get(src).containsKey(dst)) {
+            // there is already a list of edges
+            if (getLabels(src, dst).contains(label)) {
+                throw new IllegalArgumentException("Duplicate edges.");
             }
-            UnivMap.get(source).get(destination).add(label);
+            // adds label to existing edge list
+            UnivMap.get(src).get(dst).add(label);
         } else {
+            // creates an edge list for this label
             List<String> newEdgeList = new ArrayList<>();
             newEdgeList.add(label);
-            UnivMap.get(source).put(destination, newEdgeList);
+            UnivMap.get(src).put(dst, newEdgeList);
         }
-//        UnivMap.get(source).get(destination).add(label);
         checkRep();
     }
 
     /**
-     * Removes a node (if exists) from the map
+     * Removes a node (if exists) and all edges from and to this node from the map
      * @param A the node to be removed from this map
      * @spec.modifies this
-     * @spec.effects node A and all incoming and outgoing edges are removed from this
+     * @spec.effects node A and all its incoming and outgoing edges are removed from this
      */
     public void RemoveNode(String A) {
         checkRep();
-        // RI: same as RI of the class
-        // AF(A) = a node named A
-
         // remove edges that go to A
-        for (String str: UnivMap.keySet()) {
+        for (String str: getNodes()) {
             UnivMap.get(str).remove(A);
         }
         // remove A and its outgoing edges
@@ -148,31 +143,20 @@ public class UnivMap {
 
     /**
      * Removes from the map an edge (if exists) from source node to destination node
-     * @param source the source node of the edge
-     * @param destination the destination node of the edge
+     * @param src the source node of the edge
+     * @param dst the destination node of the edge
      * @param label the label of the edge
-     * @throws NoSuchElementException if this doesn't contain source
-     * @spec.requires source != null, destination != null, and UnivMap.contains(source)
-     * @spec.modifies this.UnivMap
+     * @spec.modifies this
      * @spec.effects edge named label from source to destination is removed from this
      */
-    public void RemoveEdge(String source, String destination, String label)
-            throws IllegalArgumentException, NoSuchElementException {
+    public void RemoveEdge(String src, String dst, String label)  {
         checkRep();
-        if (!this.contains(source)) {
-            throw new NoSuchElementException("Source not in map.");
-        }
-
-        // RI: !equals(source, destination), this.contains(source)
-        // AF(this) = an edge from source to destination with given label
-        List<String> ListLabels = getLabels(source, destination);
-        for (int i = ListLabels.size() - 1; i >= 0; i--) {
-            if (ListLabels.get(i).equals(label)) {
-                UnivMap.get(source).get(destination).remove(i);
-                if (getLabels(source, destination).size() == 0) {
-                    // get rid of empty list with no edges
-                    UnivMap.get(source).remove(destination);
-                }
+        List<String> labels = getLabels(src, dst);
+        if (labels.contains(label)) {
+            UnivMap.get(src).get(dst).remove(labels.indexOf(label));
+            if (labels.size() == 1) { // actual size is 0 after remove
+                // get rid of empty list with no edges
+                UnivMap.get(src).remove(dst);
             }
         }
         checkRep();
@@ -180,11 +164,11 @@ public class UnivMap {
 
 
     /**
-     * Lists all the nodes that can be directly reached from source
+     * Lists all the nodes that can be directly reached from given source node
      * @param A the source node
      * @throws IllegalArgumentException if A is null
      * @throws NoSuchElementException if !UnivMap.contains(A)
-     * @return A List of nodes that are direct destinations from source A
+     * @return A list of nodes that are direct destinations from source A
      * @spec.requires A != null and UnivMap.contains(A)
      */
     public List<String> ListChildren(String A)
@@ -198,20 +182,17 @@ public class UnivMap {
         }
         checkRep();
 
-        // RI: A != null, this.contains(A)
-        // AF(A) = a node in UnivMap named A
-        // AF(output) = List<all children nodes of A in UnivMap>
         List<String> output = new ArrayList<>(UnivMap.get(A).keySet());
         checkRep();
         return output;
     }
 
     /**
-     * Lists all the nodes that can directly reach the given destination node
+     * Lists all the nodes that can directly reach given destination node
      * @param A the destination node we want to find the parents of
      * @throws IllegalArgumentException if A is null
      * @throws NoSuchElementException if !UnivMap.contains(A)
-     * @return List of all the Nodes that are parents of node A
+     * @return List of all the nodes that can directly reach A
      * @spec.requires A != null and UnivMap.contains(A)
      */
     public List<String> ListParents(String A)
@@ -225,10 +206,8 @@ public class UnivMap {
         }
         checkRep();
 
-        // RI: A != null, this.contains(A)
-        // AF(output) = List<all parent nodes of A in UnivMap>
         List<String> output = new ArrayList<>();
-        for (String str: UnivMap.keySet()) {
+        for (String str: getNodes()) {
             if (UnivMap.get(str).containsKey(A)) {
                 output.add(str);
             }
@@ -239,47 +218,32 @@ public class UnivMap {
 
     /**
      * Lists all the nodes in this
-     * @return Copy of list of all nodes in this map
+     * @return List of all nodes in this map
      */
     public List<String> getNodes() {
-        // RI: Same as the class
-        // AF(this) = List of all nodes in this map
         return new ArrayList<>(UnivMap.keySet());
     }
 
     /**
-     * Lists all the nodes that can directly reach the given destination node
-     * @param source the source node of the edges
-     * @param destination the destination node of the edges
-     * @return Copy of list of all edges from source node to destination node
+     * Lists all the edges from given source node to given destination node
+     * @param src the source node of the edges
+     * @param dst the destination node of the edges
+     * @return list of all edges from src to dst
      */
-    public List<String> getLabels(String source, String destination) {
-        // RI: Same as the class
-        // AF(this) = List of all labels from source node to destination node
-        if (!this.contains(source) || !UnivMap.get(source).containsKey(destination)) {
+    public List<String> getLabels(String src, String dst) {
+        if (!this.contains(src) || !UnivMap.get(src).containsKey(dst)) {
             return new ArrayList<>();
         }
-        return new ArrayList<>(UnivMap.get(source).get(destination));
+        return new ArrayList<>(UnivMap.get(src).get(dst));
     }
 
     /**
      * Checks if this map contains node A
-     * @param A node to be checked on the map
-     * @return a boolean that is true if A exists in UnivMap and false otherwise
+     * @param A the node to be checked in this
+     * @return a boolean that is true if this contains A and false otherwise
      */
     public boolean contains(String A) {
-        // RI: same as the class
-        // AF(this) = boolean whether A is in map
         return UnivMap.containsKey(A);
-    }
-
-
-    // private method to check if A and B are the same
-    private boolean equals(String A, String B) {
-        checkRep();
-        // RI: same as the class
-        // AF(this) = boolean whether A and B are the same
-        return A.hashCode() == B.hashCode();
     }
 
 //    @Override

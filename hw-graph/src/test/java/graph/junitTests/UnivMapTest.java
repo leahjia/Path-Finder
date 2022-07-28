@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.junit.Rule;
 import org.junit.rules.Timeout;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.junit.Assert.*;
@@ -136,9 +138,11 @@ public class UnivMapTest {
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
-            map1.RemoveEdge(C, D, edge1);
-            fail("Expected NoSuchElementException not occurred.");
-        } catch (NoSuchElementException e) {
+            // remove non-existent edge from A to B
+            map1.AddEdge(A, B, edge1);
+            map1.RemoveEdge(A, B, edge2);
+            fail("Expected IllegalArgumentException not occurred.");
+        } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } finally {
             System.out.close();
@@ -166,6 +170,8 @@ public class UnivMapTest {
         assertFalse(map1.ListParents(A).contains(B));
         assertFalse(map1.ListChildren(B).contains(A));
         assertFalse(map1.ListParents(B).contains(A));
+//        List<String> randomT = new ArrayList<>();
+//        randomT.remove(-1);
 
         // Case 2: Add 2 edges in the same direction
         map1.AddEdge(A, B, edge1);
