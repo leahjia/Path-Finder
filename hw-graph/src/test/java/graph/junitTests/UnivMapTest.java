@@ -17,8 +17,8 @@ public class UnivMapTest {
     String B = "B";
     String C = "C";
     String D = "D";
-    String edge1 = "1";
-    String edge2 = "2";
+    String edge1 = "e1";
+    String edge2 = "e2";
 
     /** Tests add and remove nodes successful. */
     @Test
@@ -45,21 +45,6 @@ public class UnivMapTest {
         map1.RemoveNode(N);
         assertFalse(map1.contains(D));
         assertFalse(map1.contains(N));
-    }
-
-    /**
-     * Tests that AddNode throws IllegalArgumentException when adding duplicate node
-     */
-    @Test
-    public void testAddNodeThrowsIllegalArgumentException() {
-        UnivMap map1 = new UnivMap();
-        try {
-            map1.AddNode(N);
-        } catch (IllegalArgumentException e) {
-            e.getStackTrace();
-        } finally {
-            System.out.close();
-        }
     }
 
     /** Tests add and remove edges operate correctly.
@@ -123,9 +108,13 @@ public class UnivMapTest {
     /** Tests add and remove edges throw exceptions when needed.
      */
     @Test
-    public void testAddRemoveEdgeThrowsIllegalArgumentException() {
+    public void testNodeAndEdgeThrowsIllegalArgumentException() {
         UnivMap map1 = new UnivMap();
         try {
+            map1.AddNode(N);
+        } catch (IllegalArgumentException e) {
+            e.getStackTrace();
+        } try {
             map1.AddEdge(A, B, N);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
@@ -166,7 +155,6 @@ public class UnivMapTest {
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
         assertTrue(map1.ListChildren(A).contains(B));
-        assertEquals("[B]", map1.ListChildren(A).toString());
         assertFalse(map1.ListParents(A).contains(B));
         assertFalse(map1.ListChildren(B).contains(A));
         assertTrue(map1.ListParents(B).contains(A));
@@ -224,7 +212,7 @@ public class UnivMapTest {
      * passing in null value or non-existent nodes in map
      */
     @Test
-    public void testRemoveThrowsIllegalArgumentException() {
+    public void testListThrowsIllegalArgumentException() {
         UnivMap map1 = new UnivMap();
         try {
             map1.ListChildren(N);

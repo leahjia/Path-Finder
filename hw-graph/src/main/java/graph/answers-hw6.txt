@@ -19,13 +19,11 @@ complexity, or ease of implementation).
 
 A: Advantage:    Collections are easier to implement.
    Disadvantage: Collections do not maintain an order.
-B: Advantage:    It reduces memory usage because it stores information in two-dimensional arrays.
-                 Adding new nodes and searching through neighbor nodes takes less runtime than
-                 adjacency matrices.
+B: Advantage:    It reduces memory usage by storing information in two-dimensional arrays.
+                 Adding new nodes and searching through neighbor nodes takes less runtime.
    Disadvantage: Finding a specific edge from A to B can take longer time, for it has to search
                  through the list of all edges.
-C: Advantage:    Adjacency matrices make it easier to store constant factors and less runtime
-                 to remove edges.
+C: Advantage:    Adjacency matrices are faster in computing whether there is connection from A to B.
    Disadvantage: The space complexity of adjacency matrices is n * n, and higher runtime when
                  adding new nodes and searching through neighbor nodes.
 
@@ -50,11 +48,20 @@ I chose an adjacency list, because I want to specify no duplicate labels with th
 1. Describe any new tests you added and why you added them, or why you feel that your original
 tests alone are sufficient.
 
-
+- Added extra tests for adding and removing nodes to make sure of no unexpected errors
+- Added getLabel method in tests to check that edges from A to B contains the exact edge we expect
+- Updated formats of exception tests to not only catch them but make sure the exceptions were
+  actually thrown as expected
+- Separated cases for add and remove edge tests to include adding edges in both directions
+  operates correctly
+- Created several more cases for list parents and children method tests (similar cases
+  for add and remove edge tests)
+- Added exception tests for list parents and list children methods to make sure exceptions are
+  thrown as expected.
 
 
 2. Did you make any changes to your specifications as you were implementing your Graph? (yes/no)
 If yes, describe your changes and why you made them.
 
-
+Yes.
 
