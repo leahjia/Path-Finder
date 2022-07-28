@@ -222,7 +222,7 @@ public class UnivMapTest {
      * passing in null value or non-existent nodes in map
      */
     @Test
-    public void testListThrowsIllegalArgumentException() {
+    public void testListChildrenParentsThrowsIllegalArgumentException() {
         UnivMap map1 = new UnivMap();
         try {
             map1.ListChildren(N);

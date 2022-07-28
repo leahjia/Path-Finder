@@ -181,11 +181,9 @@ public class UnivMap {
         if (!this.contains(A)) {
             throw new NoSuchElementException("Node does not exist.");
         }
-        checkRep();
 
-        List<String> output = new ArrayList<>(UnivMap.get(A).keySet());
         checkRep();
-        return output;
+        return new ArrayList<>(UnivMap.get(A).keySet());
     }
 
     /**
@@ -205,7 +203,6 @@ public class UnivMap {
         if (!this.contains(A)) {
             throw new NoSuchElementException("Node does not exist.");
         }
-        checkRep();
 
         List<String> output = new ArrayList<>();
         for (String str: getNodes()) {
@@ -246,10 +243,5 @@ public class UnivMap {
     public boolean contains(String A) {
         return UnivMap.containsKey(A);
     }
-
-//    @Override
-//    public int hashCode() {
-//        return super.hashCode();
-//    }
 
 }
