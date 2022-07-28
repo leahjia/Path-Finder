@@ -4,12 +4,9 @@ import java.util.List;
 import java.util.*;
 
 /**
- * UnivMap is a mutable representation of the campus map with nodes and edges, where
- *  the nodes represent the buildings and edges represent routes from one node to another.
- *
- * Abstract Invariant:
- *  All nodes and edges must not be null, and edges with the same source and destination
- *   have unique labels
+ * UnivMap represents a mutable map of nodes and edges, where each node and each edge
+ *  is represented by a non-null String, and each edge with the same source node and
+ *  destination node has a unique label.
  */
 public class UnivMap {
     private static final boolean DEBUG = true;
@@ -59,15 +56,15 @@ public class UnivMap {
     }
 
     /**
-     * Constructs an empty UnivMap which is a mutable HashMap
-     * @spec.effects this = a new empty HashMap
+     * Constructs an empty UnivMap
+     * @spec.effects this = a new empty UnivMap
      */
     public UnivMap() {
         this.UnivMap = new HashMap<>();
     }
 
     /**
-     * Adds a node to this map, if it does not already exist
+     * Adds a node to this map if it does not already exist
      * @param A the new node to be added to the map
      * @throws IllegalArgumentException if A is null
      * @spec.requires A != null
@@ -276,6 +273,7 @@ public class UnivMap {
         return UnivMap.containsKey(A);
     }
 
+
     // private method to check if A and B are the same
     private boolean equals(String A, String B) {
         checkRep();
@@ -283,4 +281,9 @@ public class UnivMap {
         // AF(this) = boolean whether A and B are the same
         return A.hashCode() == B.hashCode();
     }
+
+//    @Override
+//    public int hashCode() {
+//        return super.hashCode();
+//    }
 }
