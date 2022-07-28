@@ -1,7 +1,9 @@
 # University Map new Edge creation testing file.
 # Tests that a single Edge can be created/added to the university map
 
-# Add a pair of edges
+# Create a graph
 created graph map1
+
+# Add a pair of edges
 added edge e1 from n1 to n2 in map1
 added edge e2 from n2 to n1 in map1

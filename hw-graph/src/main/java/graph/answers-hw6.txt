@@ -17,13 +17,17 @@ A few examples of possible Graph representations:
 representations listed above (for example, in terms of runtime complexity, space
 complexity, or ease of implementation).
 
-A: Advantage: element search in collections results in faster runtime.
-   Disadvantage: elements in the collection are unordered and may contain duplicate elements.
-B: Advantage: it reduces memory usage because it stores information in two-dimensional arrays.
-   Disadvantage:
-C: Advantage: matrices make it easier to store constant factors and less runtime to remove edges.
-   Disadvantage: the space complexity of adjacency matrices is n * n, and higher runtime when
-   adding new nodes and searching through neighbor nodes.
+A: Advantage:    Collections are easier to implement.
+   Disadvantage: Collections do not maintain an order.
+B: Advantage:    It reduces memory usage because it stores information in two-dimensional arrays.
+                 Adding new nodes and searching through neighbor nodes takes less runtime than
+                 adjacency matrices.
+   Disadvantage: Finding a specific edge from A to B can take longer time, for it has to search
+                 through the list of all edges.
+C: Advantage:    Adjacency matrices make it easier to store constant factors and less runtime
+                 to remove edges.
+   Disadvantage: The space complexity of adjacency matrices is n * n, and higher runtime when
+                 adding new nodes and searching through neighbor nodes.
 
 
 

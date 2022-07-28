@@ -73,6 +73,7 @@ public class UnivMap {
     /**
      * Adds a node to this map, if it does not already exist
      * @param A the new node to be added to the map
+     * @throws IllegalArgumentException if A is null
      * @spec.requires A != null
      * @spec.modifies this
      * @spec.effects node A is added to this
@@ -93,8 +94,7 @@ public class UnivMap {
      * @param source the source of the new edge
      * @param destination the destination of this new edge
      * @param label the Edge from source to destination to be added to the map
-     * @throws IllegalArgumentException if label is not positive, source == null,
-     *         or destination == null.
+     * @throws IllegalArgumentException if label is null, source is null, or destination is null.
      * @spec.requires source and destination are different from each other and not null,
      *                label is not null and is not a duplicate from source to destination
      * @spec.modifies this
@@ -129,6 +129,7 @@ public class UnivMap {
             newEdgeList.add(label);
             UnivMap.get(source).put(destination, newEdgeList);
         }
+//        UnivMap.get(source).get(destination).add(label);
         checkRep();
     }
 
@@ -208,8 +209,6 @@ public class UnivMap {
         // AF(A) = a node in UnivMap named A
         // AF(output) = List<all children nodes of A in UnivMap>
         List<String> output = new ArrayList<>(UnivMap.get(A).keySet());
-        // for (String str: UnivMap.get(A).keySet()) {output.add(str);}
-        // output.addAll(UnivMap.get(A).keySet());
         checkRep();
         return output;
     }

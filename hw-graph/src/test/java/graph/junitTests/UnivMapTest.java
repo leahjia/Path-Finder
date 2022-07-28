@@ -166,6 +166,7 @@ public class UnivMapTest {
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
         assertTrue(map1.ListChildren(A).contains(B));
+        assertEquals("[B]", map1.ListChildren(A).toString());
         assertFalse(map1.ListParents(A).contains(B));
         assertFalse(map1.ListChildren(B).contains(A));
         assertTrue(map1.ListParents(B).contains(A));
