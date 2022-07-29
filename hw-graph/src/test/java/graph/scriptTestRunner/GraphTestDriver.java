@@ -204,6 +204,7 @@ public class GraphTestDriver {
             str.append(child);
             str.append("(");
             List<String> edges = map1.getLabels(parentName, child);
+            // find edge label for this child node
             for (String edge: edges) {
                 str.append(edge);
                 if (edges.indexOf(edge) < edges.size() - 1) {
