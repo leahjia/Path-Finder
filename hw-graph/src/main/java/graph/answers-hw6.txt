@@ -61,8 +61,8 @@ tests alone are sufficient.
 2. Did you make any changes to your specifications as you were implementing your Graph? (yes/no)
 If yes, describe your changes and why you made them.
 
-Yes there are some changes.
-I changed to allow self pointing edge (source = destination) to follow the sample scrip tests.
+Yes, there are some changes.
+I changed to allow self pointing edge (source = destination) because it's an additional functionality.
 Some exceptions are reduced:
 - I changed to allow null or non-existent nodes for both remove methods, since these methods are
   called to remove elements and the job is already done if nodes are null or don't exist.

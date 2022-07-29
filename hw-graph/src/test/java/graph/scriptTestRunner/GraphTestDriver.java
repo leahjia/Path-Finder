@@ -175,21 +175,12 @@ public class GraphTestDriver {
     private void listNodes(String graphName) {
         // Done Insert your code here.
         List<String> printOutput = graphs.get(graphName).getNodes();
-
         StringBuilder str = new StringBuilder();
-        if (printOutput.size() > 0) {
-            str.append(printOutput.get(0));
-            for (int i = 1; i < printOutput.size(); i++) {
-                str.append(" ");
-                str.append(printOutput.get(i));
-            }
-            // ___ = graphs.get(graphName);
-            output.println(graphName + " contains: " + str);
-        } else {
-            // ___ = graphs.get(graphName);
-            output.println(graphName + " contains:");
+        for (String node: printOutput) {
+            str.append(" ");
+            str.append(node);
         }
-
+        output.println(graphName + " contains:" + str);
     }
 
     private void listChildren(List<String> arguments) {

@@ -42,9 +42,9 @@ public class UnivMap {
         assert !this.contains(null): "Null node";
         // expensive tests:
         if (DEBUG) {
-            for (String source: getNodes()) { // take each node
-                for (String destination: UnivMap.get(source).keySet()) { // go to each child
-                    List<String> edges = getLabels(source, destination); // go to list of edges
+            for (String src: UnivMap.keySet()) { // take each node
+                for (String dst: UnivMap.get(src).keySet()) { // go to each child
+                    List<String> edges = new ArrayList<>(UnivMap.get(src).get(dst)); // go to list of edges
                     // verify no null edges
                     assert !edges.contains(null): "Null edge";
                     int n = edges.size();
@@ -181,9 +181,9 @@ public class UnivMap {
         if (!this.contains(A)) {
             throw new NoSuchElementException("Node does not exist.");
         }
-
+        List<String> output = new ArrayList<>(UnivMap.get(A).keySet());
         checkRep();
-        return new ArrayList<>(UnivMap.get(A).keySet());
+        return output;
     }
 
     /**
@@ -219,7 +219,9 @@ public class UnivMap {
      * @return List of all nodes in this map
      */
     public List<String> getNodes() {
-        return new ArrayList<>(UnivMap.keySet());
+        List<String> output = new ArrayList<>(UnivMap.keySet());
+        checkRep();
+        return output;
     }
 
     /**
@@ -232,7 +234,9 @@ public class UnivMap {
         if (!this.contains(src) || !UnivMap.get(src).containsKey(dst)) {
             return new ArrayList<>();
         }
-        return new ArrayList<>(UnivMap.get(src).get(dst));
+        List<String> output = new ArrayList<>(UnivMap.get(src).get(dst));
+        checkRep();
+        return output;
     }
 
     /**

@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.junit.Rule;
 import org.junit.rules.Timeout;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.junit.Assert.*;
@@ -16,7 +18,6 @@ public class UnivMapTest {
     String A = "A";
     String B = "B";
     String C = "C";
-    String D = "D";
     String edge1 = "e1";
     String edge2 = "e2";
 
@@ -42,16 +43,16 @@ public class UnivMapTest {
 
         // remove non-existent and null nodes without errors
         map1 = new UnivMap();
-        map1.RemoveNode(D);
+        map1.RemoveNode(C);
         map1.RemoveNode(N);
-        assertFalse(map1.contains(D));
+        assertFalse(map1.contains(C));
         assertFalse(map1.contains(N));
     }
 
-    /** Tests add and remove edges operate correctly.
+    /** Tests add and remove edges operate correctly with getLabels and contains.
      */
     @Test
-    public void testAddRemoveEdge() {
+    public void testAddRemoveEdgeContainsLabels() {
         UnivMap map1 = new UnivMap();
 
         // Case 1: add & remove one label
@@ -73,8 +74,8 @@ public class UnivMapTest {
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
         assertTrue(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
         assertTrue(map1.getLabels(A, B).contains(edge2));
+        assertFalse(map1.getLabels(B, A).contains(edge1));
         assertFalse(map1.getLabels(B, A).contains(edge2));
 
         // remove one of the two edges
@@ -94,8 +95,8 @@ public class UnivMapTest {
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
         assertTrue(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
         assertFalse(map1.getLabels(A, B).contains(edge2));
+        assertFalse(map1.getLabels(B, A).contains(edge1));
         assertTrue(map1.getLabels(B, A).contains(edge2));
 
         // remove one of the two edges
@@ -246,5 +247,22 @@ public class UnivMapTest {
             e.getStackTrace();
         }
     }
+
+    /**
+     * Tests that getNodes return correct nodes in map
+     */
+    @Test
+    public void testGetNodes() {
+        UnivMap map1 = new UnivMap();
+        map1.AddNode(A);
+        map1.AddNode(B);
+        map1.AddNode(C);
+        List<String> nodeList = map1.getNodes();
+        assertTrue(nodeList.contains(A));
+        assertTrue(nodeList.contains(B));
+        assertTrue(nodeList.contains(C));
+    }
+
+
 
 }
