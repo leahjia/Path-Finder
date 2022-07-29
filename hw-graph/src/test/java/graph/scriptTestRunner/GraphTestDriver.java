@@ -134,9 +134,8 @@ public class GraphTestDriver {
 
     private void addNode(String graphName, String nodeName) {
         // Done Insert your code here.
-        graphs.get(graphName).AddNode(nodeName);
-
         UnivMap map1 = graphs.get(graphName);
+        map1.AddNode(nodeName);
         output.println("added node " + nodeName + " to " + graphName);
     }
 
@@ -156,9 +155,8 @@ public class GraphTestDriver {
     private void addEdge(String graphName, String parentName, String childName,
                          String edgeLabel) {
         // Done Insert your code here.
-        graphs.get(graphName).AddEdge(parentName, childName, edgeLabel);
-
         UnivMap map1 = graphs.get(graphName);
+        map1.AddEdge(parentName, childName, edgeLabel);
         output.println("added edge " + edgeLabel + " from " + parentName +
                 " to " + childName + " in " + graphName);
     }
@@ -174,14 +172,14 @@ public class GraphTestDriver {
 
     private void listNodes(String graphName) {
         // Done Insert your code here.
-        List<String> printOutput = graphs.get(graphName).getNodes();
+        UnivMap map1 = graphs.get(graphName);
+        List<String> printOutput = map1.getNodes();
         Arrays.sort(printOutput.toArray());
         StringBuilder str = new StringBuilder();
         for (String node: printOutput) {
             str.append(" ");
             str.append(node);
         }
-        UnivMap map1 = graphs.get(graphName);
         output.println(graphName + " contains:" + str);
     }
 
@@ -197,14 +195,15 @@ public class GraphTestDriver {
 
     private void listChildren(String graphName, String parentName) {
         // Done Insert your code here.
-        List<String> childrenList = graphs.get(graphName).ListChildren(parentName);
+        UnivMap map1 = graphs.get(graphName);
+        List<String> childrenList = map1.ListChildren(parentName);
         Arrays.sort(childrenList.toArray());
         StringBuilder str = new StringBuilder();
         for (String child: childrenList) {
             str.append(" ");
             str.append(child);
             str.append("(");
-            List<String> edges = graphs.get(graphName).getLabels(parentName, child);
+            List<String> edges = map1.getLabels(parentName, child);
             for (String edge: edges) {
                 str.append(edge);
                 if (edges.indexOf(edge) < edges.size() - 1) {
@@ -213,8 +212,6 @@ public class GraphTestDriver {
             }
             str.append(")");
         }
-
-        UnivMap map1 = graphs.get(graphName);
         output.println("the children of " + parentName + " in " + graphName +
                 " are:" + str);
     }
