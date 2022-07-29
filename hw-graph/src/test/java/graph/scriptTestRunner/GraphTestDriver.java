@@ -136,7 +136,7 @@ public class GraphTestDriver {
         // Done Insert your code here.
         graphs.get(graphName).AddNode(nodeName);
 
-//        ___ = graphs.get(graphName);
+        UnivMap map1 = graphs.get(graphName);
         output.println("added node " + nodeName + " to " + graphName);
     }
 
@@ -158,7 +158,7 @@ public class GraphTestDriver {
         // Done Insert your code here.
         graphs.get(graphName).AddEdge(parentName, childName, edgeLabel);
 
-//        ___ = graphs.get(graphName);
+        UnivMap map1 = graphs.get(graphName);
         output.println("added edge " + edgeLabel + " from " + parentName +
                 " to " + childName + " in " + graphName);
     }
@@ -175,11 +175,13 @@ public class GraphTestDriver {
     private void listNodes(String graphName) {
         // Done Insert your code here.
         List<String> printOutput = graphs.get(graphName).getNodes();
+        Arrays.sort(printOutput.toArray());
         StringBuilder str = new StringBuilder();
         for (String node: printOutput) {
             str.append(" ");
             str.append(node);
         }
+        UnivMap map1 = graphs.get(graphName);
         output.println(graphName + " contains:" + str);
     }
 
@@ -196,22 +198,25 @@ public class GraphTestDriver {
     private void listChildren(String graphName, String parentName) {
         // Done Insert your code here.
         List<String> childrenList = graphs.get(graphName).ListChildren(parentName);
+        Arrays.sort(childrenList.toArray());
         StringBuilder str = new StringBuilder();
         for (String child: childrenList) {
+            str.append(" ");
             str.append(child);
             str.append("(");
             List<String> edges = graphs.get(graphName).getLabels(parentName, child);
-            str.append(edges.get(0));
-            for (int j = 1; j < edges.size(); j++) {
-                str.append(" ");
-                str.append(edges.get(j));
+            for (String edge: edges) {
+                str.append(edge);
+                if (edges.indexOf(edge) < edges.size() - 1) {
+                    str.append(" ");
+                }
             }
-            str.append(") ");
+            str.append(")");
         }
 
-        // ___ = graphs.get(graphName);
-        output.println("the children of " + parentName + " in " + graphName + " are: " +
-                str.substring(0, str.lastIndexOf(" ")));
+        UnivMap map1 = graphs.get(graphName);
+        output.println("the children of " + parentName + " in " + graphName +
+                " are:" + str);
     }
 
     /**

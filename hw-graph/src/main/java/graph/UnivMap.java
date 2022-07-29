@@ -12,7 +12,7 @@ public class UnivMap {
     // RI: either true or false
     // AF(this) = true when running expensive rep invariant tests, false when running
     //            only cheap tests
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     // The map of nodes and their outgoing edges and destinations
     // Representation Invariant:

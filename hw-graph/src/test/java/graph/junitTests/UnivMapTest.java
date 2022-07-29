@@ -20,6 +20,12 @@ public class UnivMapTest {
     String C = "C";
     String edge1 = "e1";
     String edge2 = "e2";
+    private static final List<String> edgeList1 = new ArrayList<>();
+    private static final List<String> edgeList2 = new ArrayList<>();
+    private static final List<String> edgeList12 = new ArrayList<>();
+    private static final List<String> edgeListA = new ArrayList<>();
+    private static final List<String> edgeListB = new ArrayList<>();
+    private static final List<String> edgeListEmpty = new ArrayList<>();
 
     /** Tests add and remove nodes successful. */
     @Test
@@ -54,38 +60,34 @@ public class UnivMapTest {
     @Test
     public void testAddRemoveEdgeContainsLabels() {
         UnivMap map1 = new UnivMap();
+        edgeList1.add(edge1);
+        edgeList2.add(edge2);
+        edgeList12.add(edge1);
+        edgeList12.add(edge2);
 
         // Case 1: add & remove one label
         map1.AddEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertTrue(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
+        assertEquals(map1.getLabels(A, B), edgeList1);
 
         map1.RemoveEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertFalse(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
+        assertEquals(map1.getLabels(A, B), new ArrayList<>());
 
         // Case 2: Add 2 edges in the same direction
         map1.AddEdge(A, B, edge1);
         map1.AddEdge(A, B, edge2);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertTrue(map1.getLabels(A, B).contains(edge1));
-        assertTrue(map1.getLabels(A, B).contains(edge2));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge2));
+        assertEquals(map1.getLabels(A, B), edgeList12);
 
         // remove one of the two edges
         map1.RemoveEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertFalse(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
-        assertTrue(map1.getLabels(A, B).contains(edge2));
-        assertFalse(map1.getLabels(B, A).contains(edge2));
+        assertEquals(map1.getLabels(A, B), edgeList2);
 
         // Case 3: Add 2 edges in the opposite direction
         map1 = new UnivMap();
@@ -94,19 +96,14 @@ public class UnivMapTest {
         map1.AddEdge(B, A, edge2);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertTrue(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(A, B).contains(edge2));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
-        assertTrue(map1.getLabels(B, A).contains(edge2));
+        assertEquals(map1.getLabels(A, B), edgeList1);
+        assertEquals(map1.getLabels(B, A), edgeList2);
 
         // remove one of the two edges
         map1.RemoveEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertFalse(map1.getLabels(A, B).contains(edge1));
-        assertFalse(map1.getLabels(B, A).contains(edge1));
-        assertFalse(map1.getLabels(A, B).contains(edge2));
-        assertTrue(map1.getLabels(B, A).contains(edge2));
+        assertEquals(map1.getLabels(B, A), edgeList2);
     }
 
     /** Tests add and remove edges throw exceptions when needed.
@@ -160,41 +157,43 @@ public class UnivMapTest {
     @Test
     public void testListChildrenParents() {
         UnivMap map1 = new UnivMap();
+        edgeListA.add(A);
+        edgeListB.add(B);
 
         // Case 1: add & remove one label
         map1.AddEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertTrue(map1.ListChildren(A).contains(B));
-        assertFalse(map1.ListParents(A).contains(B));
-        assertFalse(map1.ListChildren(B).contains(A));
-        assertTrue(map1.ListParents(B).contains(A));
+        assertEquals(map1.ListChildren(A), edgeListB);
+        assertEquals(map1.ListParents(B), edgeListA);
+        assertEquals(map1.ListParents(A), edgeListEmpty);
+        assertEquals(map1.ListChildren(B), edgeListEmpty);
 
         map1.RemoveEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertFalse(map1.ListChildren(A).contains(B));
-        assertFalse(map1.ListParents(A).contains(B));
-        assertFalse(map1.ListChildren(B).contains(A));
-        assertFalse(map1.ListParents(B).contains(A));
+        assertEquals(map1.ListChildren(A), edgeListEmpty);
+        assertEquals(map1.ListParents(A), edgeListEmpty);
+        assertEquals(map1.ListChildren(B), edgeListEmpty);
+        assertEquals(map1.ListParents(B), edgeListEmpty);
 
         // Case 2: Add 2 edges in the same direction
         map1.AddEdge(A, B, edge1);
         map1.AddEdge(A, B, edge2);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertTrue(map1.ListChildren(A).contains(B));
-        assertFalse(map1.ListParents(A).contains(B));
-        assertFalse(map1.ListChildren(B).contains(A));
-        assertTrue(map1.ListParents(B).contains(A));
+        assertEquals(map1.ListChildren(A), edgeListB);
+        assertEquals(map1.ListParents(A), edgeListEmpty);
+        assertEquals(map1.ListParents(B), edgeListA);
+        assertEquals(map1.ListChildren(B), edgeListEmpty);
 
         map1.RemoveEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertTrue(map1.ListChildren(A).contains(B));
-        assertFalse(map1.ListParents(A).contains(B));
-        assertFalse(map1.ListChildren(B).contains(A));
-        assertTrue(map1.ListParents(B).contains(A));
+        assertEquals(map1.ListChildren(A), edgeListB);
+        assertEquals(map1.ListParents(A), edgeListEmpty);
+        assertEquals(map1.ListParents(B), edgeListA);
+        assertEquals(map1.ListChildren(B), edgeListEmpty);
 
 
         // Case 3: Add 2 edges in the opposite direction
@@ -204,18 +203,18 @@ public class UnivMapTest {
         map1.AddEdge(B, A, edge2);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertTrue(map1.ListChildren(A).contains(B));
-        assertTrue(map1.ListParents(A).contains(B));
-        assertTrue(map1.ListChildren(B).contains(A));
-        assertTrue(map1.ListParents(B).contains(A));
+        assertEquals(map1.ListChildren(A), edgeListB);
+        assertEquals(map1.ListParents(A), edgeListB);
+        assertEquals(map1.ListChildren(B), edgeListA);
+        assertEquals(map1.ListParents(B), edgeListA);
 
         map1.RemoveEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertFalse(map1.ListChildren(A).contains(B));
-        assertTrue(map1.ListParents(A).contains(B));
-        assertTrue(map1.ListChildren(B).contains(A));
-        assertFalse(map1.ListParents(B).contains(A));
+        assertEquals(map1.ListChildren(A), edgeListEmpty);
+        assertEquals(map1.ListParents(A), edgeListB);
+        assertEquals(map1.ListChildren(B), edgeListA);
+        assertEquals(map1.ListParents(B), edgeListEmpty);
     }
 
     /**
@@ -254,9 +253,9 @@ public class UnivMapTest {
     @Test
     public void testGetNodes() {
         UnivMap map1 = new UnivMap();
-        map1.AddNode(A);
-        map1.AddNode(B);
         map1.AddNode(C);
+        map1.AddNode(B);
+        map1.AddNode(A);
         List<String> nodeList = map1.getNodes();
         assertTrue(nodeList.contains(A));
         assertTrue(nodeList.contains(B));

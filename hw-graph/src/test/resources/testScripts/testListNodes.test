@@ -5,9 +5,9 @@
 CreateGraph map1
 
 # Add nodes
-AddNode map1 n1
-AddNode map1 n2
 AddNode map1 n3
+AddNode map1 n2
+AddNode map1 n1
 
 # Finds the nodes of map1
 ListNodes map1
