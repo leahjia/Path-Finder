@@ -22,19 +22,22 @@ import java.util.*;
  */
 public class TaskSorter {
 
-    // TODO: Enter private Graph field here with description
+    // DONE: Enter private Graph field here with description
     // nodes of Graphs should be Task objects,
     // and edges should be Dependency objects.
     // You don't have to write an abstraction function or
     // representation invariant for this class.
 
+    // The map of nodes and their outgoing edges and destination nodes, where
+    //  the nodes represent the Task objects and the edges represent Dependency objects.
+    private final UnivMap<Task> map;
+
     /**
      * Creates a new TaskSorter object with no added tasks or dependencies.
      */
     public TaskSorter() {
-        // TODO: Implement creating an empty graph.
-
-        throw new RuntimeException("not yet implemented");
+        // DONE: Implement creating an empty graph.
+        map = new UnivMap<>();
     }
 
     /**
@@ -45,10 +48,11 @@ public class TaskSorter {
      * @spec.requires t != null
      */
     public void addTask(Task t) {
-        // TODO: Implement adding a Task as a node.
+        // DONE: Implement adding a Task as a node.
         //       Do nothing if the task exists already.
-
-        throw new RuntimeException("not yet implemented");
+        if (!map.contains(t)) {
+            map.AddNode(t);
+        }
     }
 
     /**
@@ -56,9 +60,8 @@ public class TaskSorter {
      * @return A set of all tasks in this TaskSorter.
      */
     public Set<Task> getTasks() {
-        // TODO: Implement getting all the tasks (nodes) in the graph.
-
-        throw new RuntimeException("not yet implemented");
+        // DONE: Implement getting all the tasks (nodes) in the graph.
+        return new HashSet<>(map.getNodes());
     }
 
     /**
@@ -73,12 +76,14 @@ public class TaskSorter {
         Task before = dep.getBeforeTask();
         Task after = dep.getAfterTask();
 
-        // TODO: Implement adding a Dependency as an edge.
+        // DONE: Implement adding a Dependency as an edge.
         //       Do nothing if the same dependency exists already.
         // NOTE: The edge should go from "before" to "after"!
         //       The tests will not pass if the edges are the other way.
 
-        throw new RuntimeException("not yet implemented");
+        if (map.getLabels(before, after).isEmpty()) {
+            map.AddEdge(before, after, after);
+        }
     }
 
     /**
@@ -90,11 +95,17 @@ public class TaskSorter {
      * @return set of dependencies with {@code t} as the "before" task
      */
     public Set<Dependency> getOutgoingDependencies(Task t) {
-        // TODO: Implement getting the dependencies that point to the tasks
+        // DONE: Implement getting the dependencies that point to the tasks
         //       depending on the given Task (in other words, get the edges
         //       to a node's children in the graph)
 
-        throw new RuntimeException("not yet implemented");
+        Set<Dependency> output = new HashSet<>();
+        List<Task> children = map.ListChildren(t);
+        for (Task child: children) {
+            Dependency newDependency = new Dependency(t, child);
+            output.add(newDependency);
+        }
+        return output;
     }
 
     /**
