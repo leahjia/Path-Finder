@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 import static org.junit.Assert.*;
 import static org.junit.Assert.fail;
 
-public class UnivMapTest {
+public class UnivMapTest<T> {
     @Rule public Timeout globalTimeout = Timeout.seconds(10); // 10 seconds max per method tested
 
     String N = null;
@@ -30,7 +30,7 @@ public class UnivMapTest {
     /** Tests add and remove nodes successful. */
     @Test
     public void testAddRemoveNode() {
-        UnivMap map1 = new UnivMap();
+        UnivMap<String> map1 = new UnivMap<>();
         map1.AddNode(A);
         map1.AddNode(B);
         assertTrue(map1.contains(A));
@@ -48,7 +48,7 @@ public class UnivMapTest {
         assertFalse(map1.contains(A));
 
         // remove non-existent and null nodes without errors
-        map1 = new UnivMap();
+        map1 = new UnivMap<>();
         map1.RemoveNode(C);
         map1.RemoveNode(N);
         assertFalse(map1.contains(C));
@@ -59,7 +59,7 @@ public class UnivMapTest {
      */
     @Test
     public void testAddRemoveEdgeContainsLabels() {
-        UnivMap map1 = new UnivMap();
+        UnivMap<String> map1 = new UnivMap<>();
         edgeList1.add(edge1);
         edgeList2.add(edge2);
         edgeList12.add(edge1);
@@ -90,7 +90,7 @@ public class UnivMapTest {
         assertEquals(map1.getLabels(A, B), edgeList2);
 
         // Case 3: Add 2 edges in the opposite direction
-        map1 = new UnivMap();
+        map1 = new UnivMap<>();
 
         map1.AddEdge(A, B, edge1);
         map1.AddEdge(B, A, edge2);
@@ -110,7 +110,7 @@ public class UnivMapTest {
      */
     @Test
     public void testNodeAndEdgeThrowsIllegalArgumentException() {
-        UnivMap map1 = new UnivMap();
+        UnivMap<String> map1 = new UnivMap<>();
         try {
             // add null node
             map1.AddNode(N);
@@ -156,7 +156,7 @@ public class UnivMapTest {
     /** Tests ListChildren and ListParents operations. */
     @Test
     public void testListChildrenParents() {
-        UnivMap map1 = new UnivMap();
+        UnivMap<String> map1 = new UnivMap<>();
         edgeListA.add(A);
         edgeListB.add(B);
 
@@ -197,7 +197,7 @@ public class UnivMapTest {
 
 
         // Case 3: Add 2 edges in the opposite direction
-        map1 = new UnivMap();
+        map1 = new UnivMap<>();
 
         map1.AddEdge(A, B, edge1);
         map1.AddEdge(B, A, edge2);
@@ -223,7 +223,7 @@ public class UnivMapTest {
      */
     @Test
     public void testListChildrenParentsThrowsIllegalArgumentException() {
-        UnivMap map1 = new UnivMap();
+        UnivMap<String> map1 = new UnivMap<>();
         try {
             map1.ListChildren(N);
             fail("Expected IllegalArgumentException not occurred.");
@@ -252,7 +252,7 @@ public class UnivMapTest {
      */
     @Test
     public void testGetNodes() {
-        UnivMap map1 = new UnivMap();
+        UnivMap<String> map1 = new UnivMap<>();
         map1.AddNode(C);
         map1.AddNode(B);
         map1.AddNode(A);

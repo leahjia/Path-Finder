@@ -20,7 +20,7 @@ import java.util.*;
  * This class implements a testing driver which reads test scripts
  * from files for testing Graph.
  **/
-public class GraphTestDriver {
+public class GraphTestDriver<T> {
 
     // ***************************
     // ***  JUnit Test Driver  ***
@@ -30,7 +30,7 @@ public class GraphTestDriver {
      * String -> Graph: maps the names of graphs to the actual graph
      **/
     // Done for the student: Uncomment and parameterize the next line correctly:
-    private final Map<String, UnivMap> graphs = new HashMap<>();
+    private final Map<String, UnivMap<String>> graphs = new HashMap<>();
     private final PrintWriter output;
     private final BufferedReader input;
 
@@ -117,7 +117,7 @@ public class GraphTestDriver {
     private void createGraph(String graphName) {
         // Done Insert your code here.
 
-        graphs.put(graphName, new UnivMap());
+        graphs.put(graphName, new UnivMap<>());
         output.println("created graph " + graphName);
     }
 
@@ -134,10 +134,18 @@ public class GraphTestDriver {
 
     private void addNode(String graphName, String nodeName) {
         // Done Insert your code here.
-        UnivMap map1 = graphs.get(graphName);
+        UnivMap<String> map1 = graphs.get(graphName);
+//        val<String> node = new val<>();
+//        node.set(nodeName);
         map1.AddNode(nodeName);
         output.println("added node " + nodeName + " to " + graphName);
     }
+
+//    private class val<T> {
+//        private T t;
+//        public void set(T t) { this.t = t; }
+//        public T get() { return t; }
+//    }
 
     private void addEdge(List<String> arguments) {
         if(arguments.size() != 4) {
@@ -155,7 +163,7 @@ public class GraphTestDriver {
     private void addEdge(String graphName, String parentName, String childName,
                          String edgeLabel) {
         // Done Insert your code here.
-        UnivMap map1 = graphs.get(graphName);
+        UnivMap<String> map1 = graphs.get(graphName);
         map1.AddEdge(parentName, childName, edgeLabel);
         output.println("added edge " + edgeLabel + " from " + parentName +
                 " to " + childName + " in " + graphName);
@@ -172,7 +180,7 @@ public class GraphTestDriver {
 
     private void listNodes(String graphName) {
         // Done Insert your code here.
-        UnivMap map1 = graphs.get(graphName);
+        UnivMap<String> map1 = graphs.get(graphName);
         List<String> printOutput = map1.getNodes();
         Arrays.sort(printOutput.toArray());
         StringBuilder str = new StringBuilder();
@@ -195,7 +203,7 @@ public class GraphTestDriver {
 
     private void listChildren(String graphName, String parentName) {
         // Done Insert your code here.
-        UnivMap map1 = graphs.get(graphName);
+        UnivMap<String> map1 = graphs.get(graphName);
         List<String> childrenList = map1.ListChildren(parentName);
         Arrays.sort(childrenList.toArray());
         StringBuilder str = new StringBuilder();
