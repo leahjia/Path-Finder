@@ -12,6 +12,7 @@
 package pathfinder.textInterface;
 
 import pathfinder.datastructures.Path;
+import pathfinder.datastructures.Point;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,7 +28,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * commands. It passes off input events from the user to an {@link InputHandler}, which can
  * respond by calling methods of this interface.
  */
-public class TextInterfaceView {
+public class TextInterfaceView<T> {
 
     // This class does not represent an ADT.
 
@@ -137,9 +138,9 @@ public class TextInterfaceView {
      * @param end   The long name of the building at the end of the path.
      * @param path  The path to show to the user.
      */
-    public void showPath(String start, String end, Path path) {
+    public void showPath(String start, String end, Path<Point> path) {
         System.out.println("Path from " + start + " to " + end + ":");
-        for(Path.Segment pathSegment : path) {
+        for(Path<Point>.Segment pathSegment : path) {
             Direction dir = Direction.resolveDirection(pathSegment.getStart().getX(),
                                                        pathSegment.getStart().getY(),
                                                        pathSegment.getEnd().getX(),

@@ -15,12 +15,12 @@ import pathfinder.datastructures.Path;
 
 import java.util.Map;
 
-public class CampusMap implements ModelAPI {
+public class CampusMap<T> implements ModelAPI<T> {
 
     @Override
     public boolean shortNameExists(String shortName) {
         // TODO: Implement this method exactly as it is specified in ModelAPI
-        throw new RuntimeException("Not Implemented Yet");
+        return false;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class CampusMap implements ModelAPI {
     }
 
     @Override
-    public Path findShortestPath(String startShortName, String endShortName) {
+    public Path<T> findShortestPath(String startShortName, String endShortName) {
         // TODO: Implement this method exactly as it is specified in ModelAPI
         throw new RuntimeException("Not Implemented Yet");
     }
