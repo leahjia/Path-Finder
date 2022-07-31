@@ -135,17 +135,9 @@ public class GraphTestDriver<T> {
     private void addNode(String graphName, String nodeName) {
         // Done Insert your code here.
         UnivMap<String> map1 = graphs.get(graphName);
-//        val<String> node = new val<>();
-//        node.set(nodeName);
         map1.AddNode(nodeName);
         output.println("added node " + nodeName + " to " + graphName);
     }
-
-//    private class val<T> {
-//        private T t;
-//        public void set(T t) { this.t = t; }
-//        public T get() { return t; }
-//    }
 
     private void addEdge(List<String> arguments) {
         if(arguments.size() != 4) {
