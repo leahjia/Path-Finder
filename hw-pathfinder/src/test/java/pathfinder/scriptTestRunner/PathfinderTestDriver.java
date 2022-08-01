@@ -139,7 +139,6 @@ public class PathfinderTestDriver<T> {
         String graphName = arguments.get(0);
         String parentName = arguments.get(1);
         String childName = arguments.get(2);
-//        double edgeLabel = Double.parseDouble(arguments.get(3));
         String edgeLabel = arguments.get(3);
 
         addEdge(graphName, parentName, childName, edgeLabel);
@@ -181,7 +180,6 @@ public class PathfinderTestDriver<T> {
         Path<String> initPath = new Path<>(start);
         initPath.extend(start, 0.0);
         active.add(initPath);
-//        finished.add(start);
         Path<String> printOutput = initPath;
         while (!active.isEmpty()) {
             // next lowest-costing path
@@ -208,7 +206,7 @@ public class PathfinderTestDriver<T> {
         }
 
         if (printOutput.equals(initPath)) {
-            output.println("no path found.");
+            output.println("no path found");
         } else {
             output.println("path from " + start + " to " + dest + ":");
             double totalCost = 0;
