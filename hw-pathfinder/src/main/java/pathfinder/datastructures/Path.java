@@ -50,7 +50,7 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
     /**
      * The ordered sequence of segments representing a path between objects.
      */
-    private List<Path<T>.Segment> path;
+    private List<Segment> path;
 
     /**
      * Creates a new, empty path containing a start object. Essentially this represents a path
@@ -123,11 +123,11 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
      * UnsupportedOperationException if Iterator#remove() is called.
      */
     @Override
-    public Iterator<Path<T>.Segment> iterator() {
+    public Iterator<Segment> iterator() {
         // Create a wrapping iterator to guarantee exceptional behavior on Iterator#remove.
         return new Iterator<>() {
 
-            private Iterator<Path<T>.Segment> backingIterator = path.iterator();
+            private Iterator<Segment> backingIterator = path.iterator();
 
             @Override
             public boolean hasNext() {
@@ -135,7 +135,7 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
             }
 
             @Override
-            public Path<T>.Segment next() {
+            public Segment next() {
                 return backingIterator.next();
             }
 
@@ -155,7 +155,7 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
         assert Double.isFinite(cost);
         assert start != null;
         assert path != null;
-        for(Path<T>.Segment segment : path) {
+        for(Segment segment : path) {
             assert segment != null;
         }
     }
@@ -201,7 +201,7 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(start.toString());
-        for(Path<T>.Segment segment : path) {
+        for(Segment segment : path) {
             sb.append(" =(");
             sb.append(String.format("%.3f", segment.getCost()));
             sb.append(")=> ");

@@ -162,58 +162,62 @@ public class PathfinderTestDriver<T> {
         FindPath(graphName, start, end);
     }
 
-    class PathComparator implements Comparator<Path<T>>{
-        public int compare(Path<T> s1, Path<T> s2) {
-            if (s1.getCost() < s2.getCost()) {
-                return 1;
-            } else if (s1.getCost() > s2.getCost()) {
+    class PathComparator implements Comparator<Path<String>>{
+        public int compare(Path<String> A, Path<String> B) {
+            if (A.getCost() < B.getCost())
                 return -1;
-            }
+            else if (A.getCost() > B.getCost() )
+                return 1;
             return 0;
         }
     }
+
     private void FindPath(String graphName, String start, String dest) {
         UnivMap<String> map = graphs.get(graphName);
         // Each element is a path from start to a given node.
         // A path's “priority” in the queue is the total cost of that path.
-        PriorityQueue<Path<String>> active = new PriorityQueue<>();
+        PriorityQueue<Path<String>> active = new PriorityQueue<>(new PathComparator());
         Set<String> finished = new HashSet<>();
-        Path<String> minPath = new Path<>(start);
-        minPath.extend(start, 0.0);
-        active.add(minPath);
-        Path<String> printOutput = minPath;
+        Path<String> initPath = new Path<>(start);
+        initPath.extend(start, 0.0);
+        active.add(initPath);
+//        finished.add(start);
+        Path<String> printOutput = initPath;
         while (!active.isEmpty()) {
             // next lowest-costing path
-            minPath = active.remove();
+            Path<String> minPath = active.remove();
             // DEST of this path
             String minDest = minPath.getEnd();
             // SP found
             if (minDest.equals(dest)) {
+                printOutput = minPath;
                 break;
             }
-            // not found: explore its children
             if (finished.contains(minDest)) {
-                for (String e: map.ListChildren(minDest)) {
-                    // examine the path we've just found
-                    if (!finished.contains(e)) {
-                        Path<String> newPath = minPath.extend(e, minPath.getCost());
-                        active.add(newPath);
-                    }
+                continue;
+            }
+            for (String e: map.ListChildren(minDest)) {
+                // examine the path we've just found
+                if (!finished.contains(e)) {
+                    double newCost = Double.parseDouble(Collections.min(map.getLabels(minPath.getEnd(), e)));
+                    Path<String> newPath = minPath.extend(e, newCost);
+                    active.add(newPath);
                 }
             }
             finished.add(minDest);
         }
-        if (printOutput.getStart().equals(printOutput.getEnd())) {
+
+        if (printOutput.equals(initPath)) {
             output.println("no path found.");
         } else {
-            output.println("path from " + start + " to " + dest + ": ");
+            output.println("path from " + start + " to " + dest + ":");
             double totalCost = 0;
             for (Path<String>.Segment seg : printOutput) {
                 totalCost += seg.getCost();
                 output.println(seg.getStart() + " to " + seg.getEnd() + " with weight " +
-                        String.format("Weight of %.3f", seg.getCost()));
+                        String.format(" %.3f", seg.getCost()));
             }
-            output.println("total cost: " + totalCost);
+            output.println("total cost: " + String.format(" %.3f", totalCost));
         }
     }
 
