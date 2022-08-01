@@ -27,7 +27,7 @@ public class Pathfinder {
      * @param args The command-line arguments provided to the system.
      */
     public static void main(String[] args) {
-        CampusMap map = new CampusMap();
+        CampusMap<String> map = new CampusMap<>();
         TextInterfaceView view = new TextInterfaceView();
         TextInterfaceController controller = new TextInterfaceController(map, view);
         //

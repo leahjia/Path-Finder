@@ -50,7 +50,7 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
     /**
      * The ordered sequence of segments representing a path between objects.
      */
-    private List<Segment> path;
+    private List<Path<T>.Segment> path;
 
     /**
      * Creates a new, empty path containing a start object. Essentially this represents a path
@@ -123,11 +123,11 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
      * UnsupportedOperationException if Iterator#remove() is called.
      */
     @Override
-    public Iterator<Segment> iterator() {
+    public Iterator<Path<T>.Segment> iterator() {
         // Create a wrapping iterator to guarantee exceptional behavior on Iterator#remove.
-        return new Iterator<Segment>() {
+        return new Iterator<>() {
 
-            private Iterator<Segment> backingIterator = path.iterator();
+            private Iterator<Path<T>.Segment> backingIterator = path.iterator();
 
             @Override
             public boolean hasNext() {
@@ -155,7 +155,7 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
         assert Double.isFinite(cost);
         assert start != null;
         assert path != null;
-        for(Segment segment : path) {
+        for(Path<T>.Segment segment : path) {
             assert segment != null;
         }
     }
@@ -176,7 +176,8 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
         if(!(obj instanceof Path)) {
             return false;
         }
-        Path<T> other = (Path<T>) obj;
+//        @SuppressWarnings("unchecked")
+        Path<?> other = (Path<?>) obj;
         if(this.path.size() != other.path.size()) {
             return false;
         }
@@ -200,7 +201,7 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(start.toString());
-        for(Segment segment : path) {
+        for(Path<T>.Segment segment : path) {
             sb.append(" =(");
             sb.append(String.format("%.3f", segment.getCost()));
             sb.append(")=> ");
@@ -306,7 +307,8 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
             if(!(obj instanceof Path.Segment)) {
                 return false;
             }
-            Path<T>.Segment other = (Segment) obj;
+            @SuppressWarnings("unchecked")
+            Segment other = (Segment) obj;
             return other.getStart().equals(this.getStart())
                    && other.getEnd().equals(this.getEnd())
                    && (Double.compare(this.cost, other.cost) == 0);

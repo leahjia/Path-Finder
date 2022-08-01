@@ -28,7 +28,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * commands. It passes off input events from the user to an {@link InputHandler}, which can
  * respond by calling methods of this interface.
  */
-public class TextInterfaceView<T> {
+public class TextInterfaceView {
 
     // This class does not represent an ADT.
 
@@ -82,8 +82,8 @@ public class TextInterfaceView<T> {
     public void begin() {
         if(inputHandler == null) {
             throw new IllegalStateException("No InputHandler has been provided to respond to "
-                                            + "user input. Call TextInterfaceView#setInputHandler()"
-                                            + " first");
+                    + "user input. Call TextInterfaceView#setInputHandler()"
+                    + " first");
         }
         while(active) {
             inputHandler.handleInput(blockingInput());
@@ -126,6 +126,7 @@ public class TextInterfaceView<T> {
     public void showBuildings(Map<String, String> buildings) {
         System.out.println("Buildings:");
         TreeSet<String> sortedShortNames = new TreeSet<>(buildings.keySet());
+//        sortedShortNames.addAll(buildings.keySet());
         for(String shortName : sortedShortNames) {
             System.out.println("\t" + shortName + ": " + buildings.get(shortName));
         }
@@ -138,21 +139,31 @@ public class TextInterfaceView<T> {
      * @param end   The long name of the building at the end of the path.
      * @param path  The path to show to the user.
      */
-    public void showPath(String start, String end, Path<Point> path) {
+    public void showPath(String start, String end, Path<String> path) {
         System.out.println("Path from " + start + " to " + end + ":");
-        for(Path<Point>.Segment pathSegment : path) {
-            Direction dir = Direction.resolveDirection(pathSegment.getStart().getX(),
-                                                       pathSegment.getStart().getY(),
-                                                       pathSegment.getEnd().getX(),
-                                                       pathSegment.getEnd().getY(),
-                                                       CoordinateProperties.INCREASING_DOWN_RIGHT);
-            System.out.printf("\tWalk %.0f feet %s to (%.0f, %.0f)",
-                              pathSegment.getCost(),
-                              dir.name(),
-                              pathSegment.getEnd().getX(),
-                              pathSegment.getEnd().getY());
-            System.out.println();
-        }
+//        for(Path<T>.Segment pathSegment : path) {
+//            Direction dir = Direction.resolveDirection(pathSegment.getStart().getX(),
+//                                                       pathSegment.getStart().getY(),
+//                                                       pathSegment.getEnd().getX(),
+//                                                       pathSegment.getEnd().getY(),
+//                                                       CoordinateProperties.INCREASING_DOWN_RIGHT);
+        double pathFrom = path.getCost();
+        double pathTo = path.extend(end, pathFrom).getCost();
+        Direction dir = Direction.resolveDirection(pathFrom,
+                                                    pathTo,
+                                                    CoordinateProperties.INCREASING_DOWN_RIGHT);
+//            System.out.printf("\tWalk %.0f feet %s to (%.0f, %.0f)",
+//                              pathSegment.getCost(),
+//                              dir.name(),
+//                              pathSegment.getEnd().getX(),
+//                              pathSegment.getEnd().getY());
+        System.out.printf("\tWalk %.0f feet %s to (%.0f, %.0f)",
+                                path.getCost(),
+                                dir.name(),
+                                pathFrom,
+                                pathTo);
+        System.out.println();
+//        }
         System.out.printf("Total distance: %.0f feet", path.getCost());
         System.out.println();
     }
@@ -168,8 +179,8 @@ public class TextInterfaceView<T> {
     public String blockingInput() {
         if(inputHandler == null) {
             throw new IllegalStateException("No InputHandler has been provided to respond to "
-                                            + "user input. Call TextInterfaceView#setInputHandler()"
-                                            + " first");
+                    + "user input. Call TextInterfaceView#setInputHandler()"
+                    + " first");
         }
         String inputValue = null;
         do {

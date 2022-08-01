@@ -20,7 +20,7 @@ import java.util.*;
  * This class implements a testing driver which reads test scripts
  * from files for testing Graph.
  **/
-public class GraphTestDriver<T> {
+public class GraphTestDriver {
 
     // ***************************
     // ***  JUnit Test Driver  ***
