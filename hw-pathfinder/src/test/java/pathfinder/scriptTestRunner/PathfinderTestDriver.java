@@ -176,45 +176,44 @@ public class PathfinderTestDriver {
         } else {
             output.println("path from " + start + " to " + dest + ":");
             if (start.equals(dest)) {
-                output.println("total cost: 0.000");
+                output.println("total cost: " + String.format(" %.3f", 0.0));
             } else {
                 // Each element is a path from start to a given node.
                 // A path's “priority” in the queue is the total cost of that path.
-                PriorityQueue<Path<String>> active = new PriorityQueue<>(new PathComparator());
-                Set<String> finished = new HashSet<>();
+                PriorityQueue<Path<String>> pq = new PriorityQueue<>(new PathComparator());
+                Set<String> known = new HashSet<>();
                 Path<String> initPath = new Path<>(start);
                 initPath.extend(start, 0.0);
-                active.add(initPath);
-                Path<String> printOutput = initPath;
-                while (!active.isEmpty()) {
+                pq.add(initPath);
+                Path<String> paths = initPath;
+                while (!pq.isEmpty()) {
                     // next lowest-costing path
-                    Path<String> minPath = active.remove();
+                    Path<String> minPath = pq.remove();
                     // DEST of this path
                     String minDest = minPath.getEnd();
                     // SP found
                     if (minDest.equals(dest)) {
-                        printOutput = minPath;
+                        paths = minPath;
                         break;
                     }
-                    if (finished.contains(minDest)) {
+                    if (known.contains(minDest)) {
                         continue;
                     }
                     for (String e : map.ListChildren(minDest)) {
-                        // examine the path we've just found
-                        if (!finished.contains(e)) {
+                        if (!known.contains(e)) {
                             String minCost = Collections.min(map.getLabels(minPath.getEnd(), e));
                             double newCost = Double.parseDouble(minCost);
                             Path<String> newPath = minPath.extend(e, newCost);
-                            active.add(newPath);
+                            pq.add(newPath);
                         }
                     }
-                    finished.add(minDest);
+                    known.add(minDest);
                 }
-                if (printOutput.equals(initPath)) {
+                if (paths.equals(initPath)) {
                     output.println("no path found");
                 } else {
                     double totalCost = 0;
-                    for (Path<String>.Segment seg : printOutput) {
+                    for (Path<String>.Segment seg: paths) {
                         totalCost += seg.getCost();
                         output.println(seg.getStart() + " to " + seg.getEnd() + " with weight " +
                                 String.format(" %.3f", seg.getCost()));
