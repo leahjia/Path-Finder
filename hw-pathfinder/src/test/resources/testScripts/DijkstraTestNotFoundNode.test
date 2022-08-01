@@ -1,5 +1,5 @@
 # Find a path with Dijkstra's algorithm when
-# no paths are available.
+# unknown nodes are found.
 
 CreateGraph simpleGraph
 
