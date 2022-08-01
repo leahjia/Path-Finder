@@ -1,5 +1,5 @@
 # Find a path with Dijkstra's algorithm when
-# no paths are available.
+# finding path from a node to the same node.
 
 created graph simpleGraph
 
@@ -17,5 +17,5 @@ added edge 4.000 from T to Z in simpleGraph
 added edge 5.000 from T to X in simpleGraph
 added edge 7.000 from Z to X in simpleGraph
 
-path from S to T:
-no path found
+path from S to S:
+total cost: 0.000

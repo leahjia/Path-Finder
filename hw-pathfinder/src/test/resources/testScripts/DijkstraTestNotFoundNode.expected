@@ -17,5 +17,9 @@ added edge 4.000 from T to Z in simpleGraph
 added edge 5.000 from T to X in simpleGraph
 added edge 7.000 from Z to X in simpleGraph
 
-path from S to T:
-no path found
+unknown: A
+
+unknown: B
+
+unknown: C
+unknown: D
