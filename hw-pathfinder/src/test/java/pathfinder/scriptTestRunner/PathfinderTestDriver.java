@@ -21,7 +21,7 @@ import java.util.*;
  * This class implements a test driver that uses a script file format
  * to test an implementation of Dijkstra's algorithm on a graph.
  */
-public class PathfinderTestDriver<T> {
+public class PathfinderTestDriver {
 
     /**
      * T -> Graph: maps the names of graphs to the actual graph
@@ -36,11 +36,10 @@ public class PathfinderTestDriver<T> {
      * {@code r} and writes results to {@code w}
      **/
     public PathfinderTestDriver(Reader r, Writer w) {
-        // TODO: Implement this, reading commands from `r` and writing output to `w`.
+        // DONE: Implement this, reading commands from `r` and writing output to `w`.
         // See GraphTestDriver as an example.
         input = new BufferedReader(r);
         output = new PrintWriter(w);
-
     }
 
     /**
@@ -48,7 +47,7 @@ public class PathfinderTestDriver<T> {
      * @spec.effects Executes the commands read from the input and writes results to the output
      **/
     public void runTests() throws IOException {
-        // TODO: Implement this.
+        // DONE: Implement this.
         String inputLine;
         while((inputLine = input.readLine()) != null) {
             if((inputLine.trim().length() == 0) ||
@@ -104,9 +103,7 @@ public class PathfinderTestDriver<T> {
         if(arguments.size() != 1) {
             throw new CommandException("Bad arguments to CreateGraph: " + arguments);
         }
-
-        String graphName = arguments.get(0);
-        createGraph(graphName);
+        createGraph(arguments.get(0));
     }
 
     private void createGraph(String graphName) {
@@ -118,10 +115,8 @@ public class PathfinderTestDriver<T> {
         if(arguments.size() != 2) {
             throw new CommandException("Bad arguments to AddNode: " + arguments);
         }
-
         String graphName = arguments.get(0);
         String nodeName = arguments.get(1);
-
         addNode(graphName, nodeName);
     }
 
@@ -135,20 +130,18 @@ public class PathfinderTestDriver<T> {
         if(arguments.size() != 4) {
             throw new CommandException("Bad arguments to AddEdge: " + arguments);
         }
-
         String graphName = arguments.get(0);
         String parentName = arguments.get(1);
         String childName = arguments.get(2);
         String edgeLabel = arguments.get(3);
-
         addEdge(graphName, parentName, childName, edgeLabel);
     }
 
     private void addEdge(String graphName, String parentName, String childName, String weight) {
         UnivMap<String> map1 = graphs.get(graphName);
         map1.AddEdge(parentName, childName, weight);
-        output.println("added edge " + weight + "00 from " + parentName +
-                " to " + childName + " in " + graphName);
+        output.println("added edge " + String.format(" %.3f", Double.parseDouble(weight)) +
+                " from " + parentName + " to " + childName + " in " + graphName);
     }
 
     private void FindPath(List<String> arguments) {
@@ -161,9 +154,9 @@ public class PathfinderTestDriver<T> {
         FindPath(graphName, start, end);
     }
 
-    class PathComparator implements Comparator<Path<String>>{
+    static class PathComparator implements Comparator<Path<String>> {
         public int compare(Path<String> A, Path<String> B) {
-            if (A.getCost() < B.getCost())
+            if (A.getCost() <= B.getCost())
                 return -1;
             else if (A.getCost() > B.getCost() )
                 return 1;
@@ -173,10 +166,7 @@ public class PathfinderTestDriver<T> {
 
     private void FindPath(String graphName, String start, String dest) {
         UnivMap<String> map = graphs.get(graphName);
-        if (start.equals(dest)) {
-            output.println("path from " + start + " to " + dest + ":");
-            output.println("total cost: 0.000");
-        } else if (!map.contains(start) && !map.contains(dest)) {
+        if (!map.contains(start) && !map.contains(dest)) {
             output.println("unknown: " + start);
             output.println("unknown: " + dest);
         } else if (!map.contains(start)) {
@@ -184,50 +174,53 @@ public class PathfinderTestDriver<T> {
         } else if (!map.contains(dest)) {
             output.println("unknown: " + dest);
         } else {
-            // Each element is a path from start to a given node.
-            // A path's “priority” in the queue is the total cost of that path.
-            PriorityQueue<Path<String>> active = new PriorityQueue<>(new PathComparator());
-            Set<String> finished = new HashSet<>();
-            Path<String> initPath = new Path<>(start);
-            initPath.extend(start, 0.0);
-            active.add(initPath);
-            Path<String> printOutput = initPath;
-            while (!active.isEmpty()) {
-                // next lowest-costing path
-                Path<String> minPath = active.remove();
-                // DEST of this path
-                String minDest = minPath.getEnd();
-                // SP found
-                if (minDest.equals(dest)) {
-                    printOutput = minPath;
-                    break;
-                }
-                if (finished.contains(minDest)) {
-                    continue;
-                }
-                for (String e : map.ListChildren(minDest)) {
-                    // examine the path we've just found
-                    if (!finished.contains(e)) {
-                        double newCost = Double.parseDouble(Collections.min(map.getLabels(minPath.getEnd(), e)));
-                        Path<String> newPath = minPath.extend(e, newCost);
-                        active.add(newPath);
-                    }
-                }
-                finished.add(minDest);
-            }
-
-            if (printOutput.equals(initPath)) {
-                output.println("path from " + start + " to " + dest + ":");
-                output.println("no path found");
+            output.println("path from " + start + " to " + dest + ":");
+            if (start.equals(dest)) {
+                output.println("total cost: 0.000");
             } else {
-                output.println("path from " + start + " to " + dest + ":");
-                double totalCost = 0;
-                for (Path<String>.Segment seg : printOutput) {
-                    totalCost += seg.getCost();
-                    output.println(seg.getStart() + " to " + seg.getEnd() + " with weight " +
-                            String.format(" %.3f", seg.getCost()));
+                // Each element is a path from start to a given node.
+                // A path's “priority” in the queue is the total cost of that path.
+                PriorityQueue<Path<String>> active = new PriorityQueue<>(new PathComparator());
+                Set<String> finished = new HashSet<>();
+                Path<String> initPath = new Path<>(start);
+                initPath.extend(start, 0.0);
+                active.add(initPath);
+                Path<String> printOutput = initPath;
+                while (!active.isEmpty()) {
+                    // next lowest-costing path
+                    Path<String> minPath = active.remove();
+                    // DEST of this path
+                    String minDest = minPath.getEnd();
+                    // SP found
+                    if (minDest.equals(dest)) {
+                        printOutput = minPath;
+                        break;
+                    }
+                    if (finished.contains(minDest)) {
+                        continue;
+                    }
+                    for (String e : map.ListChildren(minDest)) {
+                        // examine the path we've just found
+                        if (!finished.contains(e)) {
+                            String minCost = Collections.min(map.getLabels(minPath.getEnd(), e));
+                            double newCost = Double.parseDouble(minCost);
+                            Path<String> newPath = minPath.extend(e, newCost);
+                            active.add(newPath);
+                        }
+                    }
+                    finished.add(minDest);
                 }
-                output.println("total cost: " + String.format(" %.3f", totalCost));
+                if (printOutput.equals(initPath)) {
+                    output.println("no path found");
+                } else {
+                    double totalCost = 0;
+                    for (Path<String>.Segment seg : printOutput) {
+                        totalCost += seg.getCost();
+                        output.println(seg.getStart() + " to " + seg.getEnd() + " with weight " +
+                                String.format(" %.3f", seg.getCost()));
+                    }
+                    output.println("total cost: " + String.format(" %.3f", totalCost));
+                }
             }
         }
     }
