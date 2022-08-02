@@ -188,26 +188,25 @@ public class PathfinderTestDriver {
                 Path<String> paths = initPath;
                 while (!pq.isEmpty()) {
                     // next lowest-costing path
-                    Path<String> minPath = pq.remove();
+                    Path<String> currPath = pq.remove();
                     // DEST of this path
-                    String minDest = minPath.getEnd();
+                    String edgeTo = currPath.getEnd();
                     // SP found
-                    if (minDest.equals(dest)) {
-                        paths = minPath;
+                    if (edgeTo.equals(dest)) {
+                        paths = currPath;
                         break;
                     }
-                    if (known.contains(minDest)) {
-                        continue;
-                    }
-                    for (String e : map.ListChildren(minDest)) {
-                        if (!known.contains(e)) {
-                            String minCost = Collections.min(map.getLabels(minPath.getEnd(), e));
-                            double newCost = Double.parseDouble(minCost);
-                            Path<String> newPath = minPath.extend(e, newCost);
-                            pq.add(newPath);
+                    if (!known.contains(edgeTo)) {
+                        for (String child : map.ListChildren(edgeTo)) {
+                            if (!known.contains(child)) {
+                                String minCost = Collections.min(map.getLabels(currPath.getEnd(), child));
+                                double newCost = Double.parseDouble(minCost);
+                                Path<String> newPath = currPath.extend(child, newCost);
+                                pq.add(newPath);
+                            }
                         }
+                        known.add(edgeTo);
                     }
-                    known.add(minDest);
                 }
                 if (paths.equals(initPath)) {
                     output.println("no path found");
