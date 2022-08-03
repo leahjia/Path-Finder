@@ -127,7 +127,6 @@ public class TextInterfaceView {
     public void showBuildings(Map<String, String> buildings) {
         System.out.println("Buildings:");
         TreeSet<String> sortedShortNames = new TreeSet<>(buildings.keySet());
-//        sortedShortNames.addAll(buildings.keySet());
         for(String shortName : sortedShortNames) {
             System.out.println("\t" + shortName + ": " + buildings.get(shortName));
         }
@@ -142,30 +141,20 @@ public class TextInterfaceView {
      */
     public void showPath(String start, String end, Path<CampusBuilding> path) {
         System.out.println("Path from " + start + " to " + end + ":");
-//        for(Path<T>.Segment pathSegment : path) {
-//            Direction dir = Direction.resolveDirection(pathSegment.getStart().getX(),
-//                                                       pathSegment.getStart().getY(),
-//                                                       pathSegment.getEnd().getX(),
-//                                                       pathSegment.getEnd().getY(),
-//                                                       CoordinateProperties.INCREASING_DOWN_RIGHT);
+        for(Path<CampusBuilding>.Segment pathSegment : path) {
+            Direction dir = Direction.resolveDirection(pathSegment.getStart().getX(),
+                                                       pathSegment.getStart().getY(),
+                                                       pathSegment.getEnd().getX(),
+                                                       pathSegment.getEnd().getY(),
+                                                       CoordinateProperties.INCREASING_DOWN_RIGHT);
 
-        double oldCost = path.getCost();
-        double pathTo = path.extend(path.getEnd(), oldCost).getCost();
-        Direction dir = Direction.resolveDirection(oldCost,
-                                                    pathTo,
-                                                    CoordinateProperties.INCREASING_DOWN_RIGHT);
-//            System.out.printf("\tWalk %.0f feet %s to (%.0f, %.0f)",
-//                              pathSegment.getCost(),
-//                              dir.name(),
-//                              pathSegment.getEnd().getX(),
-//                              pathSegment.getEnd().getY());
-        System.out.printf("\tWalk %.0f feet %s to (%.0f, %.0f)",
-                            path.getCost(),
-                            dir.name(),
-                            oldCost,
-                            pathTo);
+            System.out.printf("\tWalk %.0f feet %s to (%.0f, %.0f)",
+                              pathSegment.getCost(),
+                              dir.name(),
+                              pathSegment.getEnd().getX(),
+                              pathSegment.getEnd().getY());
         System.out.println();
-//        }
+        }
         System.out.printf("Total distance: %.0f feet", path.getCost());
         System.out.println();
     }

@@ -14,7 +14,6 @@ package pathfinder.scriptTestRunner;
 import graph.UnivMap;
 import pathfinder.datastructures.Path;
 import pathfinder.DijkstraPathFinder;
-import pathfinder.parser.CampusBuilding;
 
 import java.io.*;
 import java.util.*;
@@ -166,7 +165,6 @@ public class PathfinderTestDriver {
             if (start.equals(dest)) {
                 output.println("total cost: " + String.format(" %.3f", 0.0));
             } else {
-//                FindPath(map, start, dest);
                 DijkstraPathFinder<String, Double> finder = new DijkstraPathFinder<>();
                 Path<String> paths = finder.DijkstraPath(map, start, dest);
                 if (paths == null) {

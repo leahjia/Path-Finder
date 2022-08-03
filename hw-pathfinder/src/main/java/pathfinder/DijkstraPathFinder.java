@@ -2,8 +2,6 @@ package pathfinder;
 
 import graph.UnivMap;
 import pathfinder.datastructures.Path;
-import pathfinder.textInterface.TextInterfaceController;
-import pathfinder.textInterface.TextInterfaceView;
 
 import java.util.Comparator;
 import java.util.HashSet;
