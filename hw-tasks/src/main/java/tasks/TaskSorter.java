@@ -30,7 +30,7 @@ public class TaskSorter {
 
     // The map of nodes and their outgoing edges and destination nodes, where
     //  the nodes represent the Task objects and the edges represent Dependency objects.
-    private final UnivMap<Task> map;
+    private final UnivMap<Task, Dependency> map;
 
     /**
      * Creates a new TaskSorter object with no added tasks or dependencies.
@@ -82,7 +82,7 @@ public class TaskSorter {
         //       The tests will not pass if the edges are the other way.
 
         if (map.getLabels(before, after).isEmpty()) {
-            map.AddEdge(before, after, after);
+            map.AddEdge(before, after, dep);
         }
     }
 

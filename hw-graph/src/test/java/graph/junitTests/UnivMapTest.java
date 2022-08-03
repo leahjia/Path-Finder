@@ -30,7 +30,7 @@ public class UnivMapTest<T> {
     /** Tests add and remove nodes successful. */
     @Test
     public void testAddRemoveNode() {
-        UnivMap<String> map1 = new UnivMap<>();
+        UnivMap<String, String> map1 = new UnivMap<>();
         map1.AddNode(A);
         map1.AddNode(B);
         assertTrue(map1.contains(A));
@@ -59,7 +59,7 @@ public class UnivMapTest<T> {
      */
     @Test
     public void testAddRemoveEdgeContainsLabels() {
-        UnivMap<String> map1 = new UnivMap<>();
+        UnivMap<String, String> map1 = new UnivMap<>();
         edgeList1.add(edge1);
         edgeList2.add(edge2);
         edgeList12.add(edge1);
@@ -110,7 +110,7 @@ public class UnivMapTest<T> {
      */
     @Test
     public void testNodeAndEdgeThrowsIllegalArgumentException() {
-        UnivMap<String> map1 = new UnivMap<>();
+        UnivMap<String, String> map1 = new UnivMap<>();
         try {
             // add null node
             map1.AddNode(N);
@@ -156,7 +156,7 @@ public class UnivMapTest<T> {
     /** Tests ListChildren and ListParents operations. */
     @Test
     public void testListChildrenParents() {
-        UnivMap<String> map1 = new UnivMap<>();
+        UnivMap<String, String> map1 = new UnivMap<>();
         edgeListA.add(A);
         edgeListB.add(B);
 
@@ -223,7 +223,7 @@ public class UnivMapTest<T> {
      */
     @Test
     public void testListChildrenParentsThrowsIllegalArgumentException() {
-        UnivMap<String> map1 = new UnivMap<>();
+        UnivMap<String, String> map1 = new UnivMap<>();
         try {
             map1.ListChildren(N);
             fail("Expected IllegalArgumentException not occurred.");
@@ -252,7 +252,7 @@ public class UnivMapTest<T> {
      */
     @Test
     public void testGetNodes() {
-        UnivMap<String> map1 = new UnivMap<>();
+        UnivMap<String, String> map1 = new UnivMap<>();
         map1.AddNode(C);
         map1.AddNode(B);
         map1.AddNode(A);

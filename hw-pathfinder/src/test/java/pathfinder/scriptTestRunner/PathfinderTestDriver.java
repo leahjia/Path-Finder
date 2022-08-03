@@ -13,6 +13,8 @@ package pathfinder.scriptTestRunner;
 
 import graph.UnivMap;
 import pathfinder.datastructures.Path;
+import pathfinder.DijkstraPathFinder;
+import pathfinder.parser.CampusBuilding;
 
 import java.io.*;
 import java.util.*;
@@ -26,7 +28,7 @@ public class PathfinderTestDriver {
     /**
      * T -> Graph: maps the names of graphs to the actual graph
      **/
-    private final Map<String, UnivMap<String>> graphs = new HashMap<>();
+    private final Map<String, UnivMap<String, Double>> graphs = new HashMap<>();
     private final PrintWriter output;
     private final BufferedReader input;
 
@@ -121,7 +123,7 @@ public class PathfinderTestDriver {
     }
 
     private void addNode(String graphName, String nodeName) {
-        UnivMap<String> map1 = graphs.get(graphName);
+        UnivMap<String, Double> map1 = graphs.get(graphName);
         map1.AddNode(nodeName);
         output.println("added node " + nodeName + " to " + graphName);
     }
@@ -133,14 +135,14 @@ public class PathfinderTestDriver {
         String graphName = arguments.get(0);
         String parentName = arguments.get(1);
         String childName = arguments.get(2);
-        String edgeLabel = arguments.get(3);
+        double edgeLabel = Double.parseDouble(arguments.get(3));
         addEdge(graphName, parentName, childName, edgeLabel);
     }
 
-    private void addEdge(String graphName, String parentName, String childName, String weight) {
-        UnivMap<String> map1 = graphs.get(graphName);
+    private void addEdge(String graphName, String parentName, String childName, double weight) {
+        UnivMap<String, Double> map1 = graphs.get(graphName);
         map1.AddEdge(parentName, childName, weight);
-        output.println("added edge " + String.format(" %.3f", Double.parseDouble(weight)) +
+        output.println("added edge " + String.format(" %.3f", weight) +
                 " from " + parentName + " to " + childName + " in " + graphName);
     }
 
@@ -150,22 +152,8 @@ public class PathfinderTestDriver {
         }
         String graphName = arguments.get(0);
         String start = arguments.get(1);
-        String end = arguments.get(2);
-        FindPath(graphName, start, end);
-    }
-
-    static class PathComparator implements Comparator<Path<String>> {
-        public int compare(Path<String> A, Path<String> B) {
-            if (A.getCost() <= B.getCost())
-                return -1;
-            else if (A.getCost() > B.getCost() )
-                return 1;
-            return 0;
-        }
-    }
-
-    private void FindPath(String graphName, String start, String dest) {
-        UnivMap<String> map = graphs.get(graphName);
+        String dest = arguments.get(2);
+        UnivMap<String, Double> map = graphs.get(graphName);
         if (!map.contains(start) && !map.contains(dest)) {
             output.println("unknown: " + start);
             output.println("unknown: " + dest);
@@ -178,37 +166,10 @@ public class PathfinderTestDriver {
             if (start.equals(dest)) {
                 output.println("total cost: " + String.format(" %.3f", 0.0));
             } else {
-                // Each element is a path from start to a given node.
-                // A path's “priority” in the queue is the total cost of that path.
-                PriorityQueue<Path<String>> pq = new PriorityQueue<>(new PathComparator());
-                Set<String> known = new HashSet<>();
-                Path<String> initPath = new Path<>(start);
-                initPath.extend(start, 0.0);
-                pq.add(initPath);
-                Path<String> paths = initPath;
-                while (!pq.isEmpty()) {
-                    // next lowest-costing path
-                    Path<String> currPath = pq.remove();
-                    // DEST of this path
-                    String edgeTo = currPath.getEnd();
-                    // SP found
-                    if (edgeTo.equals(dest)) {
-                        paths = currPath;
-                        break;
-                    }
-                    if (!known.contains(edgeTo)) {
-                        for (String child : map.ListChildren(edgeTo)) {
-                            if (!known.contains(child)) {
-                                String minCost = Collections.min(map.getLabels(currPath.getEnd(), child));
-                                double newCost = Double.parseDouble(minCost);
-                                Path<String> newPath = currPath.extend(child, newCost);
-                                pq.add(newPath);
-                            }
-                        }
-                        known.add(edgeTo);
-                    }
-                }
-                if (paths.equals(initPath)) {
+//                FindPath(map, start, dest);
+                DijkstraPathFinder<String, Double> finder = new DijkstraPathFinder<>();
+                Path<String> paths = finder.DijkstraPath(map, start, dest);
+                if (paths == null) {
                     output.println("no path found");
                 } else {
                     double totalCost = 0;
@@ -218,6 +179,7 @@ public class PathfinderTestDriver {
                                 String.format(" %.3f", seg.getCost()));
                     }
                     output.println("total cost: " + String.format(" %.3f", totalCost));
+
                 }
             }
         }

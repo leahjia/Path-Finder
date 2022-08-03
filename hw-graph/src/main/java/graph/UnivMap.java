@@ -8,7 +8,7 @@ import java.util.*;
  *  is represented by a non-null T, and each edge with the same source node and
  *  destination node has a unique label.
  */
-public class UnivMap<T> {
+public class UnivMap<T, E> {
     // RI: either true or false
     // AF(this) = true when running expensive rep invariant tests, false when running
     //            only cheap tests
@@ -32,7 +32,7 @@ public class UnivMap<T> {
     //      i = T representation of node in UnivMap,
     //      j = T representation of child node of node i, and
     //      k = label of edge from node i to node j.
-    private final Map<T, Map<T, List<T>>> UnivMap;
+    private final Map<T, Map<T, List<E>>> UnivMap;
 
     // Checks representation invariant for the entire map, including
     //  checking nulls for all nodes, their outgoing edges, and duplicate edges
@@ -44,7 +44,7 @@ public class UnivMap<T> {
         if (DEBUG) {
             for (T src: UnivMap.keySet()) { // take each node
                 for (T dst: UnivMap.get(src).keySet()) { // go to each child
-                    List<T> edges = new ArrayList<>(UnivMap.get(src).get(dst)); // go to list of edges
+                    List<E> edges = new ArrayList<>(UnivMap.get(src).get(dst)); // go to list of edges
                     // verify no null edges
                     assert !edges.contains(null): "Null edge";
                     int n = edges.size();
@@ -96,7 +96,7 @@ public class UnivMap<T> {
      * @spec.modifies this
      * @spec.effects edges from src to dst in this now contain label
      */
-    public void AddEdge(T src, T dst, T label) throws IllegalArgumentException {
+    public void AddEdge(T src, T dst, E label) throws IllegalArgumentException {
         checkRep();
         if (src == null || dst == null || label == null) {
             throw new IllegalArgumentException("Null node/label received.");
@@ -118,7 +118,7 @@ public class UnivMap<T> {
             UnivMap.get(src).get(dst).add(label);
         } else {
             // creates an edge list for this label
-            List<T> newEdgeList = new ArrayList<>();
+            List<E> newEdgeList = new ArrayList<>();
             newEdgeList.add(label);
             UnivMap.get(src).put(dst, newEdgeList);
         }
@@ -150,9 +150,9 @@ public class UnivMap<T> {
      * @spec.modifies this
      * @spec.effects edge named label from source to destination is removed from this
      */
-    public void RemoveEdge(T src, T dst, T label)  {
+    public void RemoveEdge(T src, T dst, E label)  {
         checkRep();
-        List<T> labels = getLabels(src, dst);
+        List<E> labels = getLabels(src, dst);
         if (labels.contains(label)) {
             UnivMap.get(src).get(dst).remove(labels.indexOf(label));
             if (labels.size() == 1) { // actual size is 0 after remove
@@ -230,11 +230,11 @@ public class UnivMap<T> {
      * @param dst the destination node of the edges
      * @return list of all edges from src to dst
      */
-    public List<T> getLabels(T src, T dst) {
+    public List<E> getLabels(T src, T dst) {
         if (!this.contains(src) || !UnivMap.get(src).containsKey(dst)) {
             return new ArrayList<>();
         }
-        List<T> output = new ArrayList<>(UnivMap.get(src).get(dst));
+        List<E> output = new ArrayList<>(UnivMap.get(src).get(dst));
         checkRep();
         return output;
     }
