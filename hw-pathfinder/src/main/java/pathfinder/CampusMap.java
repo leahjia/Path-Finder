@@ -33,7 +33,12 @@ public class CampusMap<T> implements ModelAPI<T> {
     @Override
     public String longNameForShort(String shortName) {
         // DONE: Implement this method exactly as it is specified in ModelAPI
-        return buildingNames().get(shortName);
+        if (!shortNameExists(shortName)) {
+            throw new IllegalArgumentException("short name provided does not exist");
+        } else {
+            String output = buildingNames().get(shortName);
+            return output;
+        }
     }
 
     @Override
@@ -48,48 +53,33 @@ public class CampusMap<T> implements ModelAPI<T> {
     }
 
     @Override
-    public Path<CampusBuilding> findShortestPath(String startShortName, String endShortName) {
+    public Path<Point> findShortestPath(String startShortName, String endShortName) {
         // TODO: Implement this method exactly as it is specified in ModelAPI
-        List<CampusBuilding> buildings = CampusPathsParser.parseCampusBuildings("campus_buildings.csv");
-        UnivMap<CampusBuilding, Double> map = new UnivMap<>();
-        CampusBuilding startBuilding = null;
-        CampusBuilding endBuilding = null;
+        List<CampusBuilding> buildings =
+                CampusPathsParser.parseCampusBuildings("campus_buildings.csv");
+        List<CampusPath> paths = CampusPathsParser.parseCampusPaths("campus_paths.csv");
+
+        UnivMap<Point, Double> map = new UnivMap<>();
+        Point startBuilding = null;
+        Point endBuilding = null;
         for (CampusBuilding building: buildings) {
-            map.AddNode(building);
+            Point newBuilding = new Point(building.getX(), building.getY());
+            map.AddNode(newBuilding);
             if (building.getShortName().equals(startShortName)) {
-                startBuilding = building;
+                startBuilding = newBuilding;
             } else if (building.getShortName().equals(endShortName)) {
-                endBuilding = building;
+                endBuilding = newBuilding;
             }
         }
-
-        List<CampusPath> paths = CampusPathsParser.parseCampusPaths("campus_paths.csv");
         for (CampusPath path : paths) {
-            double pathX1 = path.getX1();
-            double pathX2 = path.getX2();
-            double pathY1 = path.getY1();
-            double pathY2 = path.getY2();
-            // initially assume both endpoints are non-CampusBuildings
-            CampusBuilding start = new CampusBuilding(null, null, pathX1, pathY1);
-            CampusBuilding end = new CampusBuilding(null, null, pathX2, pathY2);
-            for (CampusBuilding building: map.getNodes()) {
-                double buildX = building.getX();
-                double buildY = building.getY();
-                String shortName = building.getShortName();
-                String longName = building.getLongName();
-                if (buildX == pathX1 && buildY == pathY1) {
-                    // start building matched
-                    start = new CampusBuilding(shortName, longName, pathX1, pathY1);
-                } else if (buildX == pathX2 && buildY == pathY2) {
-                    end = new CampusBuilding(shortName, longName, pathX2, pathY2);
-                }
-            }
+            Point startPoint = new Point(path.getX1(), path.getY1());
+            Point endPoint = new Point(path.getX2(), path.getY2());
             double weight = path.getDistance();
-            map.AddEdge(start, end, weight);
+            map.AddEdge(startPoint, endPoint, weight);
         }
 
         if (startBuilding != null && endBuilding != null) {
-            DijkstraPathFinder<CampusBuilding, Double> finder = new DijkstraPathFinder<>();
+            DijkstraPathFinder<Point, Double> finder = new DijkstraPathFinder<>();
             return finder.DijkstraPath(map, startBuilding, endBuilding);
         } else {
             throw new IllegalArgumentException("start/end are null, or not valid short names of buildings");
