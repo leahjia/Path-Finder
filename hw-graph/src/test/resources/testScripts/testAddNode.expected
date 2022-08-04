@@ -1,9 +1,0 @@
-# UnivMap adding nodes testing file.
-# Tests that nodes can be added to the university map
-
-# Create a graph
-created graph map1
-
-# Add a pair of nodes
-added node n1 to map1
-added node n2 to map1

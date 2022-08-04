@@ -1,4 +1,4 @@
-# University Map listing children nodes testing file.
+# DesignMap listing children nodes testing file.
 # Tests that a list of destination nodes from a given node can be computed
 
 # Create a graph
