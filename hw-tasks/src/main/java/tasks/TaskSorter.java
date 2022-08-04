@@ -81,7 +81,7 @@ public class TaskSorter {
         // NOTE: The edge should go from "before" to "after"!
         //       The tests will not pass if the edges are the other way.
 
-        if (map.getLabels(before, after).isEmpty()) {
+        if (!map.getLabels(before, after).contains(dep)) {
             map.AddEdge(before, after, dep);
         }
     }
