@@ -138,7 +138,7 @@ public class DesignMap<T, E> {
     public void removeNode(T node) {
         checkRep();
         // remove edges that go to node
-        for (T str: getNodes()) {
+        for (T str: listNodes()) {
             DesignMap.get(str).remove(node);
         }
         // remove node and its outgoing edges
@@ -209,7 +209,7 @@ public class DesignMap<T, E> {
         }
 
         List<T> output = new ArrayList<>();
-        for (T str: getNodes()) {
+        for (T str: listNodes()) {
             if (DesignMap.get(str).containsKey(dest)) {
                 output.add(str);
             }
@@ -222,7 +222,7 @@ public class DesignMap<T, E> {
      * Lists all the nodes in this
      * @return List of all nodes in this map
      */
-    public List<T> getNodes() {
+    public List<T> listNodes() {
         List<T> output = new ArrayList<>(DesignMap.keySet());
         checkRep();
         return output;

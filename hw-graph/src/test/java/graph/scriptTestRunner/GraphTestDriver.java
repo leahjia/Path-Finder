@@ -173,7 +173,7 @@ public class GraphTestDriver {
     private void listNodes(String graphName) {
         // Done Insert your code here.
         DesignMap<String, String> map1 = graphs.get(graphName);
-        List<String> printOutput = map1.getNodes();
+        List<String> printOutput = map1.listNodes();
         Arrays.sort(printOutput.toArray());
         StringBuilder str = new StringBuilder();
         for (String node: printOutput) {

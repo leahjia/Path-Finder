@@ -256,7 +256,7 @@ public class DesignMapTest<T> {
         map1.addNode(C);
         map1.addNode(B);
         map1.addNode(A);
-        List<String> nodeList = map1.getNodes();
+        List<String> nodeList = map1.listNodes();
         assertTrue(nodeList.contains(A));
         assertTrue(nodeList.contains(B));
         assertTrue(nodeList.contains(C));

@@ -61,7 +61,7 @@ public class TaskSorter {
      */
     public Set<Task> getTasks() {
         // DONE: Implement getting all the tasks (nodes) in the graph.
-        return new HashSet<>(map.getNodes());
+        return new HashSet<>(map.listNodes());
     }
 
     /**
