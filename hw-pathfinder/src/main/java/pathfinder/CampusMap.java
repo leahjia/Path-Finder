@@ -36,9 +36,7 @@ public class CampusMap<T> implements ModelAPI {
         if (!shortNameExists(shortName)) {
             throw new IllegalArgumentException("short name provided does not exist");
         } else {
-            StringBuilder output = new StringBuilder();
-            output.append(buildingNames().get(shortName));
-            return output.toString();
+            return buildingNames().get(shortName);
         }
     }
 
