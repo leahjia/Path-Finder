@@ -11,7 +11,7 @@
 
 package pathfinder.scriptTestRunner;
 
-import graph.UnivMap;
+import graph.DesignMap;
 import pathfinder.datastructures.Path;
 import pathfinder.DijkstraPathFinder;
 
@@ -27,7 +27,7 @@ public class PathfinderTestDriver {
     /**
      * T -> Graph: maps the names of graphs to the actual graph
      **/
-    private final Map<String, UnivMap<String, Double>> graphs = new HashMap<>();
+    private final Map<String, DesignMap<String, Double>> graphs = new HashMap<>();
     private final PrintWriter output;
     private final BufferedReader input;
 
@@ -108,7 +108,7 @@ public class PathfinderTestDriver {
     }
 
     private void createGraph(String graphName) {
-        graphs.put(graphName, new UnivMap<>());
+        graphs.put(graphName, new DesignMap<>());
         output.println("created graph " + graphName);
     }
 
@@ -122,7 +122,7 @@ public class PathfinderTestDriver {
     }
 
     private void addNode(String graphName, String nodeName) {
-        UnivMap<String, Double> map1 = graphs.get(graphName);
+        DesignMap<String, Double> map1 = graphs.get(graphName);
         map1.AddNode(nodeName);
         output.println("added node " + nodeName + " to " + graphName);
     }
@@ -139,7 +139,7 @@ public class PathfinderTestDriver {
     }
 
     private void addEdge(String graphName, String parentName, String childName, double weight) {
-        UnivMap<String, Double> map1 = graphs.get(graphName);
+        DesignMap<String, Double> map1 = graphs.get(graphName);
         map1.AddEdge(parentName, childName, weight);
         output.println("added edge " + String.format(" %.3f", weight) +
                 " from " + parentName + " to " + childName + " in " + graphName);
@@ -152,7 +152,7 @@ public class PathfinderTestDriver {
         String graphName = arguments.get(0);
         String start = arguments.get(1);
         String dest = arguments.get(2);
-        UnivMap<String, Double> map = graphs.get(graphName);
+        DesignMap<String, Double> map = graphs.get(graphName);
         if (!map.contains(start) && !map.contains(dest)) {
             output.println("unknown: " + start);
             output.println("unknown: " + dest);

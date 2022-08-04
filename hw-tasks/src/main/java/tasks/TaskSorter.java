@@ -30,14 +30,14 @@ public class TaskSorter {
 
     // The map of nodes and their outgoing edges and destination nodes, where
     //  the nodes represent the Task objects and the edges represent Dependency objects.
-    private final UnivMap<Task, Dependency> map;
+    private final DesignMap<Task, Dependency> map;
 
     /**
      * Creates a new TaskSorter object with no added tasks or dependencies.
      */
     public TaskSorter() {
         // DONE: Implement creating an empty graph.
-        map = new UnivMap<>();
+        map = new DesignMap<>();
     }
 
     /**

@@ -11,7 +11,7 @@
 
 package pathfinder;
 
-import graph.UnivMap;
+import graph.DesignMap;
 import pathfinder.datastructures.Path;
 import pathfinder.datastructures.Point;
 import pathfinder.parser.CampusBuilding;
@@ -62,7 +62,7 @@ public class CampusMap<T> implements ModelAPI {
         List<CampusPath> paths = CampusPathsParser.parseCampusPaths("campus_paths.csv");
 
         // adds all nodes to map, and tags the start and end buildings
-        UnivMap<Point, Double> map = new UnivMap<>();
+        DesignMap<Point, Double> map = new DesignMap<>();
         Point startBuilding = null;
         Point endBuilding = null;
         for (CampusBuilding building: buildings) {

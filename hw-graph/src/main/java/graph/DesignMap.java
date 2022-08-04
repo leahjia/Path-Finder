@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.*;
 
 /**
- * UnivMap represents a mutable map of nodes and edges, where each node and each edge
- *  is represented by a non-null T, and each edge with the same source node and
- *  destination node has a unique label.
+ * DesignMap represents a mutable map of nodes and edges, where each node is
+ *  represented by a non-null T, and each edge is represented by a non-null E.
+ *
+ *  Abstract Invariant:
+ *  *  Each Node and each edge needs to be unique.
  */
-public class UnivMap<T, E> {
+public class DesignMap<T, E> {
     // RI: either true or false
     // AF(this) = true when running expensive rep invariant tests, false when running
     //            only cheap tests
@@ -16,23 +18,23 @@ public class UnivMap<T, E> {
 
     // The map of nodes and their outgoing edges and destinations
     // Representation Invariant:
-    //  !UnivMap.contains(null), and
-    //  !UnivMap.get(node 1).contains(null), !UnivMap.get(node 2).contains(null), ...
-    //      !UnivMap.get(node n).contains(null), where n = map.size(), and
-    //  UnivMap.get(source).get(destination).get(0)
-    //      != UnivMap.get(source).get(destination).get(1) != ...
-    //      != UnivMap.get(source).get(destination).get(i - 1),
-    //      where i = UnivMap.get(source).get(destination).size(),
+    //  !DesignMap.contains(null), and
+    //  !DesignMap.get(node 1).contains(null), !DesignMap.get(node 2).contains(null), ...
+    //      !DesignMap.get(node n).contains(null), where n = map.size(), and
+    //  DesignMap.get(source).get(destination).get(0)
+    //      != DesignMap.get(source).get(destination).get(1) != ...
+    //      != DesignMap.get(source).get(destination).get(i - 1),
+    //      where i = DesignMap.get(source).get(destination).size(),
     //
     // Abstraction Function:
     //  AF(this) = a map such that
     //   map.keySet() = {node 1, node 2, ..., node i}, and
     //   map.get(node i) = an inner map, where each key represents each child node of node i,
     //      and map.get(node i).get(child j) = {edge 1, edge 2, ..., edge k}.
-    //      i = T representation of node in UnivMap,
+    //      i = T representation of node in DesignMap,
     //      j = T representation of child node of node i, and
     //      k = label of edge from node i to node j.
-    private final Map<T, Map<T, List<E>>> UnivMap;
+    private final Map<T, Map<T, List<E>>> DesignMap;
 
     // Checks representation invariant for the entire map, including
     //  checking nulls for all nodes, their outgoing edges, and duplicate edges
@@ -42,9 +44,9 @@ public class UnivMap<T, E> {
         assert !this.contains(null): "Null node";
         // expensive tests:
         if (DEBUG) {
-            for (T src: UnivMap.keySet()) { // take each node
-                for (T dst: UnivMap.get(src).keySet()) { // go to each child
-                    List<E> edges = new ArrayList<>(UnivMap.get(src).get(dst)); // go to list of edges
+            for (T src: DesignMap.keySet()) { // take each node
+                for (T dst: DesignMap.get(src).keySet()) { // go to each child
+                    List<E> edges = new ArrayList<>(DesignMap.get(src).get(dst)); // go to list of edges
                     // verify no null edges
                     assert !edges.contains(null): "Null edge";
                     int n = edges.size();
@@ -60,11 +62,11 @@ public class UnivMap<T, E> {
     }
 
     /**
-     * Constructs an empty UnivMap
-     * @spec.effects this = a new empty UnivMap
+     * Constructs an empty DesignMap
+     * @spec.effects this = a new empty DesignMap
      */
-    public UnivMap() {
-        this.UnivMap = new HashMap<>();
+    public DesignMap() {
+        this.DesignMap = new HashMap<>();
     }
 
     /**
@@ -80,7 +82,7 @@ public class UnivMap<T, E> {
         if (A == null) {
             throw new IllegalArgumentException("Tried to add a null node.");
         }
-        UnivMap.put(A, new HashMap<>());
+        DesignMap.put(A, new HashMap<>());
         checkRep();
     }
 
@@ -109,18 +111,18 @@ public class UnivMap<T, E> {
         }
 
         checkRep();
-        if (UnivMap.get(src).containsKey(dst)) {
+        if (DesignMap.get(src).containsKey(dst)) {
             // there is already a list of edges
             if (getLabels(src, dst).contains(label)) {
                 throw new IllegalArgumentException("Duplicate edges.");
             }
             // adds label to existing edge list
-            UnivMap.get(src).get(dst).add(label);
+            DesignMap.get(src).get(dst).add(label);
         } else {
             // creates an edge list for this label
             List<E> newEdgeList = new ArrayList<>();
             newEdgeList.add(label);
-            UnivMap.get(src).put(dst, newEdgeList);
+            DesignMap.get(src).put(dst, newEdgeList);
         }
         checkRep();
     }
@@ -135,10 +137,10 @@ public class UnivMap<T, E> {
         checkRep();
         // remove edges that go to A
         for (T str: getNodes()) {
-            UnivMap.get(str).remove(A);
+            DesignMap.get(str).remove(A);
         }
         // remove A and its outgoing edges
-        UnivMap.remove(A);
+        DesignMap.remove(A);
         checkRep();
     }
 
@@ -154,10 +156,10 @@ public class UnivMap<T, E> {
         checkRep();
         List<E> labels = getLabels(src, dst);
         if (labels.contains(label)) {
-            UnivMap.get(src).get(dst).remove(labels.indexOf(label));
+            DesignMap.get(src).get(dst).remove(labels.indexOf(label));
             if (labels.size() == 1) { // actual size is 0 after remove
                 // get rid of empty list with no edges
-                UnivMap.get(src).remove(dst);
+                DesignMap.get(src).remove(dst);
             }
         }
         checkRep();
@@ -168,9 +170,9 @@ public class UnivMap<T, E> {
      * Lists all the nodes that can be directly reached from given source node
      * @param A the source node
      * @throws IllegalArgumentException if A is null
-     * @throws NoSuchElementException if !UnivMap.contains(A)
+     * @throws NoSuchElementException if !DesignMap.contains(A)
      * @return A list of nodes that are direct destinations from source A
-     * @spec.requires A != null and UnivMap.contains(A)
+     * @spec.requires A != null and DesignMap.contains(A)
      */
     public List<T> ListChildren(T A)
             throws IllegalArgumentException, NoSuchElementException {
@@ -181,7 +183,7 @@ public class UnivMap<T, E> {
         if (!this.contains(A)) {
             throw new NoSuchElementException("Node does not exist.");
         }
-        List<T> output = new ArrayList<>(UnivMap.get(A).keySet());
+        List<T> output = new ArrayList<>(DesignMap.get(A).keySet());
         checkRep();
         return output;
     }
@@ -190,9 +192,9 @@ public class UnivMap<T, E> {
      * Lists all the nodes that can directly reach given destination node
      * @param A the destination node we want to find the parents of
      * @throws IllegalArgumentException if A is null
-     * @throws NoSuchElementException if !UnivMap.contains(A)
+     * @throws NoSuchElementException if !DesignMap.contains(A)
      * @return List of all the nodes that can directly reach A
-     * @spec.requires A != null and UnivMap.contains(A)
+     * @spec.requires A != null and DesignMap.contains(A)
      */
     public List<T> ListParents(T A)
             throws IllegalArgumentException, NoSuchElementException{
@@ -206,7 +208,7 @@ public class UnivMap<T, E> {
 
         List<T> output = new ArrayList<>();
         for (T str: getNodes()) {
-            if (UnivMap.get(str).containsKey(A)) {
+            if (DesignMap.get(str).containsKey(A)) {
                 output.add(str);
             }
         }
@@ -219,7 +221,7 @@ public class UnivMap<T, E> {
      * @return List of all nodes in this map
      */
     public List<T> getNodes() {
-        List<T> output = new ArrayList<>(UnivMap.keySet());
+        List<T> output = new ArrayList<>(DesignMap.keySet());
         checkRep();
         return output;
     }
@@ -231,10 +233,10 @@ public class UnivMap<T, E> {
      * @return list of all edges from src to dst
      */
     public List<E> getLabels(T src, T dst) {
-        if (!this.contains(src) || !UnivMap.get(src).containsKey(dst)) {
+        if (!this.contains(src) || !DesignMap.get(src).containsKey(dst)) {
             return new ArrayList<>();
         }
-        List<E> output = new ArrayList<>(UnivMap.get(src).get(dst));
+        List<E> output = new ArrayList<>(DesignMap.get(src).get(dst));
         checkRep();
         return output;
     }
@@ -245,7 +247,7 @@ public class UnivMap<T, E> {
      * @return a boolean that is true if this contains A and false otherwise
      */
     public boolean contains(T A) {
-        return UnivMap.containsKey(A);
+        return DesignMap.containsKey(A);
     }
 
 }

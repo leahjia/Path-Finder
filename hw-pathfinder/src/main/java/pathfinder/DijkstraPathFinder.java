@@ -1,6 +1,6 @@
 package pathfinder;
 
-import graph.UnivMap;
+import graph.DesignMap;
 import pathfinder.datastructures.Path;
 
 import java.util.Comparator;
@@ -20,7 +20,7 @@ public class DijkstraPathFinder<T, E> {
         }
     }
 
-    public Path<T> DijkstraPath(UnivMap<T, E> map, T start, T dest) {
+    public Path<T> DijkstraPath(DesignMap<T, E> map, T start, T dest) {
         // Each element is a path from start to a given node.
         // A path's “priority” in the queue is the total cost of that path.
         PriorityQueue<Path<T>> pq = new PriorityQueue<>(new PathComparator());
