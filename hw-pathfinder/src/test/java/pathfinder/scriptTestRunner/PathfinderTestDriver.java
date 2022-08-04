@@ -162,9 +162,6 @@ public class PathfinderTestDriver {
             output.println("unknown: " + dest);
         } else {
             output.println("path from " + start + " to " + dest + ":");
-            if (start.equals(dest)) {
-                output.println("total cost: " + String.format(" %.3f", 0.0));
-            } else {
                 DijkstraPathFinder<String, Double> finder = new DijkstraPathFinder<>();
                 Path<String> paths = finder.DijkstraPath(map, start, dest);
                 if (paths == null) {
@@ -177,8 +174,6 @@ public class PathfinderTestDriver {
                                 String.format(" %.3f", seg.getCost()));
                     }
                     output.println("total cost: " + String.format(" %.3f", totalCost));
-
-                }
             }
         }
     }

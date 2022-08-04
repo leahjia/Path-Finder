@@ -20,9 +20,6 @@ public class DijkstraPathFinder<T, E> {
         }
     }
 
-    public static void main(String[] args) {
-    }
-
     public Path<T> DijkstraPath(UnivMap<T, E> map, T start, T dest) {
         // Each element is a path from start to a given node.
         // A path's “priority” in the queue is the total cost of that path.
@@ -32,6 +29,9 @@ public class DijkstraPathFinder<T, E> {
         initPath.extend(start, 0.0);
         pq.add(initPath);
         Path<T> paths = initPath;
+        if (start.equals(dest)) {
+            return paths;
+        }
         while (!pq.isEmpty()) {
             // next lowest-costing path
             Path<T> currPath = pq.remove();

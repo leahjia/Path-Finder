@@ -54,11 +54,15 @@ public class CampusMap<T> implements ModelAPI<T> {
 
     @Override
     public Path<Point> findShortestPath(String startShortName, String endShortName) {
-        // TODO: Implement this method exactly as it is specified in ModelAPI
+        // DONE: Implement this method exactly as it is specified in ModelAPI
+        if (!shortNameExists(startShortName) || !shortNameExists(endShortName)) {
+            throw new IllegalArgumentException("Not valid short names of buildings");
+        }
         List<CampusBuilding> buildings =
                 CampusPathsParser.parseCampusBuildings("campus_buildings.csv");
         List<CampusPath> paths = CampusPathsParser.parseCampusPaths("campus_paths.csv");
 
+        // adds all nodes to map, and tags the start and end buildings
         UnivMap<Point, Double> map = new UnivMap<>();
         Point startBuilding = null;
         Point endBuilding = null;
@@ -67,10 +71,18 @@ public class CampusMap<T> implements ModelAPI<T> {
             map.AddNode(newBuilding);
             if (building.getShortName().equals(startShortName)) {
                 startBuilding = newBuilding;
-            } else if (building.getShortName().equals(endShortName)) {
+            }
+            if (building.getShortName().equals(endShortName)) {
                 endBuilding = newBuilding;
             }
         }
+
+        // checks if either start or end building is still null
+        if (startBuilding == null && endBuilding == null) {
+            throw new IllegalArgumentException("start or end are null");
+        }
+
+        // adds all edges to map
         for (CampusPath path : paths) {
             Point startPoint = new Point(path.getX1(), path.getY1());
             Point endPoint = new Point(path.getX2(), path.getY2());
@@ -78,12 +90,8 @@ public class CampusMap<T> implements ModelAPI<T> {
             map.AddEdge(startPoint, endPoint, weight);
         }
 
-        if (startBuilding != null && endBuilding != null) {
-            DijkstraPathFinder<Point, Double> finder = new DijkstraPathFinder<>();
-            return finder.DijkstraPath(map, startBuilding, endBuilding);
-        } else {
-            throw new IllegalArgumentException("start/end are null, or not valid short names of buildings");
-        }
+        DijkstraPathFinder<Point, Double> finder = new DijkstraPathFinder<>();
+        return finder.DijkstraPath(map, startBuilding, endBuilding);
     }
 
 }
