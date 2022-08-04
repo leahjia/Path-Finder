@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CampusMap<T> implements ModelAPI<T> {
+public class CampusMap<T> implements ModelAPI {
 
     @Override
     public boolean shortNameExists(String shortName) {
@@ -36,8 +36,9 @@ public class CampusMap<T> implements ModelAPI<T> {
         if (!shortNameExists(shortName)) {
             throw new IllegalArgumentException("short name provided does not exist");
         } else {
-            String output = buildingNames().get(shortName);
-            return output;
+            StringBuilder output = new StringBuilder();
+            output.append(buildingNames().get(shortName));
+            return output.toString();
         }
     }
 

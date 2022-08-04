@@ -13,7 +13,6 @@ package pathfinder.textInterface;
 
 import pathfinder.datastructures.Path;
 import pathfinder.datastructures.Point;
-import pathfinder.parser.CampusBuilding;
 
 import java.io.BufferedReader;
 import java.io.IOException;

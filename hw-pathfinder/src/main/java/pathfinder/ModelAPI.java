@@ -13,8 +13,6 @@ package pathfinder;
 
 import pathfinder.datastructures.Path;
 import pathfinder.datastructures.Point;
-import pathfinder.parser.CampusBuilding;
-import pathfinder.parser.CampusPath;
 
 import java.util.Map;
 
@@ -33,7 +31,7 @@ different ways, without requiring a lot of work to change things over.
  * This interface represents the API that the text interface
  * view/controller require models to implement.
  */
-public interface ModelAPI<T> {
+public interface ModelAPI {
 
     // Note: Do not change any of these method specifications, since code inside the view
     // and controller depend on this API.

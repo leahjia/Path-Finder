@@ -14,7 +14,6 @@ package pathfinder.textInterface;
 import pathfinder.ModelAPI;
 import pathfinder.datastructures.Path;
 import pathfinder.datastructures.Point;
-import pathfinder.parser.CampusBuilding;
 
 import java.util.Map;
 
@@ -31,7 +30,7 @@ public class TextInterfaceController implements InputHandler {
     /**
      * The data-carrier and processor for the application.
      */
-    private ModelAPI<String> model;
+    private ModelAPI model;
 
     /**
      * The user-facing view and input receiver for this application.
@@ -45,7 +44,7 @@ public class TextInterfaceController implements InputHandler {
      * @param model A model to use for computation and data.
      * @param view  A view to use to display data to the user.
      */
-    public TextInterfaceController(ModelAPI<String> model, TextInterfaceView view) {
+    public TextInterfaceController(ModelAPI model, TextInterfaceView view) {
         this.model = model;
         this.view = view;
     }
