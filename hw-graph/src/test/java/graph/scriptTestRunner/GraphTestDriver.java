@@ -135,7 +135,7 @@ public class GraphTestDriver {
     private void addNode(String graphName, String nodeName) {
         // Done Insert your code here.
         DesignMap<String, String> map1 = graphs.get(graphName);
-        map1.AddNode(nodeName);
+        map1.addNode(nodeName);
         output.println("added node " + nodeName + " to " + graphName);
     }
 
@@ -156,7 +156,7 @@ public class GraphTestDriver {
                          String edgeLabel) {
         // Done Insert your code here.
         DesignMap<String, String> map1 = graphs.get(graphName);
-        map1.AddEdge(parentName, childName, edgeLabel);
+        map1.addEdge(parentName, childName, edgeLabel);
         output.println("added edge " + edgeLabel + " from " + parentName +
                 " to " + childName + " in " + graphName);
     }
@@ -196,7 +196,7 @@ public class GraphTestDriver {
     private void listChildren(String graphName, String parentName) {
         // Done Insert your code here.
         DesignMap<String, String> map1 = graphs.get(graphName);
-        List<String> childrenList = map1.ListChildren(parentName);
+        List<String> childrenList = map1.listChildren(parentName);
         Arrays.sort(childrenList.toArray());
         StringBuilder str = new StringBuilder();
         for (String child: childrenList) {

@@ -1,5 +1,6 @@
 # UnivMap adding edges testing file.
 # Tests that edges can be added to the university map
+# with new nodes also automatically added to the map
 
 # Create a graph
 created graph map1

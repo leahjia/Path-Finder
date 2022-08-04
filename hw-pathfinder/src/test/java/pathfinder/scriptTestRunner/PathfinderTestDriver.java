@@ -123,7 +123,7 @@ public class PathfinderTestDriver {
 
     private void addNode(String graphName, String nodeName) {
         DesignMap<String, Double> map1 = graphs.get(graphName);
-        map1.AddNode(nodeName);
+        map1.addNode(nodeName);
         output.println("added node " + nodeName + " to " + graphName);
     }
 
@@ -140,7 +140,7 @@ public class PathfinderTestDriver {
 
     private void addEdge(String graphName, String parentName, String childName, double weight) {
         DesignMap<String, Double> map1 = graphs.get(graphName);
-        map1.AddEdge(parentName, childName, weight);
+        map1.addEdge(parentName, childName, weight);
         output.println("added edge " + String.format(" %.3f", weight) +
                 " from " + parentName + " to " + childName + " in " + graphName);
     }

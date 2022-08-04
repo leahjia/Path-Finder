@@ -71,23 +71,25 @@ public class DesignMap<T, E> {
 
     /**
      * Adds a node to this map if it does not already exist
-     * @param A the node to be added to this map
-     * @throws IllegalArgumentException if A is null
-     * @spec.requires A != null
+     * @param newNode the node to be added to this map
+     * @throws IllegalArgumentException if newNode is null
+     * @spec.requires newNode != null
      * @spec.modifies this
-     * @spec.effects this with node A in it
+     * @spec.effects this with node newNode in it
      */
-    public void AddNode(T A) throws IllegalArgumentException {
+    public void addNode(T newNode) throws IllegalArgumentException {
         checkRep();
-        if (A == null) {
+        if (newNode == null) {
             throw new IllegalArgumentException("Tried to add a null node.");
         }
-        DesignMap.put(A, new HashMap<>());
+        DesignMap.put(newNode, new HashMap<>());
         checkRep();
     }
 
     /**
-     * Adds an edge from a source node to a destination node in this map
+     * Adds an edge from a source node to a destination node in this map. If any
+     *  one of the source and destination nodes does not already exist, automatically
+     *  adds the missing node(s) before adding the new edge.
      * @param src the source node of the edge
      * @param dst the destination node of this edge
      * @param label the edge to be added from src to dst in the map
@@ -98,16 +100,16 @@ public class DesignMap<T, E> {
      * @spec.modifies this
      * @spec.effects edges from src to dst in this now contain label
      */
-    public void AddEdge(T src, T dst, E label) throws IllegalArgumentException {
+    public void addEdge(T src, T dst, E label) throws IllegalArgumentException {
         checkRep();
         if (src == null || dst == null || label == null) {
             throw new IllegalArgumentException("Null node/label received.");
         }
         if (!this.contains(src)) {
-            this.AddNode(src);
+            this.addNode(src);
         }
         if (!this.contains(dst)) {
-            this.AddNode(dst);
+            this.addNode(dst);
         }
 
         checkRep();
@@ -129,18 +131,18 @@ public class DesignMap<T, E> {
 
     /**
      * Removes a node (if exists) and all edges from and to this node from the map
-     * @param A the node to be removed from this map
+     * @param node the node to be removed from this map
      * @spec.modifies this
-     * @spec.effects node A and all its incoming and outgoing edges are removed from this
+     * @spec.effects node and all its incoming and outgoing edges are removed from this
      */
-    public void RemoveNode(T A) {
+    public void removeNode(T node) {
         checkRep();
-        // remove edges that go to A
+        // remove edges that go to node
         for (T str: getNodes()) {
-            DesignMap.get(str).remove(A);
+            DesignMap.get(str).remove(node);
         }
-        // remove A and its outgoing edges
-        DesignMap.remove(A);
+        // remove node and its outgoing edges
+        DesignMap.remove(node);
         checkRep();
     }
 
@@ -152,7 +154,7 @@ public class DesignMap<T, E> {
      * @spec.modifies this
      * @spec.effects edge named label from source to destination is removed from this
      */
-    public void RemoveEdge(T src, T dst, E label)  {
+    public void removeEdge(T src, T dst, E label)  {
         checkRep();
         List<E> labels = getLabels(src, dst);
         if (labels.contains(label)) {
@@ -168,47 +170,47 @@ public class DesignMap<T, E> {
 
     /**
      * Lists all the nodes that can be directly reached from given source node
-     * @param A the source node
-     * @throws IllegalArgumentException if A is null
-     * @throws NoSuchElementException if !DesignMap.contains(A)
-     * @return A list of nodes that are direct destinations from source A
-     * @spec.requires A != null and DesignMap.contains(A)
+     * @param source the source node
+     * @throws IllegalArgumentException if source is null
+     * @throws NoSuchElementException if !DesignMap.contains(source)
+     * @return A list of nodes that are direct destinations from source
+     * @spec.requires source != null and DesignMap.contains(source)
      */
-    public List<T> ListChildren(T A)
+    public List<T> listChildren(T source)
             throws IllegalArgumentException, NoSuchElementException {
         checkRep();
-        if (A == null) {
+        if (source == null) {
             throw new IllegalArgumentException("Null node received.");
         }
-        if (!this.contains(A)) {
+        if (!this.contains(source)) {
             throw new NoSuchElementException("Node does not exist.");
         }
-        List<T> output = new ArrayList<>(DesignMap.get(A).keySet());
+        List<T> output = new ArrayList<>(DesignMap.get(source).keySet());
         checkRep();
         return output;
     }
 
     /**
      * Lists all the nodes that can directly reach given destination node
-     * @param A the destination node we want to find the parents of
-     * @throws IllegalArgumentException if A is null
-     * @throws NoSuchElementException if !DesignMap.contains(A)
-     * @return List of all the nodes that can directly reach A
-     * @spec.requires A != null and DesignMap.contains(A)
+     * @param dest the destination node we want to find the parents of
+     * @throws IllegalArgumentException if dest is null
+     * @throws NoSuchElementException if !DesignMap.contains(dest)
+     * @return List of all the nodes that can directly reach dest
+     * @spec.requires dest != null and DesignMap.contains(A)
      */
-    public List<T> ListParents(T A)
+    public List<T> listParents(T dest)
             throws IllegalArgumentException, NoSuchElementException{
         checkRep();
-        if (A == null) {
+        if (dest == null) {
             throw new IllegalArgumentException("Null node received.");
         }
-        if (!this.contains(A)) {
+        if (!this.contains(dest)) {
             throw new NoSuchElementException("Node does not exist.");
         }
 
         List<T> output = new ArrayList<>();
         for (T str: getNodes()) {
-            if (DesignMap.get(str).containsKey(A)) {
+            if (DesignMap.get(str).containsKey(dest)) {
                 output.add(str);
             }
         }
@@ -242,12 +244,12 @@ public class DesignMap<T, E> {
     }
 
     /**
-     * Checks if this map contains node A
-     * @param A the node to be checked in this
-     * @return a boolean that is true if this contains A and false otherwise
+     * Checks if this map contains node
+     * @param node the node to be checked in this
+     * @return a boolean that is true if this contains node and false otherwise
      */
-    public boolean contains(T A) {
-        return DesignMap.containsKey(A);
+    public boolean contains(T node) {
+        return DesignMap.containsKey(node);
     }
 
 }

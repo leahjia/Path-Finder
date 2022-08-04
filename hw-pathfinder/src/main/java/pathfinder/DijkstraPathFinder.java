@@ -43,7 +43,7 @@ public class DijkstraPathFinder<T, E> {
                 break;
             }
             if (!known.contains(edgeTo)) {
-                for (T child : map.ListChildren(edgeTo)) {
+                for (T child : map.listChildren(edgeTo)) {
                     if (!known.contains(child)) {
                         String minCost = map.getLabels(edgeTo, child).get(0).toString();
                         double newCost = Double.parseDouble(minCost);

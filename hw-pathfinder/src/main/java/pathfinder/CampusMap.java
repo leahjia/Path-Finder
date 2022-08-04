@@ -67,7 +67,7 @@ public class CampusMap<T> implements ModelAPI {
         Point endBuilding = null;
         for (CampusBuilding building: buildings) {
             Point newBuilding = new Point(building.getX(), building.getY());
-            map.AddNode(newBuilding);
+            map.addNode(newBuilding);
             if (building.getShortName().equals(startShortName)) {
                 startBuilding = newBuilding;
             }
@@ -86,7 +86,7 @@ public class CampusMap<T> implements ModelAPI {
             Point startPoint = new Point(path.getX1(), path.getY1());
             Point endPoint = new Point(path.getX2(), path.getY2());
             double weight = path.getDistance();
-            map.AddEdge(startPoint, endPoint, weight);
+            map.addEdge(startPoint, endPoint, weight);
         }
 
         DijkstraPathFinder<Point, Double> finder = new DijkstraPathFinder<>();

@@ -51,7 +51,7 @@ public class TaskSorter {
         // DONE: Implement adding a Task as a node.
         //       Do nothing if the task exists already.
         if (!map.contains(t)) {
-            map.AddNode(t);
+            map.addNode(t);
         }
     }
 
@@ -82,7 +82,7 @@ public class TaskSorter {
         //       The tests will not pass if the edges are the other way.
 
         if (!map.getLabels(before, after).contains(dep)) {
-            map.AddEdge(before, after, dep);
+            map.addEdge(before, after, dep);
         }
     }
 
@@ -100,7 +100,7 @@ public class TaskSorter {
         //       to a node's children in the graph)
 
         Set<Dependency> output = new HashSet<>();
-        List<Task> children = map.ListChildren(t);
+        List<Task> children = map.listChildren(t);
         for (Task child: children) {
             Dependency newDependency = new Dependency(t, child);
             output.add(newDependency);

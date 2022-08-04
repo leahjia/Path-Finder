@@ -31,26 +31,26 @@ public class DesignMapTest<T> {
     @Test
     public void testAddRemoveNode() {
         DesignMap<String, String> map1 = new DesignMap<>();
-        map1.AddNode(A);
-        map1.AddNode(B);
+        map1.addNode(A);
+        map1.addNode(B);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        map1.RemoveNode(A);
-        map1.RemoveNode(B);
+        map1.removeNode(A);
+        map1.removeNode(B);
         assertFalse(map1.contains(A));
         assertFalse(map1.contains(B));
 
         // add the same node twice, remove only once
-        map1.AddNode(A);
-        map1.AddNode(A);
+        map1.addNode(A);
+        map1.addNode(A);
         assertTrue(map1.contains(A));
-        map1.RemoveNode(A);
+        map1.removeNode(A);
         assertFalse(map1.contains(A));
 
         // remove non-existent and null nodes without errors
         map1 = new DesignMap<>();
-        map1.RemoveNode(C);
-        map1.RemoveNode(N);
+        map1.removeNode(C);
+        map1.removeNode(N);
         assertFalse(map1.contains(C));
         assertFalse(map1.contains(N));
     }
@@ -58,7 +58,7 @@ public class DesignMapTest<T> {
     /** Tests add and remove edges operate correctly with getLabels and contains.
      */
     @Test
-    public void testAddRemoveEdgeContainsLabels() {
+    public void testAddremoveEdgeContainsLabels() {
         DesignMap<String, String> map1 = new DesignMap<>();
         edgeList1.add(edge1);
         edgeList2.add(edge2);
@@ -66,25 +66,25 @@ public class DesignMapTest<T> {
         edgeList12.add(edge2);
 
         // Case 1: add & remove one label
-        map1.AddEdge(A, B, edge1);
+        map1.addEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
         assertEquals(map1.getLabels(A, B), edgeList1);
 
-        map1.RemoveEdge(A, B, edge1);
+        map1.removeEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
         assertEquals(map1.getLabels(A, B), new ArrayList<>());
 
         // Case 2: Add 2 edges in the same direction
-        map1.AddEdge(A, B, edge1);
-        map1.AddEdge(A, B, edge2);
+        map1.addEdge(A, B, edge1);
+        map1.addEdge(A, B, edge2);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
         assertEquals(map1.getLabels(A, B), edgeList12);
 
         // remove one of the two edges
-        map1.RemoveEdge(A, B, edge1);
+        map1.removeEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
         assertEquals(map1.getLabels(A, B), edgeList2);
@@ -92,15 +92,15 @@ public class DesignMapTest<T> {
         // Case 3: Add 2 edges in the opposite direction
         map1 = new DesignMap<>();
 
-        map1.AddEdge(A, B, edge1);
-        map1.AddEdge(B, A, edge2);
+        map1.addEdge(A, B, edge1);
+        map1.addEdge(B, A, edge2);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
         assertEquals(map1.getLabels(A, B), edgeList1);
         assertEquals(map1.getLabels(B, A), edgeList2);
 
         // remove one of the two edges
-        map1.RemoveEdge(A, B, edge1);
+        map1.removeEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
         assertEquals(map1.getLabels(B, A), edgeList2);
@@ -113,38 +113,38 @@ public class DesignMapTest<T> {
         DesignMap<String, String> map1 = new DesignMap<>();
         try {
             // add null node
-            map1.AddNode(N);
+            map1.addNode(N);
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
             // add null edge
-            map1.AddEdge(A, B, N);
+            map1.addEdge(A, B, N);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
             // add null src
-            map1.AddEdge(N, A, edge1);
+            map1.addEdge(N, A, edge1);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
             // add null dst
-            map1.AddEdge(A, N, edge1);
+            map1.addEdge(A, N, edge1);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
             // add dup edges
-            map1.AddEdge(A, B, edge1);
-            map1.AddEdge(A, B, edge1);
+            map1.addEdge(A, B, edge1);
+            map1.addEdge(A, B, edge1);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
             // remove non-existent edge from A to B
-            map1.AddEdge(A, B, edge1);
-            map1.RemoveEdge(A, B, edge2);
+            map1.addEdge(A, B, edge1);
+            map1.removeEdge(A, B, edge2);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
@@ -153,94 +153,94 @@ public class DesignMapTest<T> {
         }
     }
 
-    /** Tests ListChildren and ListParents operations. */
+    /** Tests listChildren and listParents operations. */
     @Test
-    public void testListChildrenParents() {
+    public void testlistChildrenParents() {
         DesignMap<String, String> map1 = new DesignMap<>();
         edgeListA.add(A);
         edgeListB.add(B);
 
         // Case 1: add & remove one label
-        map1.AddEdge(A, B, edge1);
+        map1.addEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertEquals(map1.ListChildren(A), edgeListB);
-        assertEquals(map1.ListParents(B), edgeListA);
-        assertEquals(map1.ListParents(A), edgeListEmpty);
-        assertEquals(map1.ListChildren(B), edgeListEmpty);
+        assertEquals(map1.listChildren(A), edgeListB);
+        assertEquals(map1.listParents(B), edgeListA);
+        assertEquals(map1.listParents(A), edgeListEmpty);
+        assertEquals(map1.listChildren(B), edgeListEmpty);
 
-        map1.RemoveEdge(A, B, edge1);
+        map1.removeEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertEquals(map1.ListChildren(A), edgeListEmpty);
-        assertEquals(map1.ListParents(A), edgeListEmpty);
-        assertEquals(map1.ListChildren(B), edgeListEmpty);
-        assertEquals(map1.ListParents(B), edgeListEmpty);
+        assertEquals(map1.listChildren(A), edgeListEmpty);
+        assertEquals(map1.listParents(A), edgeListEmpty);
+        assertEquals(map1.listChildren(B), edgeListEmpty);
+        assertEquals(map1.listParents(B), edgeListEmpty);
 
         // Case 2: Add 2 edges in the same direction
-        map1.AddEdge(A, B, edge1);
-        map1.AddEdge(A, B, edge2);
+        map1.addEdge(A, B, edge1);
+        map1.addEdge(A, B, edge2);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertEquals(map1.ListChildren(A), edgeListB);
-        assertEquals(map1.ListParents(A), edgeListEmpty);
-        assertEquals(map1.ListParents(B), edgeListA);
-        assertEquals(map1.ListChildren(B), edgeListEmpty);
+        assertEquals(map1.listChildren(A), edgeListB);
+        assertEquals(map1.listParents(A), edgeListEmpty);
+        assertEquals(map1.listParents(B), edgeListA);
+        assertEquals(map1.listChildren(B), edgeListEmpty);
 
-        map1.RemoveEdge(A, B, edge1);
+        map1.removeEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertEquals(map1.ListChildren(A), edgeListB);
-        assertEquals(map1.ListParents(A), edgeListEmpty);
-        assertEquals(map1.ListParents(B), edgeListA);
-        assertEquals(map1.ListChildren(B), edgeListEmpty);
+        assertEquals(map1.listChildren(A), edgeListB);
+        assertEquals(map1.listParents(A), edgeListEmpty);
+        assertEquals(map1.listParents(B), edgeListA);
+        assertEquals(map1.listChildren(B), edgeListEmpty);
 
 
         // Case 3: Add 2 edges in the opposite direction
         map1 = new DesignMap<>();
 
-        map1.AddEdge(A, B, edge1);
-        map1.AddEdge(B, A, edge2);
+        map1.addEdge(A, B, edge1);
+        map1.addEdge(B, A, edge2);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertEquals(map1.ListChildren(A), edgeListB);
-        assertEquals(map1.ListParents(A), edgeListB);
-        assertEquals(map1.ListChildren(B), edgeListA);
-        assertEquals(map1.ListParents(B), edgeListA);
+        assertEquals(map1.listChildren(A), edgeListB);
+        assertEquals(map1.listParents(A), edgeListB);
+        assertEquals(map1.listChildren(B), edgeListA);
+        assertEquals(map1.listParents(B), edgeListA);
 
-        map1.RemoveEdge(A, B, edge1);
+        map1.removeEdge(A, B, edge1);
         assertTrue(map1.contains(A));
         assertTrue(map1.contains(B));
-        assertEquals(map1.ListChildren(A), edgeListEmpty);
-        assertEquals(map1.ListParents(A), edgeListB);
-        assertEquals(map1.ListChildren(B), edgeListA);
-        assertEquals(map1.ListParents(B), edgeListEmpty);
+        assertEquals(map1.listChildren(A), edgeListEmpty);
+        assertEquals(map1.listParents(A), edgeListB);
+        assertEquals(map1.listChildren(B), edgeListA);
+        assertEquals(map1.listParents(B), edgeListEmpty);
     }
 
     /**
-     * Tests that ListChildren and ListParents throws IllegalArgumentException when
+     * Tests that listChildren and listParents throws IllegalArgumentException when
      * passing in null value or non-existent nodes in map
      */
     @Test
-    public void testListChildrenParentsThrowsIllegalArgumentException() {
+    public void testlistChildrenParentsThrowsIllegalArgumentException() {
         DesignMap<String, String> map1 = new DesignMap<>();
         try {
-            map1.ListChildren(N);
+            map1.listChildren(N);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
-            map1.ListChildren(A);
+            map1.listChildren(A);
             fail("Expected NoSuchElementException not occurred.");
         } catch (NoSuchElementException e) {
             e.getStackTrace();
         } try {
-            map1.ListParents(N);
+            map1.listParents(N);
             fail("Expected IllegalArgumentException not occurred.");
         } catch (IllegalArgumentException e) {
             e.getStackTrace();
         } try {
-            map1.ListParents(A);
+            map1.listParents(A);
             fail("Expected NoSuchElementException not occurred.");
         } catch (NoSuchElementException e) {
             e.getStackTrace();
@@ -253,9 +253,9 @@ public class DesignMapTest<T> {
     @Test
     public void testGetNodes() {
         DesignMap<String, String> map1 = new DesignMap<>();
-        map1.AddNode(C);
-        map1.AddNode(B);
-        map1.AddNode(A);
+        map1.addNode(C);
+        map1.addNode(B);
+        map1.addNode(A);
         List<String> nodeList = map1.getNodes();
         assertTrue(nodeList.contains(A));
         assertTrue(nodeList.contains(B));
