@@ -197,7 +197,6 @@ public class GraphTestDriver {
         // Done Insert your code here.
         DesignMap<String, String> map1 = graphs.get(graphName);
         List<String> childrenList = map1.listChildren(parentName);
-        Arrays.sort(childrenList.toArray());
         StringBuilder str = new StringBuilder();
         for (String child: childrenList) {
             str.append(" ");

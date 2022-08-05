@@ -34,7 +34,7 @@ public class DesignMap<T, E> {
     //      i = T representation of node in DesignMap,
     //      j = T representation of child node of node i, and
     //      k = label of edge from node i to node j.
-    private final Map<T, Map<T, List<E>>> DesignMap;
+    private final Map<T, Map<T, Set<E>>> DesignMap;
 
     // Checks representation invariant for the entire map, including
     //  checking nulls for all nodes, their outgoing edges, and duplicate edges
@@ -114,17 +114,17 @@ public class DesignMap<T, E> {
 
         checkRep();
         if (DesignMap.get(src).containsKey(dst)) {
-            // there is already a list of edges
+            // there is already a set of edges
             if (getLabels(src, dst).contains(label)) {
                 throw new IllegalArgumentException("Duplicate edges.");
             }
-            // adds label to existing edge list
+            // adds label to existing edge set
             DesignMap.get(src).get(dst).add(label);
         } else {
-            // creates an edge list for this label
-            List<E> newEdgeList = new ArrayList<>();
-            newEdgeList.add(label);
-            DesignMap.get(src).put(dst, newEdgeList);
+            // creates an edge set for this label
+            Set<E> newEdgeSet = new HashSet<>();
+            newEdgeSet.add(label);
+            DesignMap.get(src).put(dst, newEdgeSet);
         }
         checkRep();
     }
@@ -158,7 +158,7 @@ public class DesignMap<T, E> {
         checkRep();
         List<E> labels = getLabels(src, dst);
         if (labels.contains(label)) {
-            DesignMap.get(src).get(dst).remove(labels.indexOf(label));
+            DesignMap.get(src).get(dst).remove(label);
             if (labels.size() == 1) { // actual size is 0 after remove
                 // get rid of empty list with no edges
                 DesignMap.get(src).remove(dst);
