@@ -5,6 +5,10 @@
 # Create a graph
 CreateGraph map1
 
+# Add a pair of nodes to map1
+AddNode map1 n1
+AddNode map1 n2
+
 # Add a pair of edges
 AddEdge map1 n1 n2 e1
 AddEdge map1 n2 n1 e2

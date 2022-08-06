@@ -2,14 +2,23 @@ package pathfinder;
 
 import graph.DesignMap;
 import pathfinder.datastructures.Path;
-
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+/**
+ * DijkstraPathFinder is a path finding algorithm that evaluates
+ *  the edges in a given graph and finds the shortest path between
+ *  the given start node and given end node.
+ *
+ *  Note: DijkstraPathFinder is not ann ADT, hence does not have RI or AF
+ */
 public class DijkstraPathFinder<T, E> {
 
+    /**
+     * Comparator for Path types, compares two Paths by the values of their cost
+     */
     class PathComparator implements Comparator<Path<T>> {
         public int compare(Path<T> A, Path<T> B) {
             if (A.getCost() <= B.getCost())
@@ -20,6 +29,14 @@ public class DijkstraPathFinder<T, E> {
         }
     }
 
+    /**
+     * Finds and returns the lowest cost path (if there is one) between the given
+     *  start node and end node, returns null if there isn't a path
+     * @param map the DesignMap that contains all the nodes and edges to be evaluated
+     * @param start the start node of the path
+     * @param dest the end node of the path
+     * @spec.requires map, start, and dest are not null
+     */
     public Path<T> DijkstraPath(DesignMap<T, E> map, T start, T dest) {
         // Each element is a path from start to a given node.
         // A path's “priority” in the queue is the total cost of that path.
@@ -33,7 +50,7 @@ public class DijkstraPathFinder<T, E> {
             return paths;
         }
         while (!pq.isEmpty()) {
-            // next lowest-costing path
+            // process the next lowest-costing path in queue
             Path<T> currPath = pq.remove();
             // DEST of this path
             T edgeTo = currPath.getEnd();
