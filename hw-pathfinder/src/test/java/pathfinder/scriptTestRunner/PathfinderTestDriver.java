@@ -79,10 +79,10 @@ public class PathfinderTestDriver {
                 case "CreateGraph":
                     createGraph(arguments);
                     break;
-                case "AddNode":
+                case "addNode":
                     addNode(arguments);
                     break;
-                case "AddEdge":
+                case "addEdge":
                     addEdge(arguments);
                     break;
                 case "FindPath":
@@ -114,7 +114,7 @@ public class PathfinderTestDriver {
 
     private void addNode(List<String> arguments) {
         if(arguments.size() != 2) {
-            throw new CommandException("Bad arguments to AddNode: " + arguments);
+            throw new CommandException("Bad arguments to addNode: " + arguments);
         }
         String graphName = arguments.get(0);
         String nodeName = arguments.get(1);
@@ -129,7 +129,7 @@ public class PathfinderTestDriver {
 
     private void addEdge(List<String> arguments) {
         if(arguments.size() != 4) {
-            throw new CommandException("Bad arguments to AddEdge: " + arguments);
+            throw new CommandException("Bad arguments to addEdge: " + arguments);
         }
         String graphName = arguments.get(0);
         String parentName = arguments.get(1);

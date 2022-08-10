@@ -3,19 +3,19 @@
 
 CreateGraph simpleGraph
 
-AddNode simpleGraph S
-AddNode simpleGraph T
-AddNode simpleGraph X
-AddNode simpleGraph Y
-AddNode simpleGraph Z
+addNode simpleGraph S
+addNode simpleGraph T
+addNode simpleGraph X
+addNode simpleGraph Y
+addNode simpleGraph Z
 
-AddEdge simpleGraph S Y 7.0
-AddEdge simpleGraph T Y 8.0
-AddEdge simpleGraph Y Z 9.0
-AddEdge simpleGraph Y X 3.0
-AddEdge simpleGraph T Z 4.0
-AddEdge simpleGraph T X 5.0
-AddEdge simpleGraph Z X 7.0
+addEdge simpleGraph S Y 7.0
+addEdge simpleGraph T Y 8.0
+addEdge simpleGraph Y Z 9.0
+addEdge simpleGraph Y X 3.0
+addEdge simpleGraph T Z 4.0
+addEdge simpleGraph T X 5.0
+addEdge simpleGraph Z X 7.0
 
 FindPath simpleGraph S A
 
