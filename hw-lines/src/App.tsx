@@ -18,7 +18,6 @@ import "./App.css";
 
 interface AppState {
     lines: string[]
-    keys: string[]
 }
 
 class App extends Component<{}, AppState> { // <- {} means no props.
@@ -27,7 +26,7 @@ class App extends Component<{}, AppState> { // <- {} means no props.
         super(props)
         this.state = {
             // TODO: store edges in this state
-            lines: [], keys: []
+            lines: []
         }
     }
 
@@ -46,7 +45,7 @@ class App extends Component<{}, AppState> { // <- {} means no props.
     addEdgeList(msg: string) {
         if (msg.length === 0 || this.invalidInputCheck(msg)) {
             this.setState({
-                lines: [], keys: []
+                lines: []
             })
         } else {
             let lines: string[] = msg.split('\n')
@@ -56,10 +55,8 @@ class App extends Component<{}, AppState> { // <- {} means no props.
                 //     Number(nextLine[2]), Number(nextLine[3]), nextLine[4]]
                 // let line = [nextLine[0], nextLine[1], nextLine[2], nextLine[3], nextLine[4]]
                 this.state.lines.push(lines[i])
-                this.state.keys.push("Line #", String(i))
                 this.setState({
                     lines: this.state.lines,
-                    keys: this.state.keys
                 })
             }
         }
@@ -73,7 +70,6 @@ class App extends Component<{}, AppState> { // <- {} means no props.
                     {/* TODO: define props in the Map component and pass them in here */}
                     <Map
                         edgeList={this.state.lines}
-                        keys={this.state.keys}
                     />
                     {/*<Map />*/}
                 </div>

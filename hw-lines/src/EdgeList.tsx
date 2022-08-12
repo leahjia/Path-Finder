@@ -10,14 +10,11 @@
  */
 
 import React, {Component} from 'react'
-import MapLine from "./MapLine";
 
 interface EdgeListProps {
     onChange: (edges: string) => void // called when a new edge list is ready
     onClear: () => any
 }
-
-// TODO: (by me) also check if the input is valid
 
 interface EdgeListState {
     inputText: string

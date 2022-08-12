@@ -9,8 +9,8 @@
  * author.
  */
 
-import {LatLngExpression, map} from "leaflet";
-import React, {Component, useEffect, useState} from "react";
+import {LatLngExpression} from "leaflet";
+import React, {Component} from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import MapLine from "./MapLine";
@@ -23,12 +23,9 @@ interface MapProps {
     // TODO: Define the props of this component. You will want to pass down edges
     //   so you can render them here
     edgeList: string[]
-    keys: string[]
 }
 
-interface MapState {
-    // currLines: string[]
-}
+interface MapState {}
 
 class Map extends Component<MapProps, MapState> {
 
@@ -45,17 +42,17 @@ class Map extends Component<MapProps, MapState> {
             let elements = eachLine.split(" ")
             arrayOfLines.push(
                 <MapLine
-                color={String(elements[4])}
-                x1={Number(elements[0])}
-                y1={Number(elements[1])}
-                x2={Number(elements[2])}
-                y2={Number(elements[3])}
-                key={this.props.keys[i]}
+                    color={String(elements[4])}
+                    x1={Number(elements[0])}
+                    y1={Number(elements[1])}
+                    x2={Number(elements[2])}
+                    y2={Number(elements[3])}
+                    key={"Line #" + i}
                 ></MapLine>
-        )
+            )
         }
 
-        if (this.props.keys.length === 0) {
+        if (this.props.edgeList.length === 0) {
             return (
                 <div id="map">
                     <MapContainer
