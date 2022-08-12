@@ -16,9 +16,7 @@ interface EdgeListProps {
     onClear: () => any
 }
 
-interface EdgeListState {
-    inputText: string
-}
+interface EdgeListState { inputText: string }
 
 /**
  * A text field that allows the user to enter the list of edges.

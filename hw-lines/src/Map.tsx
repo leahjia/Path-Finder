@@ -9,18 +9,18 @@
  * author.
  */
 
-import {LatLngExpression} from "leaflet";
-import React, {Component} from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import MapLine from "./MapLine";
-import { UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER } from "./Constants";
+import {LatLngExpression} from "leaflet"
+import React, {Component} from "react"
+import { MapContainer, TileLayer } from "react-leaflet"
+import "leaflet/dist/leaflet.css"
+import MapLine from "./MapLine"
+import { UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER } from "./Constants"
 
 // This defines the location of the map. These are the coordinates of the UW Seattle campus
-const position: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER];
+const position: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER]
 
 interface MapProps {
-    // TODO: Define the props of this component. You will want to pass down edges
+    // DONE: Define the props of this component. You will want to pass down edges
     //   so you can render them here
     edgeList: string[]
 }
@@ -30,7 +30,7 @@ interface MapState {}
 class Map extends Component<MapProps, MapState> {
 
     constructor(props: MapProps) {
-        super(props);
+        super(props)
         this.state = {
         }
     }
@@ -52,64 +52,25 @@ class Map extends Component<MapProps, MapState> {
             )
         }
 
-        if (this.props.edgeList.length === 0) {
-            return (
-                <div id="map">
-                    <MapContainer
-                        center={position}
-                        zoom={15}
-                        scrollWheelZoom={false}
-                    >
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        {
-                            // TODO: Render map lines here using the MapLine component. E.g.
-                            // <MapLine key={key1} color="red" x1={1000} y1={1000} x2={2000} y2={2000}/>
-                            // will draw a red line from the point 1000,1000 to 2000,2000 on the map
-                            // sample:
-                            [<MapLine
-                                color={'red'}
-                                x1={1000}
-                                y1={2000}
-                                x2={3000}
-                                y2={1500}
-                                key={"sampleKey"}
-                            />]
-                        }
-                    </MapContainer>
-                </div>
-            )
-        } else {
-            return (
-                <div id="map">
-                    <MapContainer
-                        center={position}
-                        zoom={15}
-                        scrollWheelZoom={false}
-                    >
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        {
-                            // TODO: Render map lines here using the MapLine component. E.g.
-                            // [<MapLine
-                            //     color={String(this.props.edgeList[4])}
-                            //     x1={Number(this.props.edgeList[0])}
-                            //     y1={Number(this.props.edgeList[1])}
-                            //     x2={Number(this.props.edgeList[2])}
-                            //     y2={Number(this.props.edgeList[3])}
-                            //     key={this.props.keys[0]}
-                            // />]
-                            <div>{arrayOfLines}</div>
-                        }
-                    </MapContainer>
-                </div>
-            )
-        }
+        return (
+            <div id="map">
+                <MapContainer
+                    center={position}
+                    zoom={15}
+                    scrollWheelZoom={false}
+                >
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    {
+                        // DONE: Render map lines here using the MapLine component. E.g.
+                        <div>{arrayOfLines}</div>
+                    }
+                </MapContainer>
+            </div>
+        )
     }
 }
 
-export default Map;
+export default Map
