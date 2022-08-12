@@ -36,7 +36,7 @@ class App extends Component<{}, AppState> { // <- {} means no props.
             let elements = lines[i].split(" ")
             if (elements.length !== 5) {
                 alert('Invalid input: expected "x1, y1, x2, y2, color",' +
-                    ' and no extra empty lines.');
+                    ' and no extra space or empty lines.');
                 return true
             }
             if (isNaN(Number(elements[0])) || isNaN(Number(elements[1])) ||
