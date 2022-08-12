@@ -15,10 +15,9 @@ import Map from "./Map"
 
 // Allows us to write CSS styles inside App.css, any styles will apply to all components inside <App />
 import "./App.css";
-import MapLine from "./MapLine";
 
 interface AppState {
-    lines: (number | string) []
+    lines: string[]
     keys: string[]
 }
 
@@ -36,9 +35,9 @@ class App extends Component<{}, AppState> { // <- {} means no props.
         let lines = msg.split('\n')
         for (let i = 0; i < lines.length; i++) {
             let elements = lines[i].split(" ")
-            if (elements.length !== 5 || isNaN(parseInt(elements[0])) ||
-                isNaN(parseInt(elements[1])) || isNaN(parseInt(elements[2])) ||
-                isNaN(parseInt(elements[3]))) {
+            if (elements.length !== 5 || isNaN(Number(elements[0])) ||
+                isNaN(Number(elements[1])) || isNaN(Number(elements[2])) ||
+                isNaN(Number(elements[3]))) {
                 return true
             }
         }
@@ -50,14 +49,17 @@ class App extends Component<{}, AppState> { // <- {} means no props.
                 lines: [], keys: []
             })
         } else {
-            let lines = msg.split('\n')
+            let lines: string[] = msg.split('\n')
             for (let i = 0; i < lines.length; i++) {
-                let nextLine = lines[i].split(" ")
-                let line = [Number(nextLine[0]), Number(nextLine[1]),
-                    Number(nextLine[2]), Number(nextLine[3]), nextLine[4]]
+                // let nextLine = lines[i].split(" ")
+                // let line = [Number(nextLine[0]), Number(nextLine[1]),
+                //     Number(nextLine[2]), Number(nextLine[3]), nextLine[4]]
+                // let line = [nextLine[0], nextLine[1], nextLine[2], nextLine[3], nextLine[4]]
+                this.state.lines.push(lines[i])
+                this.state.keys.push("Line #", String(i))
                 this.setState({
-                    lines: this.state.lines.concat(line),
-                    keys: this.state.keys.concat("Line #", String(i))
+                    lines: this.state.lines,
+                    keys: this.state.keys
                 })
             }
         }

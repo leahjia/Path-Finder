@@ -22,24 +22,38 @@ const position: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER];
 interface MapProps {
     // TODO: Define the props of this component. You will want to pass down edges
     //   so you can render them here
-    edgeList: (number | string) []
+    edgeList: string[]
     keys: string[]
 }
 
-interface MapState {}
+interface MapState {
+    // currLines: string[]
+}
 
 class Map extends Component<MapProps, MapState> {
 
     constructor(props: MapProps) {
         super(props);
         this.state = {
-            edgeList: [],
-            keys: []
         }
     }
 
     render() {
-        let lines = []
+        const arrayOfLines: JSX.Element[] = []
+        for (let i = 0; i < this.props.edgeList.length; i++) {
+            let eachLine = this.props.edgeList[i]
+            let elements = eachLine.split(" ")
+            arrayOfLines.push(
+                <MapLine
+                color={String(elements[4])}
+                x1={Number(elements[0])}
+                y1={Number(elements[1])}
+                x2={Number(elements[2])}
+                y2={Number(elements[3])}
+                key={this.props.keys[i]}
+                ></MapLine>
+        )
+        }
 
         if (this.props.keys.length === 0) {
             return (
@@ -64,16 +78,8 @@ class Map extends Component<MapProps, MapState> {
                                 y1={2000}
                                 x2={3000}
                                 y2={1500}
-                                key={"whatever"}
+                                key={"sampleKey"}
                             />]
-                            // [<MapLine
-                            //     color={this.props.edgeList[0].color}
-                            //     x1={this.props.edgeList[0].x1}
-                            //     y1={this.props.edgeList[0].y1}
-                            //     x2={this.props.edgeList[0].x2}
-                            //     y2={this.props.edgeList[0].y2}
-                            //     key={this.props.edgeList[0].key}
-                            // />]
                         }
                     </MapContainer>
                 </div>
@@ -92,14 +98,15 @@ class Map extends Component<MapProps, MapState> {
                         />
                         {
                             // TODO: Render map lines here using the MapLine component. E.g.
-                            [<MapLine
-                                color={String(this.props.edgeList[4])}
-                                x1={Number(this.props.edgeList[0])}
-                                y1={Number(this.props.edgeList[1])}
-                                x2={Number(this.props.edgeList[2])}
-                                y2={Number(this.props.edgeList[3])}
-                                key={this.props.keys[0]}
-                            />]
+                            // [<MapLine
+                            //     color={String(this.props.edgeList[4])}
+                            //     x1={Number(this.props.edgeList[0])}
+                            //     y1={Number(this.props.edgeList[1])}
+                            //     x2={Number(this.props.edgeList[2])}
+                            //     y2={Number(this.props.edgeList[3])}
+                            //     key={this.props.keys[0]}
+                            // />]
+                            <div>{arrayOfLines}</div>
                         }
                     </MapContainer>
                 </div>
