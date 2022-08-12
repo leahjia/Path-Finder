@@ -9,8 +9,8 @@
  * author.
  */
 
-import { LatLngExpression } from "leaflet";
-import React, { Component } from "react";
+import {LatLngExpression, map} from "leaflet";
+import React, {Component, useEffect, useState} from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import MapLine from "./MapLine";
@@ -22,8 +22,7 @@ const position: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER];
 interface MapProps {
     // TODO: Define the props of this component. You will want to pass down edges
     //   so you can render them here
-    edgeList: number[]
-    color: string[]
+    edgeList: (number | string) []
     keys: string[]
 }
 
@@ -35,28 +34,14 @@ class Map extends Component<MapProps, MapState> {
         super(props);
         this.state = {
             edgeList: [],
-            color: [],
             keys: []
         }
     }
 
     render() {
-        if (this.props.edgeList === undefined) {
-            return (
-                <div id="map">
-                    <MapContainer
-                        center={position}
-                        zoom={15}
-                        scrollWheelZoom={false}
-                    >
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        {<MapLine color={""} x1={0} y1={0} x2={0} y2={0} key={""}/>}
-                    </MapContainer>
-                </div>)
-        } else {
+        let lines = []
+
+        if (this.props.keys.length === 0) {
             return (
                 <div id="map">
                     <MapContainer
@@ -72,22 +57,15 @@ class Map extends Component<MapProps, MapState> {
                             // TODO: Render map lines here using the MapLine component. E.g.
                             // <MapLine key={key1} color="red" x1={1000} y1={1000} x2={2000} y2={2000}/>
                             // will draw a red line from the point 1000,1000 to 2000,2000 on the map
+                            // sample:
                             [<MapLine
                                 color={'red'}
                                 x1={1000}
-                                y1={1000}
-                                x2={1000}
+                                y1={2000}
+                                x2={3000}
                                 y2={1500}
                                 key={"whatever"}
                             />]
-                            // [<MapLine
-                            //     key={this.props.keys[0]}
-                            //     color={this.props.color[0]}
-                            //     x1={this.props.edgeList[0]}
-                            //     y1={this.props.edgeList[1]}
-                            //     x2={this.props.edgeList[2]}
-                            //     y2={this.props.edgeList[3]}
-                            // />]
                             // [<MapLine
                             //     color={this.props.edgeList[0].color}
                             //     x1={this.props.edgeList[0].x1}
@@ -96,6 +74,32 @@ class Map extends Component<MapProps, MapState> {
                             //     y2={this.props.edgeList[0].y2}
                             //     key={this.props.edgeList[0].key}
                             // />]
+                        }
+                    </MapContainer>
+                </div>
+            )
+        } else {
+            return (
+                <div id="map">
+                    <MapContainer
+                        center={position}
+                        zoom={15}
+                        scrollWheelZoom={false}
+                    >
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        {
+                            // TODO: Render map lines here using the MapLine component. E.g.
+                            [<MapLine
+                                color={String(this.props.edgeList[4])}
+                                x1={Number(this.props.edgeList[0])}
+                                y1={Number(this.props.edgeList[1])}
+                                x2={Number(this.props.edgeList[2])}
+                                y2={Number(this.props.edgeList[3])}
+                                key={this.props.keys[0]}
+                            />]
                         }
                     </MapContainer>
                 </div>

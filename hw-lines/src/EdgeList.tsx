@@ -14,7 +14,7 @@ import MapLine from "./MapLine";
 
 interface EdgeListProps {
     onChange: (edges: string) => void // called when a new edge list is ready
-    onClear: (msg: string) => any
+    onClear: (msg: string) => void
 }
 
 // TODO: (by me) also check if the input is valid
@@ -34,9 +34,12 @@ class EdgeList extends Component<EdgeListProps, EdgeListState> {
         this.state = {inputText: "I'm stuck..."}
     }
 
-    textChange = (evt: any) => this.setState({
-        inputText: evt.target.value
-    })
+    textChange = (evt: any) => this.setState({ inputText: evt.target.value })
+
+    resetText = (evt: any) => {
+        this.setState({ inputText: evt})
+        this.props.onClear("")
+    }
 
     render() {
         return (
@@ -49,7 +52,7 @@ class EdgeList extends Component<EdgeListProps, EdgeListState> {
                     onChange={(evt) => { this.textChange(evt) }}
                 /> <br/>
                 <button onClick={() => this.props.onChange(this.state.inputText)}>Draw</button>
-                <button onClick={() => this.props.onClear("")}>Clear</button>
+                <button onClick={() => this.resetText("I'm stuck...")}>Clear</button>
             </div>
         )
     }

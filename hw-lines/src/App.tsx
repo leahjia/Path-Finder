@@ -18,8 +18,7 @@ import "./App.css";
 import MapLine from "./MapLine";
 
 interface AppState {
-    lines: number[]
-    color: string[]
+    lines: (number | string) []
     keys: string[]
 }
 
@@ -29,40 +28,36 @@ class App extends Component<{}, AppState> { // <- {} means no props.
         super(props)
         this.state = {
             // TODO: store edges in this state
-            lines: [], color: [], keys: []
+            lines: [], keys: []
         }
     }
 
-    emptyList() {
-        this.setState({
-            lines: [], color: [], keys: []
-        })
-    }
-
-    validCheck(msg: string) {
-        let elements = msg.split(" ")
-        return elements.length === 5 || !isNaN(parseInt(elements[0])) ||
-            !isNaN(parseInt(elements[1])) || !isNaN(parseInt(elements[2])) ||
-            !isNaN(parseInt(elements[3]))
+    invalidInputCheck(msg: string) {
+        let lines = msg.split('\n')
+        for (let i = 0; i < lines.length; i++) {
+            let elements = lines[i].split(" ")
+            if (elements.length !== 5 || isNaN(parseInt(elements[0])) ||
+                isNaN(parseInt(elements[1])) || isNaN(parseInt(elements[2])) ||
+                isNaN(parseInt(elements[3]))) {
+                return true
+            }
+        }
     }
 
     addEdgeList(msg: string) {
-        let lines = msg.split('\n')
-        for (let i = 0; i < lines.length; i++) {
-            let nextLine = lines[i]
-            if (this.validCheck(nextLine)) {
-                nextLine.split(" ")
+        if (msg.length === 0 || this.invalidInputCheck(msg)) {
+            this.setState({
+                lines: [], keys: []
+            })
+        } else {
+            let lines = msg.split('\n')
+            for (let i = 0; i < lines.length; i++) {
+                let nextLine = lines[i].split(" ")
                 let line = [Number(nextLine[0]), Number(nextLine[1]),
-                    Number(nextLine[2]), Number(nextLine[3])]
-                let color = nextLine[4]
+                    Number(nextLine[2]), Number(nextLine[3]), nextLine[4]]
                 this.setState({
                     lines: this.state.lines.concat(line),
-                    color: this.state.color.concat(color),
                     keys: this.state.keys.concat("Line #", String(i))
-                })
-            } else {
-                this.setState({
-                    keys: this.state.keys.concat("Invalid #", String(i))
                 })
             }
         }
@@ -76,7 +71,6 @@ class App extends Component<{}, AppState> { // <- {} means no props.
                     {/* TODO: define props in the Map component and pass them in here */}
                     <Map
                         edgeList={this.state.lines}
-                        color={this.state.color}
                         keys={this.state.keys}
                     />
                     {/*<Map />*/}
@@ -84,7 +78,7 @@ class App extends Component<{}, AppState> { // <- {} means no props.
                 <EdgeList
                     // TODO: Modify this onChange callback to store the edges in the state
                     onChange={(msg) => {this.addEdgeList(msg)}}
-                    onClear={() => {this.emptyList()}}
+                    onClear={() => {this.addEdgeList("")}}
                 />
             </div>
         )
