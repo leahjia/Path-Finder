@@ -34,10 +34,24 @@ class App extends Component<{}, AppState> { // <- {} means no props.
         let lines = msg.split('\n')
         for (let i = 0; i < lines.length; i++) {
             let elements = lines[i].split(" ")
-            if (elements.length !== 5 || isNaN(Number(elements[0])) ||
-                isNaN(Number(elements[1])) || isNaN(Number(elements[2])) ||
-                isNaN(Number(elements[3]))) {
+            if (elements.length !== 5) {
+                alert('Invalid input: expected "x1, y1, x2, y2, color",' +
+                    ' and no extra empty lines.');
                 return true
+            }
+            if (isNaN(Number(elements[0])) || isNaN(Number(elements[1])) ||
+                isNaN(Number(elements[2])) || isNaN(Number(elements[3]))) {
+                alert('Invalid input: please enter real numbers as coordinates')
+                return true
+            } else {
+                let numbers = elements.slice(0, 4)
+                numbers.forEach((el) => {
+                    let num = Number(el)
+                    if (num < 0 || num > 4000) {
+                        alert('Invalid input: coordinates must be at least 0 and up to 4,000')
+                        return true
+                    }
+                })
             }
         }
     }
@@ -47,10 +61,11 @@ class App extends Component<{}, AppState> { // <- {} means no props.
             this.setState({ lines: [] })
         } else {
             let lines: string[] = msg.split('\n')
+            let updatedLines = []
             for (let i = 0; i < lines.length; i++) {
-                this.state.lines.push(lines[i])
+                updatedLines.push(lines[i])
                 this.setState({
-                    lines: this.state.lines,
+                    lines: updatedLines,
                 })
             }
         }

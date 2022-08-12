@@ -42,7 +42,7 @@ class Map extends Component<MapProps, MapState> {
             let elements = eachLine.split(" ")
             arrayOfLines.push(
                 <MapLine
-                    color={String(elements[4])}
+                    color={elements[4]}
                     x1={Number(elements[0])}
                     y1={Number(elements[1])}
                     x2={Number(elements[2])}
@@ -64,7 +64,7 @@ class Map extends Component<MapProps, MapState> {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     {
-                        // DONE: Render map lines here using the MapLine component. E.g.
+                        // DONE: Render map lines here using the MapLine component.
                         <div>{arrayOfLines}</div>
                     }
                 </MapContainer>
