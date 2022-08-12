@@ -9,19 +9,35 @@
  * author.
  */
 
-import React, {Component} from 'react';
+import React, {Component} from 'react'
+import MapLine from "./MapLine";
 
 interface EdgeListProps {
-    onChange(edges: any): void;  // called when a new edge list is ready
-                                 // TODO: once you decide how you want to communicate the edges to the App, you should
-                                 // change the type of edges so it isn't `any`
+    onChange: (edges: string) => void // called when a new edge list is ready
+    onClear: (msg: string) => any
+}
+
+// TODO: (by me) also check if the input is valid
+
+interface EdgeListState {
+    inputText: string
 }
 
 /**
  * A text field that allows the user to enter the list of edges.
  * Also contains the buttons that the user will use to interact with the app.
  */
-class EdgeList extends Component<EdgeListProps> {
+class EdgeList extends Component<EdgeListProps, EdgeListState> {
+
+    constructor(props: EdgeListProps) {
+        super(props)
+        this.state = {inputText: "I'm stuck..."}
+    }
+
+    textChange = (evt: any) => this.setState({
+        inputText: evt.target.value
+    })
+
     render() {
         return (
             <div id="edge-list">
@@ -29,14 +45,14 @@ class EdgeList extends Component<EdgeListProps> {
                 <textarea
                     rows={5}
                     cols={30}
-                    onChange={() => {console.log('textarea onChange was called');}}
-                    value={"I'm stuck..."}
+                    value={this.state.inputText}
+                    onChange={(evt) => { this.textChange(evt) }}
                 /> <br/>
-                <button onClick={() => {console.log('Draw onClick was called');}}>Draw</button>
-                <button onClick={() => {console.log('Clear onClick was called');}}>Clear</button>
+                <button onClick={() => this.props.onChange(this.state.inputText)}>Draw</button>
+                <button onClick={() => this.props.onClear("")}>Clear</button>
             </div>
-        );
+        )
     }
 }
 
-export default EdgeList;
+export default EdgeList
