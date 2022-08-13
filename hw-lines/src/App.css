@@ -20,6 +20,8 @@
 /* Create some space around text boxes so the label text isn't scrunched up next to it. */
 input {
     margin: 5px;
+    accent-color: blueviolet;
+    animation: ease-in-out;
 }
 
 /* Centers component with ID "map-wrapper" and sets width and bottom spacing */
@@ -40,21 +42,38 @@ input {
 /* Same as above, but with ID "edge-list", and also creates a little margin so things aren't squished together. */
 #edge-list {
     text-align: center;
-    margin: 5px;
+    margin: 8px;
+    color: darkolivegreen;
+    border: blue;
+    font-family: "Noto Sans Buginese", monospace;
 }
 
 /* This syntax means "any <button> elements inside something with ID "edge-list"" - the 2px is for above and
  below the button, the 5px is the left and right sides. This prevents the draw and clear buttons from being
  squished right next to each other. */
 #edge-list button {
-    margin: 2px 5px;
+    margin: 5px 8px;
+    color: darkblue;
+    border: blue;
+    font-family: Chalkduster, emoji;
+    font-size: x-large;
+    background-color: papayawhip;
 }
 
 /* Centers the "Line Mapper!" text, which is in a <p> (paragraph) tag inside the <App /> component, and has an
 ID of "app-title". Also makes the text bigger, bold, and adds some space around the title. */
 #app-title {
     text-align: center;
-    font-size: 30px;
+    font-size: 50px;
     font-weight: bold;
     margin: 10px;
+    color: darkblue;
+    border: blue;
+    background: cornsilk;
+    font-family: "Apple Symbols", math;
+}
+
+.root {
+    color: darkolivegreen;
+    accent-color: darkolivegreen;
 }

@@ -38,17 +38,26 @@ class EdgeList extends Component<EdgeListProps, EdgeListState> {
 
     render() {
         return (
-            <div id="edge-list">
-                Edges <br/>
+            <h2 id="edge-list">
+                Enter edges here:
+                <br/>
                 <textarea
-                    rows={5}
-                    cols={30}
+                    rows={4}
+                    cols={40}
+                    style={{
+                        color: "darkmagenta",
+                        backgroundColor: "beige",
+                        fontFamily: "cursive",
+                        fontSize: 20
+                }}
                     value={this.state.inputText}
                     onChange={(evt) => { this.textChange(evt) }}
                 /> <br/>
-                <button onClick={() => this.props.onChange(this.state.inputText)}>Draw</button>
+                <button
+                    title="Click me"
+                    onClick={() => this.props.onChange(this.state.inputText)}>Draw</button>
                 <button onClick={() => this.resetText("I'm stuck...")}>Clear</button>
-            </div>
+            </h2>
         )
     }
 }

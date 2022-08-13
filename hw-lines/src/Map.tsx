@@ -11,7 +11,7 @@
 
 import {LatLngExpression} from "leaflet"
 import React, {Component} from "react"
-import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet"
+import {MapContainer, Marker, Popup, TileLayer, Tooltip} from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 import MapLine from "./MapLine"
 import {UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER} from "./Constants"
@@ -76,15 +76,17 @@ class Map extends Component<MapProps, MapState> {
                     <Marker
                         position={position}
                         draggable={true}
-                        title={"hover text for marker"}
                         icon={new Icon({
                             iconUrl: markerIconPng,
                             iconSize: [25, 40],
                             iconAnchor: [12.5, 40],
                             popupAnchor: [0, -40],
                         })}>
-                        <marker>marker</marker>
-                        <Popup><h2>Location of marker</h2></Popup>
+                        <Popup>
+                            <h2>Current location of marker</h2>
+                            <h3>Feel free to drag it to another location.</h3>
+                        </Popup>
+                        <Tooltip>hold and drag</Tooltip>
                     </Marker>
                 </MapContainer>
             </div>

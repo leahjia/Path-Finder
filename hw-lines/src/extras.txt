@@ -9,4 +9,5 @@ of the assignment, below:
 
 1. enabled scroll wheel zoom
 2. added a draggable marker with its own popup message. It is initially located
-   at the center of the map
+   at the center of the map, and users can drag it anywhere on the map to pinpoint
+   their current location or desired destination.

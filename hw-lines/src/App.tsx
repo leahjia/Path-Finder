@@ -16,6 +16,7 @@ import Map from "./Map"
 // Allows us to write CSS styles inside App.css, any styles will apply to all components inside <App />
 import "./App.css"
 
+
 interface AppState {
     lines: string[]
 }
@@ -73,7 +74,7 @@ class App extends Component<{}, AppState> { // <- {} means no props.
 
     render() {
         return (
-            <div>
+            <div style={{backgroundColor: "palegoldenrod"}}>
                 <h1 id="app-title">Line Mapper!</h1>
                 <div>
                     {/* DONE: define props in the Map component and pass them in here */}
