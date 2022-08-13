@@ -11,10 +11,13 @@
 
 import {LatLngExpression} from "leaflet"
 import React, {Component} from "react"
-import { MapContainer, TileLayer } from "react-leaflet"
+import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 import MapLine from "./MapLine"
-import { UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER } from "./Constants"
+import {UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER} from "./Constants"
+import markerIconPng from "leaflet/dist/images/marker-icon.png"
+import {Icon} from 'leaflet'
+
 
 // This defines the location of the map. These are the coordinates of the UW Seattle campus
 const position: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER]
@@ -48,16 +51,19 @@ class Map extends Component<MapProps, MapState> {
                     x2={Number(elements[2])}
                     y2={Number(elements[3])}
                     key={"Line #" + i}
+                    // strokeDashoffset={spring[0].value}
+                    // strokeDasharray={length}
+                    // strokeWidth={6}
                 ></MapLine>
             )
         }
 
         return (
-            <div id="map">
+            <div id="map" >
                 <MapContainer
                     center={position}
                     zoom={15}
-                    scrollWheelZoom={false}
+                    scrollWheelZoom={true}
                 >
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -67,6 +73,19 @@ class Map extends Component<MapProps, MapState> {
                         // DONE: Render map lines here using the MapLine component.
                         <div>{arrayOfLines}</div>
                     }
+                    <Marker
+                        position={position}
+                        draggable={true}
+                        title={"hover text for marker"}
+                        icon={new Icon({
+                            iconUrl: markerIconPng,
+                            iconSize: [25, 40],
+                            iconAnchor: [12.5, 40],
+                            popupAnchor: [0, -40],
+                        })}>
+                        <marker>marker</marker>
+                        <Popup><h2>Location of marker</h2></Popup>
+                    </Marker>
                 </MapContainer>
             </div>
         )
