@@ -22,7 +22,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CampusMap<T> implements ModelAPI {
+/**
+ * CampusMap implements the ModelAPI interface to communicate with
+ * DesignMap with given commands through the web server.
+ */
+public class CampusMap implements ModelAPI {
+
+    // Note: CampusMap is not ann ADT, hence does not have RI or AF
 
     @Override
     public boolean shortNameExists(String shortName) {

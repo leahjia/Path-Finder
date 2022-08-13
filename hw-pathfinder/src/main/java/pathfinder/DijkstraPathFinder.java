@@ -11,21 +11,17 @@ import java.util.Set;
  * DijkstraPathFinder is a path finding algorithm that evaluates
  *  the edges in a given graph and finds the shortest path between
  *  the given start node and given end node.
- *
- *  Note: DijkstraPathFinder is not ann ADT, hence does not have RI or AF
  */
 public class DijkstraPathFinder<T, E> {
+
+    // Note: DijkstraPathFinder is not ann ADT, hence does not have RI or AF
 
     /**
      * Comparator for Path types, compares two Paths by the values of their cost
      */
-    class PathComparator implements Comparator<Path<T>> {
+    private class PathComparator implements Comparator<Path<T>> {
         public int compare(Path<T> A, Path<T> B) {
-            if (A.getCost() <= B.getCost())
-                return -1;
-            else if (A.getCost() > B.getCost() )
-                return 1;
-            return 0;
+            return Double.compare(A.getCost(), B.getCost());
         }
     }
 

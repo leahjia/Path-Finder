@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This represents an immutable path between two cartesian coordinate objects, particularly
+ * This represents an immutable path between two objects, particularly
  * Path#getStart() and Path#getEnd(). Also contains a cached
  * version of the total cost along this path, for efficient repeated access.
  */
@@ -251,7 +251,7 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
          */
         private Segment(T start, T end, double cost) {
             if(start == null || end == null) {
-                throw new NullPointerException("Segments cannot have null points.");
+                throw new NullPointerException("Segments cannot have null objects.");
             }
             if(!Double.isFinite(cost)) {
                 throw new IllegalArgumentException("Segment cost may not be NaN or infinite.");
