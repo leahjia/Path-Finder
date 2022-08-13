@@ -51,9 +51,6 @@ class Map extends Component<MapProps, MapState> {
                     x2={Number(elements[2])}
                     y2={Number(elements[3])}
                     key={"Line #" + i}
-                    // strokeDashoffset={spring[0].value}
-                    // strokeDasharray={length}
-                    // strokeWidth={6}
                 ></MapLine>
             )
         }

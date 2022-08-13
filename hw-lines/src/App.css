@@ -54,10 +54,10 @@ input {
 #edge-list button {
     margin: 5px 8px;
     color: darkblue;
-    border: blue;
-    font-family: Chalkduster, emoji;
-    font-size: x-large;
+    font-family: "Comic Sans MS", emoji;
+    font-size: large;
     background-color: papayawhip;
+    border: double blue;
 }
 
 /* Centers the "Line Mapper!" text, which is in a <p> (paragraph) tag inside the <App /> component, and has an
@@ -71,9 +71,4 @@ ID of "app-title". Also makes the text bigger, bold, and adds some space around 
     border: blue;
     background: cornsilk;
     font-family: "Apple Symbols", math;
-}
-
-.root {
-    color: darkolivegreen;
-    accent-color: darkolivegreen;
 }

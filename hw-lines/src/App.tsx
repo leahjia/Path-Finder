@@ -74,7 +74,7 @@ class App extends Component<{}, AppState> { // <- {} means no props.
 
     render() {
         return (
-            <div style={{backgroundColor: "palegoldenrod"}}>
+            <div style={{backgroundColor: "snow"}}>
                 <h1 id="app-title">Line Mapper!</h1>
                 <div>
                     {/* DONE: define props in the Map component and pass them in here */}
@@ -84,6 +84,7 @@ class App extends Component<{}, AppState> { // <- {} means no props.
                     // DONE: Modify this onChange callback to store the edges in the state
                     onChange={(msg) => {this.addEdgeList(msg)}}
                     onClear={() => {this.addEdgeList("")}}
+                    onQuestion={() => {alert("format: x1, y1, x2, y2, color")}}
                 />
             </div>
         )

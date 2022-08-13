@@ -14,6 +14,7 @@ import React, {Component} from 'react'
 interface EdgeListProps {
     onChange: (edges: string) => void // called when a new edge list is ready
     onClear: () => any
+    onQuestion: () => any
 }
 
 interface EdgeListState { inputText: string }
@@ -39,23 +40,23 @@ class EdgeList extends Component<EdgeListProps, EdgeListState> {
     render() {
         return (
             <h2 id="edge-list">
-                Enter edges here:
+                Enter edge(s) here:
+                <button onClick={() => this.props.onQuestion()}>?</button>
                 <br/>
                 <textarea
-                    rows={4}
-                    cols={40}
+                    rows={5}
+                    cols={36}
                     style={{
-                        color: "darkmagenta",
-                        backgroundColor: "beige",
-                        fontFamily: "cursive",
-                        fontSize: 20
+                        color: "darkolivegreen",
+                        backgroundColor: "seashell",
+                        fontFamily: "Copperplate",
+                        fontSize: 20,
+                        border: "double"
                 }}
                     value={this.state.inputText}
                     onChange={(evt) => { this.textChange(evt) }}
                 /> <br/>
-                <button
-                    title="Click me"
-                    onClick={() => this.props.onChange(this.state.inputText)}>Draw</button>
+                <button onClick={() => this.props.onChange(this.state.inputText)}>Draw</button>
                 <button onClick={() => this.resetText("I'm stuck...")}>Clear</button>
             </h2>
         )
