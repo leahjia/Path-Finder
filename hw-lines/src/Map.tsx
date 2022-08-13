@@ -10,8 +10,8 @@
  */
 
 import {LatLngExpression} from "leaflet"
-import React, {Component} from "react"
-import {MapContainer, Marker, Popup, TileLayer, Tooltip} from "react-leaflet"
+import React, {Component, useState} from "react"
+import {MapContainer, Marker, Popup, TileLayer, Tooltip, useMapEvents} from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 import MapLine from "./MapLine"
 import {UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER} from "./Constants"
@@ -55,6 +55,36 @@ class Map extends Component<MapProps, MapState> {
             )
         }
 
+        function LocationMarker() {
+            const [currPosition, setPosition] = useState(position)
+            const map = useMapEvents({
+                click() {
+                    map.locate()
+                },
+                locationfound(e) {
+                    setPosition(e.latlng)
+                    map.flyTo(e.latlng, map.getZoom())
+                },
+            })
+
+            return currPosition === null ? null : (
+                <Marker position={currPosition}
+                        // draggable={true}
+                        icon={new Icon({
+                            iconUrl: markerIconPng,
+                            iconSize: [30, 50],
+                            iconAnchor: [15, 50],
+                            popupAnchor: [0, -50],
+                        })}>
+                    <Popup>
+                        <h2>You are here.</h2>
+                        <h3>Click the map to center back to your location.</h3>
+                    </Popup>
+                    <Tooltip>Click anywhere in the map to center at your location.</Tooltip>
+                </Marker>
+            )
+        }
+
         return (
             <div id="map" >
                 <MapContainer
@@ -70,21 +100,7 @@ class Map extends Component<MapProps, MapState> {
                         // DONE: Render map lines here using the MapLine component.
                         <div>{arrayOfLines}</div>
                     }
-                    <Marker
-                        position={position}
-                        draggable={true}
-                        icon={new Icon({
-                            iconUrl: markerIconPng,
-                            iconSize: [25, 40],
-                            iconAnchor: [12.5, 40],
-                            popupAnchor: [0, -40],
-                        })}>
-                        <Popup>
-                            <h2>Current location of marker</h2>
-                            <h3>Feel free to drag it to another location.</h3>
-                        </Popup>
-                        <Tooltip>hold and drag</Tooltip>
-                    </Marker>
+                    <LocationMarker />
                 </MapContainer>
             </div>
         )

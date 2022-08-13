@@ -8,7 +8,7 @@ significant changes you made to the starter code beyond the basic requirements
 of the assignment, below:
 
 1. enabled scroll wheel zoom to give more dynamic to the map
-2. added a draggable marker with its own popup message. It is initially located
-   at the center of the map, and users can drag it anywhere on the map to pinpoint
-   their desired destination.
+2. added a marker with its own popup message to indicate user's location.
+   It is initially located at the center of the map, and users can
+   click the map to find their current location.
 3. added a question button for hints to enter inputs in correct format

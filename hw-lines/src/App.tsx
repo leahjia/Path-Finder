@@ -72,6 +72,7 @@ class App extends Component<{}, AppState> { // <- {} means no props.
         }
     }
 
+
     render() {
         return (
             <div style={{backgroundColor: "snow"}}>
@@ -84,7 +85,7 @@ class App extends Component<{}, AppState> { // <- {} means no props.
                     // DONE: Modify this onChange callback to store the edges in the state
                     onChange={(msg) => {this.addEdgeList(msg)}}
                     onClear={() => {this.addEdgeList("")}}
-                    onQuestion={() => {alert("format: x1, y1, x2, y2, color")}}
+                    onQuestion={() => {alert("Format for each edge: \"x1, y1, x2, y2, color\"")}}
                 />
             </div>
         )
