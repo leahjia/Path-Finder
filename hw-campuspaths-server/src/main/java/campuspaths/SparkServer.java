@@ -14,6 +14,8 @@ package campuspaths;
 import campuspaths.utils.CORSFilter;
 import com.google.gson.Gson;
 import pathfinder.CampusMap;
+import pathfinder.datastructures.Path;
+import pathfinder.datastructures.Point;
 import spark.*;
 
 import java.util.ArrayList;
@@ -34,40 +36,40 @@ public class SparkServer {
         //       you can use to fulfill requests that are sent to your server
         //       you should not create a new CampusMap each time your server receives a request
         //       shouldn't do much more than contain a main method and define different routes in your app
-        Spark.get("setup", new Route() {
+
+        final CampusMap map = new CampusMap();
+
+        Spark.get("path", new Route() {
             @Override
-            public Object handle(Request request, Response response) {
-                String param = request.queryParams("param");
-                if (param == null) { param = "STRANGER"; }
-                return "<h1>SETUP TEST: " + param + "!";
+            public Object handle(Request request, Response response) throws Exception {
+                // http://localhost:4567/path?start=KNE&end=HUB
+                Path<Point> output = null;
+                try {
+                    output = map.findShortestPath(request.queryParams("start"), request.queryParams("end"));
+                } catch (Exception e) {
+                    Spark.halt(400, "<h1>Invalid input: start/end is null or not a number");
+                }
+                return output != null? new Gson().toJson(output) : "There is no path:(";
             }
         });
 
-        Spark.get("numbers", new Route() {
+        Spark.get("test", new Route() {
             @Override
-            public Object handle(Request request, Response response) {
-
-                // check params are entered
-                String startStr = request.queryParams("start");
-                String endStr = request.queryParams("end");
-                if (startStr == null || endStr == null) {
-                    Spark.halt(400, "<h1>null start/end");
-                }
-
-                // check params are numbers
+            public Object handle(Request request, Response response) throws Exception {
+                // http://localhost:4567/test?start=6&end=16
                 int start = 0, end = 0;
                 try {
-                    start = Integer.parseInt(startStr);
-                    end = Integer.parseInt(endStr);
+                    start = Integer.parseInt(request.queryParams("start"));
+                    end = Integer.parseInt(request.queryParams("end"));
                 } catch (NumberFormatException e) {
-                    Spark.halt(400, "<h1>non-number start/end");
+                    Spark.halt(400, "<h1>start/end is null or not a number");
                 }
-//                CampusMap newMap = new CampusMap();
                 List<Integer> numbers = new ArrayList<>();
-                numbers.add(start);
-                numbers.add(end);
+                for (int i = start; i <= end; i++) {
+                    numbers.add(i);
+                }
                 String output = new Gson().toJson(numbers);
-                return "<h1>RANGE: " + output + " !";
+                return "<h1>RANGE: " + output;
             }
         });
 
