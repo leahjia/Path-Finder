@@ -8,7 +8,7 @@ import java.util.*;
  *  represented by a non-null T, and each edge is represented by a non-null E.
  *
  *  Abstract Invariant:
- *  *  Each Node and each edge needs to be unique.
+ *   Each Node and each edge needs to be unique.
  */
 public class DesignMap<T, E> {
     // RI: either true or false
@@ -105,12 +105,8 @@ public class DesignMap<T, E> {
         if (src == null || dst == null || label == null) {
             throw new IllegalArgumentException("Null node/label received.");
         }
-        if (!this.contains(src)) {
-            this.addNode(src);
-        }
-        if (!this.contains(dst)) {
-            this.addNode(dst);
-        }
+        if (!this.contains(src)) { this.addNode(src); }
+        if (!this.contains(dst)) { this.addNode(dst); }
 
         checkRep();
         if (DesignMap.get(src).containsKey(dst)) {
@@ -138,9 +134,7 @@ public class DesignMap<T, E> {
     public void removeNode(T node) {
         checkRep();
         // remove edges that go to node
-        for (T str: listNodes()) {
-            DesignMap.get(str).remove(node);
-        }
+        for (T str: listNodes()) { DesignMap.get(str).remove(node); }
         // remove node and its outgoing edges
         DesignMap.remove(node);
         checkRep();
@@ -179,12 +173,8 @@ public class DesignMap<T, E> {
     public List<T> listChildren(T source)
             throws IllegalArgumentException, NoSuchElementException {
         checkRep();
-        if (source == null) {
-            throw new IllegalArgumentException("Null node received.");
-        }
-        if (!this.contains(source)) {
-            throw new NoSuchElementException("Node does not exist.");
-        }
+        if (source == null) { throw new IllegalArgumentException("Null node received."); }
+        if (!this.contains(source)) { throw new NoSuchElementException("Node does not exist."); }
         List<T> output = new ArrayList<>(DesignMap.get(source).keySet());
         checkRep();
         return output;
@@ -201,18 +191,12 @@ public class DesignMap<T, E> {
     public List<T> listParents(T dest)
             throws IllegalArgumentException, NoSuchElementException{
         checkRep();
-        if (dest == null) {
-            throw new IllegalArgumentException("Null node received.");
-        }
-        if (!this.contains(dest)) {
-            throw new NoSuchElementException("Node does not exist.");
-        }
+        if (dest == null) { throw new IllegalArgumentException("Null node received."); }
+        if (!this.contains(dest)) { throw new NoSuchElementException("Node does not exist."); }
 
         List<T> output = new ArrayList<>();
         for (T str: listNodes()) {
-            if (DesignMap.get(str).containsKey(dest)) {
-                output.add(str);
-            }
+            if (DesignMap.get(str).containsKey(dest)) { output.add(str); }
         }
         checkRep();
         return output;

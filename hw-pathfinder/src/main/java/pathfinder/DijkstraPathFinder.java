@@ -42,9 +42,7 @@ public class DijkstraPathFinder<T, E> {
         initPath.extend(start, 0.0);
         pq.add(initPath);
         Path<T> paths = initPath;
-        if (start.equals(dest)) {
-            return paths;
-        }
+        if (start.equals(dest)) { return paths; }
         while (!pq.isEmpty()) {
             // process the next lowest-costing path in queue
             Path<T> currPath = pq.remove();
@@ -54,8 +52,7 @@ public class DijkstraPathFinder<T, E> {
             if (edgeTo.equals(dest)) {
                 paths = currPath;
                 break;
-            }
-            if (!known.contains(edgeTo)) {
+            } else if (!known.contains(edgeTo)) {
                 for (T child : map.listChildren(edgeTo)) {
                     if (!known.contains(child)) {
                         String minCost = map.getLabels(edgeTo, child).get(0).toString();
@@ -67,10 +64,6 @@ public class DijkstraPathFinder<T, E> {
                 known.add(edgeTo);
             }
         }
-        if (paths.equals(initPath)) {
-            return null;
-        } else {
-            return paths;
-        }
+        return paths.equals(initPath) ? null : paths;
     }
 }
