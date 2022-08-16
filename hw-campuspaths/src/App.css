@@ -24,6 +24,76 @@ file was empty.
     margin-top: 20px;
     margin-bottom: 20px;
     width: 800px;
+    --bg: #242526;
+    --bg-accent: #484a4d;
+    --text-color: #dadce1;
+    --nav-size: 60px;
+    --border: 1px solid #474a4d;
+    --border-radius: 8px;
+    --speed: 500ms;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.navbar {
+    height: var(--nav-size);
+    background-color: var(--bg);
+    padding: 0 1rem;
+    border-bottom: var(--border);
+}
+
+.navbar-nav {
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.nav-item {
+    width: calc(var(--nav-size) * .8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-button {
+    --button-size: calc(var(--nav-size) * .5);
+    width: var(--button-size);
+    height: var(--button-size);
+    border-radius: 50%;
+    padding: 5px;
+    margin: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter 300ms;
+}
+
+.icon0button:hover {
+    filter: brightness(1.2);
+}
+
+.button {
+    cursor: pointer;
+    border: 1px solid #1a202c;
+    padding: 8px;
+    min-width: 64px;
+    background: transparent;
+    transition: all 0.1s ease-in;
+}
+
+.button:hover {
+    background: #1a202c;
+    color: #ffffff;
 }
 
 /* Sets size of map, which has class name "leaflet-container" */

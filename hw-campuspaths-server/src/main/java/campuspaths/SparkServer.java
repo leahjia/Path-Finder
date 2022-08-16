@@ -20,9 +20,10 @@ import spark.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SparkServer {
-
+    
     public static void main(String[] args) {
         CORSFilter corsFilter = new CORSFilter();
         corsFilter.apply();
@@ -30,49 +31,50 @@ public class SparkServer {
         // React application to make requests to the Spark server, even though it
         // comes from a different server.
         // You should leave these two lines at the very beginning of main().
-
+        
         // TODO: Create all the Spark Java routes you need here.
         // spec: you probably want to create an instance of CampusMap that
         //       you can use to fulfill requests that are sent to your server
         //       you should not create a new CampusMap each time your server receives a request
         //       shouldn't do much more than contain a main method and define different routes in your app
-
+        
         final CampusMap map = new CampusMap();
-
+        
         Spark.get("path", new Route() {
             @Override
             public Object handle(Request request, Response response) throws Exception {
                 // http://localhost:4567/path?start=KNE&end=HUB
-                Path<Point> output = null;
+                List<String> arrayOfLines = new ArrayList<>();
                 try {
-                    output = map.findShortestPath(request.queryParams("start"), request.queryParams("end"));
+                    Path<Point> pathFound = map.findShortestPath(request.queryParams("start"),
+                            request.queryParams("end"));
+                    if (pathFound != null) {
+                        for (Path<Point>.Segment seg : pathFound) {
+                            StringBuilder eachLine = new StringBuilder();
+                            eachLine.append(seg.getStart().getX() + ",");
+                            eachLine.append(seg.getStart().getY() + ",");
+                            eachLine.append(seg.getEnd().getX() + ",");
+                            eachLine.append(seg.getEnd().getY());
+                            arrayOfLines.add(eachLine.toString());
+                        }
+                    }
+                    return arrayOfLines;
+//                    return pathFound;
                 } catch (Exception e) {
                     Spark.halt(400, "<h1>Invalid input: start/end is null or not a number");
                 }
-                return output != null? new Gson().toJson(output) : "There is no path:(";
+                return "There is no path:(";
             }
         });
-
-        Spark.get("test", new Route() {
+        
+        Spark.get("names", new Route() {
             @Override
             public Object handle(Request request, Response response) throws Exception {
-                // http://localhost:4567/test?start=6&end=16
-                int start = 0, end = 0;
-                try {
-                    start = Integer.parseInt(request.queryParams("start"));
-                    end = Integer.parseInt(request.queryParams("end"));
-                } catch (NumberFormatException e) {
-                    Spark.halt(400, "<h1>start/end is null or not a number");
-                }
-                List<Integer> numbers = new ArrayList<>();
-                for (int i = start; i <= end; i++) {
-                    numbers.add(i);
-                }
-                String output = new Gson().toJson(numbers);
-                return "<h1>RANGE: " + output;
+                Map<String, String> names = map.buildingNames();
+                return new Gson().toJson(names);
             }
         });
-
+        
     }
-
+    
 }
