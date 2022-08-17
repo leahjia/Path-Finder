@@ -13,7 +13,6 @@ import {Icon, LatLng, latLng, LatLngExpression} from "leaflet";
 import React, {Component, useState} from "react";
 import {MapContainer, Marker, Popup, TileLayer, Tooltip, useMapEvents} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import MapLine from "./MapLine";
 import {
     UW_LATITUDE,
     UW_LATITUDE_CENTER, UW_LATITUDE_OFFSET, UW_LATITUDE_SCALE,
@@ -28,7 +27,7 @@ import markerIconPng from "leaflet/dist/images/marker-icon.png"
 let position: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER];
 
 interface MapProps {
-    lines: string[][]
+    lines: JSX.Element[]
 }
 
 // Converts x coordinate to longitude and y coordinate to latitude
@@ -41,22 +40,10 @@ class Map extends Component<MapProps, {}> {
 
     render() {
         const paths = this.props.lines
-        const arrayOfLines: JSX.Element[] = []
-        let newCenter = position
         let median = paths.length / 2
         median = paths.length % 2 === 1? median + .5 : median
+        let newCenter = paths.length === 0? position : toLatLon(Number(paths[median].props.y1), Number(paths[median].props.x1))
         for (let i = 0; i < paths.length; i++) {
-            newCenter = toLatLon(Number(paths[median][1]), Number(paths[median][0]))
-            arrayOfLines.push(
-                <MapLine
-                    x1={Number(paths[i][0])}
-                    y1={Number(paths[i][1])}
-                    x2={Number(paths[i][2])}
-                    y2={Number(paths[i][3])}
-                    color={"red"}
-                    key={"Line #" + i}
-                ></MapLine>
-            )
         }
 
         // helper method to initiate zoom in
@@ -111,8 +98,7 @@ class Map extends Component<MapProps, {}> {
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                    { <div>{arrayOfLines}</div> }
-                    <button onClick={() => console.log()}>Center</button>
+                    { <div>{this.props.lines}</div> }
                 </MapContainer>
             </div>
         );

@@ -12,11 +12,12 @@ import React, {Component} from 'react';
 import Map from "./Map"
 import "./App.css";
 import SearchSelection from "./SearchSelection";
+import MapLine from "./MapLine";
 
 interface AppState {
     start: string,
     end: string,
-    lines: string[][]
+    lines: JSX.Element[]
 }
 
 class App extends Component<{}, AppState> {
@@ -32,23 +33,34 @@ class App extends Component<{}, AppState> {
     async sendRequest(startStr: string, endStr: string) {
         try {
             if (startStr !== "Choose an option" && endStr !== "Choose an option") {
-                console.log(startStr)
+                // extract short names
                 let start = startStr.substring(0, startStr.indexOf(" -"))
                 let end = endStr.substring(0, endStr.indexOf(" -"))
+
+                // change state and send request
                 this.setState({start: start, end: end})
                 let response = await fetch('http://localhost:4567/path?start='+ start +'&end=' + end)
-                if (!response.ok) { alert("Input is invalid (fetch failed).") }
+                if (!response.ok) {
+                    alert("Input is invalid (fetch failed).")
+                }
                 let parsed = await response.json()
-                let arrayOfLines = []
+
+                // collect MapLines for map
+                const arrayOfLines: JSX.Element[] = []
                 for (let i = 0; i < parsed.path.length; i++) {
-                    let line = []
-                    line.push(parsed.path[i].start.x)
-                    line.push(parsed.path[i].start.y)
-                    line.push(parsed.path[i].end.x)
-                    line.push(parsed.path[i].end.y)
-                    arrayOfLines.push(line)
+                    arrayOfLines.push(
+                        <MapLine
+                            x1={parsed.path[i].start.x}
+                            y1={parsed.path[i].start.y}
+                            x2={parsed.path[i].end.x}
+                            y2={parsed.path[i].end.y}
+                            color={"red"}
+                            key={"Line #" + i}
+                        ></MapLine>
+                    )
                 }
                 this.setState({lines: arrayOfLines})
+                console.log(arrayOfLines)
             } else {
                 this.setState({start: "Choose an option", end: "Choose an option", lines: []})
             }
@@ -62,6 +74,9 @@ class App extends Component<{}, AppState> {
                 <div className={"app"}>
                     <Map lines={this.state.lines}/>
                 </div>
+                {/*<div className={"edgeList"}>*/}
+                {/*    <FetchList start={this.state.start} end={this.state.end}/>*/}
+                {/*</div>*/}
                 <SearchSelection
                     onChange={(start, end) => { this.sendRequest(start, end) }}
                 />
