@@ -46,20 +46,20 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
     render() {
         // this.sendRequest()
         return (
-            <div id="dropdownList">
-                <h3>Start from:
-                    <select
+            <div>
+                <h3 id="root">Start from:
+                    <select id="dropdownList"
                         value={this.state.start}
                         onChange={(start) => { this.handleStartChange(start) }}>
-                        <option value={"startList"}>Choose an option</option>
+                        <option id="dropdownItems">Choose an option</option>
                         {this.state.buildingNames.map((name) => ( <option key={name}>{name}</option> ))}
                     </select>
                 </h3>
                 <h3>To destination:
-                    <select
+                    <select id="dropdownList"
                         value={this.state.end}
                         onChange={(end) => { this.handleEndChange(end) }}>
-                        <option value={"endList"}>Choose an option</option>
+                        <option id="dropdownItems">Choose an option</option>
                         {this.state.buildingNames.map((name) => ( <option key={name}>{name}</option> ))}
                     </select>
                 </h3>

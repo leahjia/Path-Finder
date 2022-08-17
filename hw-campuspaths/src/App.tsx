@@ -53,15 +53,11 @@ class App extends Component<{}, AppState> {
         } catch (e) { alert("Input is invalid (to json failed).") }
     }
 
-    addEdgeList(msg: string) {
-        this.setState({ lines: []})
-    }
-
     render() {
         return (
             <div>
-                <h1 id="app-title">Campus Path Finder!</h1>
-                <div className={"App"}>
+                <h1 id="appTitle">Campus Path Finder!</h1>
+                <div className={"app"}>
                     <Map lines={this.state.lines}/>
                 </div>
                 <SearchSelection

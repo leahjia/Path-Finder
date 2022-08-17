@@ -9,12 +9,20 @@
  * author.
  */
 
-import { LatLngExpression } from "leaflet";
-import React, { Component } from "react";
-import {MapContainer, TileLayer} from "react-leaflet";
+import {Icon, LatLng, latLng, LatLngExpression} from "leaflet";
+import React, {Component, useState} from "react";
+import {MapContainer, Marker, Popup, TileLayer, Tooltip, useMapEvents} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import MapLine from "./MapLine";
-import { UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER } from "./Constants";
+import {
+    UW_LATITUDE,
+    UW_LATITUDE_CENTER, UW_LATITUDE_OFFSET, UW_LATITUDE_SCALE,
+    UW_LONGITUDE,
+    UW_LONGITUDE_CENTER,
+    UW_LONGITUDE_OFFSET,
+    UW_LONGITUDE_SCALE
+} from "./Constants";
+import markerIconPng from "leaflet/dist/images/marker-icon.png"
 
 // coordinates of the UW Seattle campus
 let position: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER];
@@ -23,12 +31,22 @@ interface MapProps {
     lines: string[][]
 }
 
+// Converts x coordinate to longitude and y coordinate to latitude
+function toLatLon(y: number, x: number): LatLng {
+    return latLng(UW_LATITUDE + (y - UW_LATITUDE_OFFSET) * UW_LATITUDE_SCALE,
+        UW_LONGITUDE + (x - UW_LONGITUDE_OFFSET) * UW_LONGITUDE_SCALE)
+}
+
 class Map extends Component<MapProps, {}> {
 
     render() {
         const paths = this.props.lines
         const arrayOfLines: JSX.Element[] = []
+        let newCenter = position
         for (let i = 0; i < paths.length; i++) {
+            if (i <= paths.length/2 && i > paths.length/2 - 1) {
+                newCenter = toLatLon(Number(paths[i][1]), Number(paths[i][0]))
+            }
             arrayOfLines.push(
                 <MapLine
                     x1={Number(paths[i][0])}
@@ -41,13 +59,42 @@ class Map extends Component<MapProps, {}> {
             )
         }
 
+        // feature to zoom in on the path found
+        function FlyTo() {
+            const map = useMapEvents({
+                mouseover() { map.flyTo(newCenter, map.getScaleZoom(4, 15)) }
+            })
+            return null
+        }
+
+        function LocationMarker() {
+            const [currPosition, setPosition] = useState(position)
+            const map = useMapEvents({
+                mouseover() { map.locate() },
+                locationfound(e) { setPosition(e.latlng) }
+            })
+            return currPosition === position ? (<Marker position={[0,0]}></Marker>) : (
+                <Marker position={currPosition}
+                        icon={new Icon({
+                            iconUrl: markerIconPng,
+                            iconSize: [25, 40],
+                            iconAnchor: [12.5, 40],
+                            popupAnchor: [0, -40],})}>
+                    <Popup><h3>This is your current location</h3></Popup>
+                    <Tooltip>You are here</Tooltip>
+                </Marker>
+            )
+        }
         return (
             <div id="map">
                 <MapContainer
-                    center={position}
+                    id="container"
+                    center={newCenter}
                     zoom={15}
                     doubleClickZoom={true}
-                    scrollWheelZoom={false}>
+                    scrollWheelZoom={true}>
+                    <FlyTo/>
+                    <LocationMarker/>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
