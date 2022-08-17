@@ -28,9 +28,11 @@ class App extends Component<{}, AppState> {
         }
     }
 
+
     async sendRequest(startStr: string, endStr: string) {
         try {
             if (startStr !== "Choose an option" && endStr !== "Choose an option") {
+                console.log(startStr)
                 let start = startStr.substring(0, startStr.indexOf(" -"))
                 let end = endStr.substring(0, endStr.indexOf(" -"))
                 this.setState({start: start, end: end})

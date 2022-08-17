@@ -43,10 +43,10 @@ class Map extends Component<MapProps, {}> {
         const paths = this.props.lines
         const arrayOfLines: JSX.Element[] = []
         let newCenter = position
+        let median = paths.length / 2
+        median = paths.length % 2 === 1? median + .5 : median
         for (let i = 0; i < paths.length; i++) {
-            if (i <= paths.length/2 && i > paths.length/2 - 1) {
-                newCenter = toLatLon(Number(paths[i][1]), Number(paths[i][0]))
-            }
+            newCenter = toLatLon(Number(paths[median][1]), Number(paths[median][0]))
             arrayOfLines.push(
                 <MapLine
                     x1={Number(paths[i][0])}
@@ -59,10 +59,22 @@ class Map extends Component<MapProps, {}> {
             )
         }
 
+        // helper method to initiate zoom in
+        let prevCenter = position
+        function FlyToHelper() {
+            if (newCenter !== position && newCenter !== prevCenter) {
+                FlyTo()
+                prevCenter = newCenter
+            }
+            return null
+        }
+
         // feature to zoom in on the path found
         function FlyTo() {
             const map = useMapEvents({
-                mouseover() { map.flyTo(newCenter, map.getScaleZoom(4, 15)) }
+                mouseover() {
+                    map.flyTo(newCenter, map.getScaleZoom(4, 14))
+                }
             })
             return null
         }
@@ -85,6 +97,7 @@ class Map extends Component<MapProps, {}> {
                 </Marker>
             )
         }
+
         return (
             <div id="map">
                 <MapContainer
@@ -93,12 +106,13 @@ class Map extends Component<MapProps, {}> {
                     zoom={15}
                     doubleClickZoom={true}
                     scrollWheelZoom={true}>
-                    <FlyTo/>
+                    <FlyToHelper/>
                     <LocationMarker/>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
                     { <div>{arrayOfLines}</div> }
+                    <button onClick={() => console.log()}>Center</button>
                 </MapContainer>
             </div>
         );

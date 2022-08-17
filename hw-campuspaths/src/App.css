@@ -17,6 +17,11 @@ and only exists for aesthetic purposes. The app would work just fine if this
 file was empty.
 */
 
+.leaflet-container {
+    width: 100vw;
+    height: 100vh;
+}
+
 /* Centers component with ID "map-wrapper" and sets width and bottom spacing */
 #map {
     margin-left: auto;
