@@ -27,43 +27,20 @@ public class SparkServer {
     public static void main(String[] args) {
         CORSFilter corsFilter = new CORSFilter();
         corsFilter.apply();
-        // The above two lines help set up some settings that allow the
-        // React application to make requests to the Spark server, even though it
-        // comes from a different server.
-        // You should leave these two lines at the very beginning of main().
-        
-        // TODO: Create all the Spark Java routes you need here.
-        // spec: you probably want to create an instance of CampusMap that
-        //       you can use to fulfill requests that are sent to your server
-        //       you should not create a new CampusMap each time your server receives a request
-        //       shouldn't do much more than contain a main method and define different routes in your app
         
         final CampusMap map = new CampusMap();
         
         Spark.get("path", new Route() {
             @Override
             public Object handle(Request request, Response response) throws Exception {
-                // http://localhost:4567/path?start=KNE&end=HUB
-                List<String> arrayOfLines = new ArrayList<>();
+                Path<Point> pathFound = null;
                 try {
-                    Path<Point> pathFound = map.findShortestPath(request.queryParams("start"),
+                    pathFound = map.findShortestPath(request.queryParams("start"),
                             request.queryParams("end"));
-                    if (pathFound != null) {
-                        for (Path<Point>.Segment seg : pathFound) {
-                            StringBuilder eachLine = new StringBuilder();
-                            eachLine.append(seg.getStart().getX() + ",");
-                            eachLine.append(seg.getStart().getY() + ",");
-                            eachLine.append(seg.getEnd().getX() + ",");
-                            eachLine.append(seg.getEnd().getY());
-                            arrayOfLines.add(eachLine.toString());
-                        }
-                    }
-                    return arrayOfLines;
-//                    return pathFound;
                 } catch (Exception e) {
-                    Spark.halt(400, "<h1>Invalid input: start/end is null or not a number");
+                    Spark.halt(400, "Invalid input: start/end is null or not a number");
                 }
-                return "There is no path:(";
+                return pathFound != null? new Gson().toJson(pathFound) : "There is no path:(";
             }
         });
         

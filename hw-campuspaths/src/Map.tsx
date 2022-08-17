@@ -11,30 +11,30 @@
 
 import { LatLngExpression } from "leaflet";
 import React, { Component } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import {MapContainer, TileLayer} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import MapLine from "./MapLine";
 import { UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER } from "./Constants";
 
 // coordinates of the UW Seattle campus
-const position: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER];
+let position: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER];
 
 interface MapProps {
-    edgeList: string[]
+    lines: string[][]
 }
 
 class Map extends Component<MapProps, {}> {
+
     render() {
+        const paths = this.props.lines
         const arrayOfLines: JSX.Element[] = []
-        for (let i = 0; i < this.props.edgeList.length; i++) {
-            let eachLine = this.props.edgeList[i]
-            let elements = eachLine.toString().split(" ")
+        for (let i = 0; i < paths.length; i++) {
             arrayOfLines.push(
                 <MapLine
-                    x1={Number(elements[0])}
-                    y1={Number(elements[1])}
-                    x2={Number(elements[2])}
-                    y2={Number(elements[3])}
+                    x1={Number(paths[i][0])}
+                    y1={Number(paths[i][1])}
+                    x2={Number(paths[i][2])}
+                    y2={Number(paths[i][3])}
                     color={"red"}
                     key={"Line #" + i}
                 ></MapLine>
@@ -46,12 +46,11 @@ class Map extends Component<MapProps, {}> {
                 <MapContainer
                     center={position}
                     zoom={15}
-                    scrollWheelZoom={false}
-                >
+                    doubleClickZoom={true}
+                    scrollWheelZoom={false}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
                     { <div>{arrayOfLines}</div> }
                 </MapContainer>
             </div>

@@ -10,77 +10,63 @@
  */
 import React, {Component} from 'react';
 import Map from "./Map"
-
 import "./App.css";
 import SearchSelection from "./SearchSelection";
 
 interface AppState {
     start: string,
     end: string,
-    inputText: string,
-    lines: string[],
+    lines: string[][]
 }
 
-// interface Path {
-//     x1: string,
-//     y1: string,
-//     x2: string,
-//     y2: string
-// }
-
 class App extends Component<{}, AppState> {
+
     constructor(props: {}) {
         super(props);
         this.state = {
-            start: "",
-            end: "",
-            lines: [],
-            inputText: ""
+            start: "Choose an option", end: "Choose an option", lines: []
         }
     }
 
-    async sendRequest(start: string, end: string) {
-        // let startShortName = start.substring(0, start.indexOf(" "))
-        // let endShortName = end.substring(0, end.indexOf(" "))
+    async sendRequest(startStr: string, endStr: string) {
         try {
-            // let response = await fetch('http://localhost:4567/path?start='+ startShortName +'&end=' + endShortName)
-            let response = await fetch('http://localhost:4567/path?start=KNE&end=HUB')
-            if (!response.ok) { alert("Input is invalid.") }
-            // const parsed: Path = await response.json() as Path
-            let parsed: string = await response.json()
-            this.setState({inputText: parsed})
-        } catch (e) { alert("Input is invalid.") }
+            if (startStr !== "Choose an option" && endStr !== "Choose an option") {
+                let start = startStr.substring(0, startStr.indexOf(" -"))
+                let end = endStr.substring(0, endStr.indexOf(" -"))
+                this.setState({start: start, end: end})
+                let response = await fetch('http://localhost:4567/path?start='+ start +'&end=' + end)
+                if (!response.ok) { alert("Input is invalid (fetch failed).") }
+                let parsed = await response.json()
+                let arrayOfLines = []
+                for (let i = 0; i < parsed.path.length; i++) {
+                    let line = []
+                    line.push(parsed.path[i].start.x)
+                    line.push(parsed.path[i].start.y)
+                    line.push(parsed.path[i].end.x)
+                    line.push(parsed.path[i].end.y)
+                    arrayOfLines.push(line)
+                }
+                this.setState({lines: arrayOfLines})
+            } else {
+                this.setState({start: "Choose an option", end: "Choose an option", lines: []})
+            }
+        } catch (e) { alert("Input is invalid (to json failed).") }
     }
 
     addEdgeList(msg: string) {
-        if (msg.length === 0) {
-            this.setState({ lines: [] })
-        } else {
-            let lines: string[] = msg.toString().split(", ")
-            let updatedLines = []
-            for (let i = 0; i < lines.length; i+=4) {
-                for (let j = 0; j < 4; j++) {
-                    updatedLines.push(lines[i+j] + " " + lines[i+j] + " "  +  lines[i+j] + " "  + lines[i+j])
-                }
-            }
-            this.setState({ lines: updatedLines})
-        }
+        this.setState({ lines: []})
     }
 
     render() {
         return (
             <div>
                 <h1 id="app-title">Campus Path Finder!</h1>
-                <div>
-                    <Map edgeList={this.state.lines} />
+                <div className={"App"}>
+                    <Map lines={this.state.lines}/>
                 </div>
                 <SearchSelection
-                    onChange={(start, end) => {
-                        this.sendRequest(start, end)
-                        console.log(this.state.inputText)
-                        this.addEdgeList(this.state.inputText)
-                    }}
-                ></SearchSelection>
+                    onChange={(start, end) => { this.sendRequest(start, end) }}
+                />
             </div>
         )
     }
