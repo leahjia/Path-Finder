@@ -92,29 +92,14 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
                         {this.state.buildingNames.map((name) => (<option key={name}>{name}</option>))}
                     </select>
                 </h3>
-                <button
-                    style={{
-                        blockSize: 40,
-                        borderRadius: 10,
-                        fontSize: 16,
-                        backgroundColor: 'SaddleBrown',
-                        color: 'white',
-                    }}
-                    id="searchButton"
-                    onClick={() => this.props.onChange(this.state.start, this.state.end)}>Search
-                </button>
-                <symbol></symbol>
-                <button
-                    style={{
-                        blockSize: 40,
-                        borderRadius: 10,
-                        fontSize: 16,
-                        backgroundColor: 'SaddleBrown',
-                        color: 'white',
-                    }}
-                    id="searchButton"
-                    onClick={() => this.handleClear("Choose an option")}>Clear
-                </button>
+                <h3 id="prompt">
+                    <button id="buttons"
+                            onClick={() => this.props.onChange(this.state.start, this.state.end)}>Search
+                    </button>
+                    <button id="buttons"
+                            onClick={() => this.handleClear("Choose an option")}>Clear
+                    </button>
+                </h3>
             </div>
         )
     }

@@ -17,80 +17,17 @@ and only exists for aesthetic purposes. The app would work just fine if this
 file was empty.
 */
 
-#root, body {
-    background-color: #242526;
-}
 
-/* Centers component with ID "map-wrapper" and sets width and bottom spacing */
-#map {
-    margin: 20px auto;
-    width: 800px;
-    border-radius: 10px;
-}
-
-#container {
-    border-radius: 10px;
-}
-
-/* feature: hover behavior for the dropdown lists */
-#dropdownList:hover {
-    filter: brightness(1.5);
-    /*background-color: #525357;*/
-}
-
-/* feature: style for the dropdown lists */
-#dropdownList {
-    cursor: pointer;
-    transition: filter 200ms;
-}
-
-#dropdownList, body {
+#prompt {
     /*border: 1px solid #1a202c;*/
     /*padding: 8px;*/
-    padding: .5rem;
     /*min-width: 64px;*/
-    background: #242526;
-    color: #dadce1;
     /*transition: all 0.1s ease-in;*/
     /*position: absolute;*/
     /*top: 58px;*/
     /*width: 300px;*/
-    border-radius: 8px;
     /*align-items: center;*/
-    margin: 6px;
-    transition: filter 200ms;
-}
 
-#searchButton:hover {
-    filter: brightness(1.2);
-}
-
-#searchButton {
-    cursor: pointer;
-    border: 4px solid #1a202c;
-    width: 229px;
-
-    margin: 6px;
-    transition: filter 200ms;
-    margin-left: 400px;
-}
-
-#appTitle {
-    color: var(--text-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    --button-size: 30;
-    width: var(--button-size);
-    height: var(--button-size);
-    border-radius: 50%;
-    padding: 5px;
-    margin: 5px;
-    transition: filter 300ms;
-}
-
-#prompt {
     --bg: #242526;
     --bg-accent: #484a4d;
     --text-color: #dadce1;
@@ -99,7 +36,7 @@ file was empty.
     --speed: 500ms;
 
     list-style: none;
-    color: var(--text-color);
+    color: #dadce1;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -111,6 +48,67 @@ file was empty.
     border-radius: 50%;
     padding: 5px;
     margin: 2px;
+    transition: filter 300ms;
+}
+
+/* theme style */
+#root, body {
+    background-color: #242526;
+}
+
+/* Centers component with ID "map-wrapper" and sets width and bottom spacing */
+#map {
+    margin: 20px auto;
+    width: 800px;
+    border-radius: 10px;
+}
+
+/* feature: hover behavior for the dropdown lists */
+#dropdownList:hover {
+    cursor: pointer;
+    filter: brightness(1.5);
+    transition: filter 300ms;
+}
+
+/* feature: style for the dropdown lists */
+#dropdownList, body {
+    padding: .5rem;
+    background: #242526;
+    color: #dadce1;
+    border-radius: 8px;
+    margin: 6px;
+}
+
+#buttons:hover {
+    cursor: pointer;
+    filter: brightness(1.2);
+    transition: filter 300ms;
+}
+
+#buttons {
+    padding: .5rem;
+    color: whitesmoke;
+    border: 4px solid #1a202c;
+    border-radius: 10px;
+    font-size: 16px;
+    block-size: 40px;
+    background-color: saddlebrown;
+    width: 200px;
+    margin: 10px 40px 20px 40px;    /* top left? bottom right? */
+}
+
+#appTitle {
+    color: #dadce1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    --button-size: 30;
+    width: var(--button-size);
+    height: var(--button-size);
+    border-radius: 50%;
+    padding: 5px;
+    margin: 5px;
     transition: filter 300ms;
 }
 
