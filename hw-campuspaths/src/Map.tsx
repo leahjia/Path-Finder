@@ -15,7 +15,6 @@ import {MapContainer, Marker, Popup, TileLayer, Tooltip, useMapEvents} from "rea
 import "leaflet/dist/leaflet.css";
 import markerIcon from "leaflet/dist/images/marker-icon-2x.png"
 import markerShadow from "leaflet/dist/images/marker-shadow.png"
-import MarkerPin from "./SelectionPin";
 import {
     UW_LATITUDE,
     UW_LATITUDE_CENTER,
@@ -26,6 +25,8 @@ import {
     UW_LONGITUDE_OFFSET,
     UW_LONGITUDE_SCALE
 } from "./Constants";
+import StartMarker from "./StartMarker";
+import EndMarker from "./EndMarker";
 
 // coordinates of the UW Seattle campus
 let position: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER];
@@ -110,8 +111,8 @@ class Map extends Component<MapProps, {}> {
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                    <MarkerPin position={this.props.coordinatesStart}/>
-                    <MarkerPin position={this.props.coordinatesEnd}/>
+                    <StartMarker position={this.props.coordinatesStart}/>
+                    <EndMarker position={this.props.coordinatesEnd}/>
                     {<div>{this.props.lines}</div>}
                     <FlyToHelper/>
                 </MapContainer>

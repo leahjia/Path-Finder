@@ -5,11 +5,11 @@ import "leaflet/dist/leaflet.css";
 import markerPinIcon from "leaflet/dist/images/marker-icon.png"
 import markerPinShadow from "leaflet/dist/images/marker-shadow.png"
 
-interface MarkerPinProps {
+interface EndMarkerProps {
     position: LatLngExpression,
 }
 
-class MarkerPin extends Component<MarkerPinProps, {}> {
+class EndMarker extends Component<EndMarkerProps, {}> {
 
     render() {
         return (
@@ -21,11 +21,11 @@ class MarkerPin extends Component<MarkerPinProps, {}> {
                         iconAnchor: [12.5, 40],
                         popupAnchor: [0, -40],
                     })}>
-                <Popup><h3>ENDPOINT</h3></Popup>
-                <Tooltip>ENDPOINT</Tooltip>
+                <Popup><h3>DESTINATION</h3></Popup>
+                <Tooltip>END POINT</Tooltip>
             </Marker>
         )
     }
 }
 
-export default MarkerPin;
+export default EndMarker;
