@@ -8,7 +8,7 @@
  * interested in reusing these course materials should contact the
  * author.
  */
-import React, {Component, useState} from 'react';
+import React, { Component } from 'react';
 import Map from "./Map"
 import "./App.css";
 import SearchSelection from "./SearchSelection";
@@ -27,9 +27,8 @@ interface AppState {
     start: string,
     end: string,
     lines: JSX.Element[],
-    coordinates: number[],
-    testcoordinatesStart: LatLngExpression,
-    testcoordinatesEnd: LatLngExpression,
+    coordinatesStart: LatLngExpression,
+    coordinatesEnd: LatLngExpression,
 }
 
 // Converts x coordinate to longitude and y coordinate to latitude
@@ -43,44 +42,53 @@ class App extends Component<{}, AppState> {
     constructor(props: {}) {
         super(props);
         this.state = {
-            testcoordinatesStart: [0, 0], testcoordinatesEnd: [0, 0],
-            start: "Choose an option", end: "Choose an option", lines: [], coordinates: [0, 0]
+            coordinatesStart: [0, 0], coordinatesEnd: [0, 0],
+            start: "Choose an option", end: "Choose an option", lines: []
         }
     }
 
+    // check if selections are not empty or default
+    checkPin(str: string) {
+        return (str !== "" && str !== "Choose an option")
+    }
+
+    // fetch the name of the start point
     async putPinStart(str: string) {
-        if (str !== "") {
-            let shortName = str.substring(0, str.indexOf(" -"))
-            let response = await fetch('http://localhost:4567/path?start=' + shortName + '&end=' + shortName)
+        if (this.checkPin(str)) {
+            let name = str.substring(0, str.indexOf(" -"))
+            let response = await fetch('http://localhost:4567/path?start=' + name + '&end=' + name)
             if (!response.ok) {
                 alert("Input is invalid (fetch failed).")
             }
             let parsed = await response.json()
             let newPin = parsed.start
-            this.setState({testcoordinatesStart: toLatLon(newPin.y, newPin.x)})
+            this.setState({coordinatesStart: toLatLon(newPin.y, newPin.x)})
         } else {
-            this.setState({testcoordinatesStart:[0, 0]})
+            this.setState({coordinatesStart: [0, 0]})
         }
     }
 
+    // fetch the name of the end point
     async putPinEnd(str: string) {
-        if (str !== "") {
-            let shortName = str.substring(0, str.indexOf(" -"))
-            let response = await fetch('http://localhost:4567/path?start=' + shortName + '&end=' + shortName)
+        if (this.checkPin(str)) {
+            let name = str.substring(0, str.indexOf(" -"))
+            let response = await fetch('http://localhost:4567/path?start=' + name + '&end=' + name)
             if (!response.ok) {
                 alert("Input is invalid (fetch failed).")
             }
             let parsed = await response.json()
             let newPin = parsed.start
-            this.setState({testcoordinatesEnd: toLatLon(newPin.y, newPin.x)})
+            this.setState({coordinatesEnd: toLatLon(newPin.y, newPin.x)})
         } else {
-            this.setState({testcoordinatesEnd:[0, 0]})
+            this.setState({coordinatesEnd: [0, 0]})
         }
     }
 
+    // fetch the paths from start to end
     async sendRequest(startStr: string, endStr: string) {
         try {
             if (startStr !== "Choose an option" && endStr !== "Choose an option") {
+
                 // extract short names
                 let start = startStr.substring(0, startStr.indexOf(" -"))
                 let end = endStr.substring(0, endStr.indexOf(" -"))
@@ -109,11 +117,10 @@ class App extends Component<{}, AppState> {
                 }
                 this.setState({lines: arrayOfLines})
             } else {
-                // this.setState({start: "Choose an option", end: "Choose an option", lines: []})
                 this.setState({lines: []})
             }
         } catch (e) {
-            alert("Input is invalid (to json failed).")
+            alert("Input is invalid (to json() failed).")
         }
     }
 
@@ -122,11 +129,10 @@ class App extends Component<{}, AppState> {
             <div>
                 <h1 id="appTitle">Campus Path Finder!</h1>
                 <div className={"app"}>
-                    <Map coordinatesStart={this.state.testcoordinatesStart}
-                         coordinatesEnd={this.state.testcoordinatesEnd}
+                    <Map coordinatesStart={this.state.coordinatesStart}
+                         coordinatesEnd={this.state.coordinatesEnd}
                          lines={this.state.lines}/>
                 </div>
-                <body id="dark-theme || light-theme"></body>
                 <SearchSelection
                     onChange={(start, end) => {
                         this.sendRequest(start, end)

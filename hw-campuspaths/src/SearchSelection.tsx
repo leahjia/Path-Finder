@@ -9,7 +9,7 @@ interface SearchSelectionProps {
 interface SearchSelectionState {
     start: string,
     end: string,
-    buildingNames: string[]
+    buildingNames: string[],
     lines: JSX.Element[],
     selectStart: string,
     selectEnd: string,
@@ -20,11 +20,16 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
     constructor(props: SearchSelectionProps) {
         super(props)
         this.state = {
-            selectStart: "", selectEnd: "",
-            start: "Choose an option", end: "Choose an option", buildingNames: [], lines: []
+            start: "Choose an option",
+            end: "Choose an option",
+            buildingNames: [],
+            lines: [],
+            selectStart: "",
+            selectEnd: "",
         }
     }
 
+    // fetch all building names for dropfown list
     componentDidMount() {
         fetch('http://localhost:4567/names')
             .then(response => response.json())
@@ -36,7 +41,7 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
             }))
     }
 
-
+    // handle change of start string and start marker
     handleStartChange = (start: any) => {
         this.setState({start: start.target.value,})
         this.setState({selectStart: start.target.value,},
@@ -45,6 +50,7 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
             })
     }
 
+    // handle change of end string and end marker
     handleEndChange = (end: any) => {
         this.setState({end: end.target.value})
         this.setState({selectEnd: end.target.value,}, () => {
@@ -53,19 +59,20 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
         )
     }
 
-    handleClear = (msg: string) => {
-        this.setState({start: msg, end: msg, lines: [], selectStart: "", selectEnd: ""},
+    // clear all stored routes, markers, and messages
+    handleClear = (init: string) => {
+        this.setState({start: init, end: init, lines: [], selectStart: "", selectEnd: ""},
             () => {
                 this.props.onSelectStart(this.state.selectStart)
                 this.props.onSelectEnd(this.state.selectEnd)
             })
-        this.props.onChange(msg, msg)
+        this.props.onChange(init, init)
     }
 
     render() {
         return (
             <div>
-                <h3 id="root">Start from:
+                <h3 id="prompt">Start from:
                     <select id="dropdownList"
                             value={this.state.start}
                             onChange={(start) => {
@@ -75,7 +82,7 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
                         {this.state.buildingNames.map((name) => (<option key={name}>{name}</option>))}
                     </select>
                 </h3>
-                <h3>To destination:
+                <h3 id="prompt">To destination:
                     <select id="dropdownList"
                             value={this.state.end}
                             onChange={(end) => {

@@ -13,12 +13,14 @@ import {Icon, LatLng, latLng, LatLngExpression} from "leaflet";
 import React, {Component, useState} from "react";
 import {MapContainer, Marker, Popup, TileLayer, Tooltip, useMapEvents} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import markerIcon from "leaflet/dist/images/marker-icon.png"
+import markerIcon from "leaflet/dist/images/marker-icon-2x.png"
 import markerShadow from "leaflet/dist/images/marker-shadow.png"
 import MarkerPin from "./SelectionPin";
 import {
     UW_LATITUDE,
-    UW_LATITUDE_CENTER, UW_LATITUDE_OFFSET, UW_LATITUDE_SCALE,
+    UW_LATITUDE_CENTER,
+    UW_LATITUDE_OFFSET,
+    UW_LATITUDE_SCALE,
     UW_LONGITUDE,
     UW_LONGITUDE_CENTER,
     UW_LONGITUDE_OFFSET,
@@ -30,7 +32,6 @@ let position: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER];
 
 interface MapProps {
     lines: JSX.Element[],
-    // coordinates: number[],
     coordinatesStart: LatLngExpression,
     coordinatesEnd: LatLngExpression,
 }
@@ -45,7 +46,7 @@ class Map extends Component<MapProps, {}> {
 
     render() {
 
-        //calculate the middle point of the path to later zoom in on
+        //calculate the mid-point of the path to later zoom in on
         const paths = this.props.lines
         let median = paths.length % 2 === 1 ? paths.length / 2 + .5 : paths.length / 2
         let newCenter = paths.length === 0 ? position :
@@ -62,10 +63,10 @@ class Map extends Component<MapProps, {}> {
         }
 
         // feature to zoom in on the path found
-        function FlyTo(newCenter: LatLngExpression, scale: number, zoomSize: number) {
+        function FlyTo(center: LatLngExpression, scale: number, size: number) {
             const map = useMapEvents({
                 mouseover() {
-                    map.flyTo(newCenter, map.getScaleZoom(scale, zoomSize))
+                    map.flyTo(center, map.getScaleZoom(scale, size))
                 }
             })
             return null
@@ -115,7 +116,7 @@ class Map extends Component<MapProps, {}> {
                     <FlyToHelper/>
                 </MapContainer>
             </div>
-        );
+        )
     }
 }
 
