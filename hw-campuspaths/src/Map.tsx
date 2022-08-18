@@ -13,6 +13,9 @@ import {Icon, LatLng, latLng, LatLngExpression} from "leaflet";
 import React, {Component, useState} from "react";
 import {MapContainer, Marker, Popup, TileLayer, Tooltip, useMapEvents} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import markerIcon from "leaflet/dist/images/marker-icon.png"
+import markerShadow from "leaflet/dist/images/marker-shadow.png"
+import MarkerPin from "./SelectionPin";
 import {
     UW_LATITUDE,
     UW_LATITUDE_CENTER, UW_LATITUDE_OFFSET, UW_LATITUDE_SCALE,
@@ -21,13 +24,15 @@ import {
     UW_LONGITUDE_OFFSET,
     UW_LONGITUDE_SCALE
 } from "./Constants";
-import markerIconPng from "leaflet/dist/images/marker-icon.png"
 
 // coordinates of the UW Seattle campus
 let position: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER];
 
 interface MapProps {
-    lines: JSX.Element[]
+    lines: JSX.Element[],
+    // coordinates: number[],
+    coordinatesStart: LatLngExpression,
+    coordinatesEnd: LatLngExpression,
 }
 
 // Converts x coordinate to longitude and y coordinate to latitude
@@ -39,46 +44,53 @@ function toLatLon(y: number, x: number): LatLng {
 class Map extends Component<MapProps, {}> {
 
     render() {
+
+        //calculate the middle point of the path to later zoom in on
         const paths = this.props.lines
-        let median = paths.length / 2
-        median = paths.length % 2 === 1? median + .5 : median
-        let newCenter = paths.length === 0? position : toLatLon(Number(paths[median].props.y1), Number(paths[median].props.x1))
-        for (let i = 0; i < paths.length; i++) {
-        }
+        let median = paths.length % 2 === 1 ? paths.length / 2 + .5 : paths.length / 2
+        let newCenter = paths.length === 0 ? position :
+            toLatLon(Number(paths[median].props.y1), Number(paths[median].props.x1))
 
         // helper method to initiate zoom in
-        let prevCenter = position
         function FlyToHelper() {
-            if (newCenter !== position && newCenter !== prevCenter) {
-                FlyTo()
-                prevCenter = newCenter
+            if (newCenter !== position) {
+                FlyTo(newCenter, 4, 14)
+            } else {
+                FlyTo(position, 1, 15)
             }
             return null
         }
 
         // feature to zoom in on the path found
-        function FlyTo() {
+        function FlyTo(newCenter: LatLngExpression, scale: number, zoomSize: number) {
             const map = useMapEvents({
                 mouseover() {
-                    map.flyTo(newCenter, map.getScaleZoom(4, 14))
+                    map.flyTo(newCenter, map.getScaleZoom(scale, zoomSize))
                 }
             })
             return null
         }
 
+        // pin a marker on user's current location, with a popup message
         function LocationMarker() {
             const [currPosition, setPosition] = useState(position)
             const map = useMapEvents({
-                mouseover() { map.locate() },
-                locationfound(e) { setPosition(e.latlng) }
+                mousemove() {
+                    map.locate()
+                },
+                locationfound(e) {
+                    setPosition(e.latlng)
+                }
             })
-            return currPosition === position ? (<Marker position={[0,0]}></Marker>) : (
+            return currPosition === position ? (<Marker position={[0, 0]}></Marker>) : (
                 <Marker position={currPosition}
                         icon={new Icon({
-                            iconUrl: markerIconPng,
+                            iconUrl: markerIcon,
+                            shadowUrl: markerShadow,
                             iconSize: [25, 40],
                             iconAnchor: [12.5, 40],
-                            popupAnchor: [0, -40],})}>
+                            popupAnchor: [0, -40],
+                        })}>
                     <Popup><h3>This is your current location</h3></Popup>
                     <Tooltip>You are here</Tooltip>
                 </Marker>
@@ -93,12 +105,14 @@ class Map extends Component<MapProps, {}> {
                     zoom={15}
                     doubleClickZoom={true}
                     scrollWheelZoom={true}>
-                    <FlyToHelper/>
                     <LocationMarker/>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                    { <div>{this.props.lines}</div> }
+                    <MarkerPin position={this.props.coordinatesStart}/>
+                    <MarkerPin position={this.props.coordinatesEnd}/>
+                    {<div>{this.props.lines}</div>}
+                    <FlyToHelper/>
                 </MapContainer>
             </div>
         );

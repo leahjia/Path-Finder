@@ -17,9 +17,6 @@ import pathfinder.CampusMap;
 import pathfinder.datastructures.Path;
 import pathfinder.datastructures.Point;
 import spark.*;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class SparkServer {

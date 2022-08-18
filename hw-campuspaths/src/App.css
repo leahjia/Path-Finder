@@ -17,12 +17,13 @@ and only exists for aesthetic purposes. The app would work just fine if this
 file was empty.
 */
 
+#root, body {
+    background-color: #242526;
+}
+
 /* Centers component with ID "map-wrapper" and sets width and bottom spacing */
 #map {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 20px auto;
     width: 800px;
 }
 
@@ -40,6 +41,9 @@ file was empty.
 /* feature: style for the dropdown lists */
 #dropdownList {
     cursor: pointer;
+}
+
+#dropdownList, body {
     /*border: 1px solid #1a202c;*/
     /*padding: 8px;*/
     padding: .5rem;
@@ -51,13 +55,21 @@ file was empty.
     /*top: 58px;*/
     /*width: 300px;*/
     border-radius: 8px;
-    overflow: hidden;
     display: flex;
     /*align-items: center;*/
 }
 
+#searchButton:hover {
+    filter: brightness(1.2);
+}
 
-#SearchSelection {
+#searchButton {
+    cursor: pointer;
+    border: 4px solid #1a202c;
+    width: 229px;
+}
+
+.searchButtonbogus {
     --bg: #242526;
     --bg-accent: #484a4d;
     --text-color: #dadce1;
@@ -85,5 +97,5 @@ file was empty.
 .leaflet-container {
     width: 800px;
     height: 600px;
-    border: 5px solid #1a202c;
+    border: 6px solid saddlebrown;
 }

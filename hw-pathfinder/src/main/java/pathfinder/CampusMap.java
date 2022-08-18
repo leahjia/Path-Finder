@@ -18,6 +18,7 @@ import pathfinder.parser.CampusBuilding;
 import pathfinder.parser.CampusPath;
 import pathfinder.parser.CampusPathsParser;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
