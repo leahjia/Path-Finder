@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import MapLine from "./MapLine";
 
 interface SearchSelectionProps {
-    onChange: (start: string, end: string) => void
+    // onChange: (start: string, end: string) => void
     onSelectStart: (str: string) => void
     onSelectEnd: (str: string) => void
     onSearchList: (list: JSX.Element[]) => void
@@ -70,23 +70,21 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
                 this.props.onSelectEnd(this.state.selectEnd)
                 this.props.onSearchList(this.state.lines)
             })
-        this.props.onChange(init, init)
     }
 
 
     // fetch the paths from start to end
     async sendRequest(startStr: string, endStr: string) {
         try {
-            console.log(startStr, endStr)
             if (startStr !== "Choose an option" && endStr !== "Choose an option") {
+                // update the state for start and end
+                this.setState({start: startStr, end: endStr})
 
                 // extract short names
                 let start = startStr.substring(0, startStr.indexOf(" -"))
                 let end = endStr.substring(0, endStr.indexOf(" -"))
 
-                // change state and send request
-                // this.setState({start: start, end: end})
-                this.setState({start: startStr, end: endStr})
+                // send request to find path
                 let response = await fetch('http://localhost:4567/path?start=' + start + '&end=' + end)
                 if (!response.ok) {
                     alert("Input is invalid (fetch failed).")
@@ -107,19 +105,9 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
                         ></MapLine>
                     )
                 }
-                this.setState({lines: arrayOfLines},
-                    ()=> {
-                        this.props.onSearchList(this.state.lines)
-                    }
-                )
+                this.setState({lines: arrayOfLines}, ()=> {this.props.onSearchList(this.state.lines)})
             } else {
-                this.setState({lines: []},
-                    ()=> {
-                        this.props.onSearchList(this.state.lines)
-                    }
-
-                )
-            }
+                this.setState({lines: []}, ()=> {this.props.onSearchList(this.state.lines)})}
         } catch (e) {
             alert("Input is invalid (to json() failed).")
         }
@@ -150,7 +138,6 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
                 </h3>
                 <h3 id="prompt">
                     <button id="buttons"
-                        // onClick={() => this.props.onChange(this.state.start, this.state.end)}>Search
                             onClick={() => this.sendRequest(this.state.start, this.state.end)}>Search
                     </button>
                     <button id="buttons"
