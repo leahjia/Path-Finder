@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
+import MapLine from "./MapLine";
 
 interface SearchSelectionProps {
     onChange: (start: string, end: string) => void
     onSelectStart: (str: string) => void
     onSelectEnd: (str: string) => void
+    onSearchList: (list: JSX.Element[]) => void
 }
 
 interface SearchSelectionState {
@@ -53,20 +55,74 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
     // handle change of end string and end marker
     handleEndChange = (end: any) => {
         this.setState({end: end.target.value})
-        this.setState({selectEnd: end.target.value,}, () => {
+        this.setState({selectEnd: end.target.value,},
+            () => {
                 this.props.onSelectEnd(this.state.selectEnd)
             }
         )
     }
 
-    // clear all stored routes, markers, and messages
+    // reset all stored routes, markers, and selections
     handleClear = (init: string) => {
         this.setState({start: init, end: init, lines: [], selectStart: "", selectEnd: ""},
             () => {
                 this.props.onSelectStart(this.state.selectStart)
                 this.props.onSelectEnd(this.state.selectEnd)
+                this.props.onSearchList(this.state.lines)
             })
         this.props.onChange(init, init)
+    }
+
+
+    // fetch the paths from start to end
+    async sendRequest(startStr: string, endStr: string) {
+        try {
+            console.log(startStr, endStr)
+            if (startStr !== "Choose an option" && endStr !== "Choose an option") {
+
+                // extract short names
+                let start = startStr.substring(0, startStr.indexOf(" -"))
+                let end = endStr.substring(0, endStr.indexOf(" -"))
+
+                // change state and send request
+                // this.setState({start: start, end: end})
+                this.setState({start: startStr, end: endStr})
+                let response = await fetch('http://localhost:4567/path?start=' + start + '&end=' + end)
+                if (!response.ok) {
+                    alert("Input is invalid (fetch failed).")
+                }
+                let parsed = await response.json()
+
+                // collect MapLines for map
+                const arrayOfLines: JSX.Element[] = []
+                for (let i = 0; i < parsed.path.length; i++) {
+                    arrayOfLines.push(
+                        <MapLine
+                            x1={parsed.path[i].start.x}
+                            y1={parsed.path[i].start.y}
+                            x2={parsed.path[i].end.x}
+                            y2={parsed.path[i].end.y}
+                            color={"red"}
+                            key={"Line #" + i}
+                        ></MapLine>
+                    )
+                }
+                this.setState({lines: arrayOfLines},
+                    ()=> {
+                        this.props.onSearchList(this.state.lines)
+                    }
+                )
+            } else {
+                this.setState({lines: []},
+                    ()=> {
+                        this.props.onSearchList(this.state.lines)
+                    }
+
+                )
+            }
+        } catch (e) {
+            alert("Input is invalid (to json() failed).")
+        }
     }
 
     render() {
@@ -94,7 +150,8 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
                 </h3>
                 <h3 id="prompt">
                     <button id="buttons"
-                            onClick={() => this.props.onChange(this.state.start, this.state.end)}>Search
+                        // onClick={() => this.props.onChange(this.state.start, this.state.end)}>Search
+                            onClick={() => this.sendRequest(this.state.start, this.state.end)}>Search
                     </button>
                     <button id="buttons"
                             onClick={() => this.handleClear("Choose an option")}>Clear

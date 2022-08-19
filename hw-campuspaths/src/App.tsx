@@ -8,7 +8,7 @@
  * interested in reusing these course materials should contact the
  * author.
  */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Map from "./Map"
 import "./App.css";
 import SearchSelection from "./SearchSelection";
@@ -84,44 +84,60 @@ class App extends Component<{}, AppState> {
         }
     }
 
-    // fetch the paths from start to end
-    async sendRequest(startStr: string, endStr: string) {
-        try {
-            if (startStr !== "Choose an option" && endStr !== "Choose an option") {
+    // sendRequest(startStr: string, endStr: string) {
+    //     if (startStr !== "Choose an option" && endStr !== "Choose an option") {
+    //         let start = startStr.substring(0, startStr.indexOf(" -"))
+    //         let end = endStr.substring(0, endStr.indexOf(" -"))
+    //         this.setState({start: start, end: end},
+    //             () => {
+    //                 this.props.onFindPath(this.state.start, this.state.end)
+    //             })
+    //     }
+    // }
 
-                // extract short names
-                let start = startStr.substring(0, startStr.indexOf(" -"))
-                let end = endStr.substring(0, endStr.indexOf(" -"))
 
-                // change state and send request
-                this.setState({start: start, end: end})
-                let response = await fetch('http://localhost:4567/path?start=' + start + '&end=' + end)
-                if (!response.ok) {
-                    alert("Input is invalid (fetch failed).")
-                }
-                let parsed = await response.json()
+    // // fetch the paths from start to end
+    // async sendRequest(startStr: string, endStr: string) {
+    //     try {
+    //         if (startStr !== "Choose an option" && endStr !== "Choose an option") {
+    //
+    //             // extract short names
+    //             let start = startStr.substring(0, startStr.indexOf(" -"))
+    //             let end = endStr.substring(0, endStr.indexOf(" -"))
+    //
+    //             // change state and send request
+    //             this.setState({start: start, end: end})
+    //             let response = await fetch('http://localhost:4567/path?start=' + start + '&end=' + end)
+    //             if (!response.ok) {
+    //                 alert("Input is invalid (fetch failed).")
+    //             }
+    //             let parsed = await response.json()
+    //
+    //             // collect MapLines for map
+    //             const arrayOfLines: JSX.Element[] = []
+    //             for (let i = 0; i < parsed.path.length; i++) {
+    //                 arrayOfLines.push(
+    //                     <MapLine
+    //                         x1={parsed.path[i].start.x}
+    //                         y1={parsed.path[i].start.y}
+    //                         x2={parsed.path[i].end.x}
+    //                         y2={parsed.path[i].end.y}
+    //                         color={"red"}
+    //                         key={"Line #" + i}
+    //                     ></MapLine>
+    //                 )
+    //             }
+    //             this.setState({lines: arrayOfLines})
+    //         } else {
+    //             this.setState({lines: []})
+    //         }
+    //     } catch (e) {
+    //         alert("Input is invalid (to json() failed).")
+    //     }
+    // }
 
-                // collect MapLines for map
-                const arrayOfLines: JSX.Element[] = []
-                for (let i = 0; i < parsed.path.length; i++) {
-                    arrayOfLines.push(
-                        <MapLine
-                            x1={parsed.path[i].start.x}
-                            y1={parsed.path[i].start.y}
-                            x2={parsed.path[i].end.x}
-                            y2={parsed.path[i].end.y}
-                            color={"red"}
-                            key={"Line #" + i}
-                        ></MapLine>
-                    )
-                }
-                this.setState({lines: arrayOfLines})
-            } else {
-                this.setState({lines: []})
-            }
-        } catch (e) {
-            alert("Input is invalid (to json() failed).")
-        }
+    setList(list: JSX.Element[]) {
+        this.setState({lines: list})
     }
 
     render() {
@@ -135,8 +151,9 @@ class App extends Component<{}, AppState> {
                 </div>
                 <SearchSelection
                     onChange={(start, end) => {
-                        this.sendRequest(start, end)
+                        // this.sendRequest(start, end)
                     }}
+                    onSearchList={(list) => this.setList(list)}
                     onSelectStart={(str) => this.putPinStart(str)}
                     onSelectEnd={(str) => this.putPinEnd(str)}
                 />
