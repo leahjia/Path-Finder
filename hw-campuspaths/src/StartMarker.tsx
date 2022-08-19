@@ -13,14 +13,15 @@ class StartMarker extends Component<StartMarkerProps, {}> {
 
     render() {
         return (
-            <Marker position={this.props.position}
-                    icon={new Icon({
-                        iconUrl: markerPinIcon,
-                        shadowUrl: markerPinShadow,
-                        iconSize: [25, 40],
-                        iconAnchor: [12.5, 40],
-                        popupAnchor: [0, -40],
-                    })}>
+            <Marker
+                position={this.props.position}
+                icon={new Icon({
+                    iconUrl: markerPinIcon,
+                    shadowUrl: markerPinShadow,
+                    iconSize: [25, 40],
+                    iconAnchor: [12.5, 40],
+                    popupAnchor: [0, -40],
+                })}>
                 <Popup><h3>START</h3></Popup>
                 <Tooltip>START POINT</Tooltip>
             </Marker>

@@ -13,14 +13,15 @@ class EndMarker extends Component<EndMarkerProps, {}> {
 
     render() {
         return (
-            <Marker position={this.props.position}
-                    icon={new Icon({
-                        iconUrl: markerPinIcon,
-                        shadowUrl: markerPinShadow,
-                        iconSize: [25, 40],
-                        iconAnchor: [12.5, 40],
-                        popupAnchor: [0, -40],
-                    })}>
+            <Marker
+                position={this.props.position}
+                icon={new Icon({
+                    iconUrl: markerPinIcon,
+                    shadowUrl: markerPinShadow,
+                    iconSize: [25, 40],
+                    iconAnchor: [12.5, 40],
+                    popupAnchor: [0, -40],
+                })}>
                 <Popup><h3>DESTINATION</h3></Popup>
                 <Tooltip>END POINT</Tooltip>
             </Marker>

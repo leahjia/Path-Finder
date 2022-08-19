@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import MapLine from "./MapLine";
 
 interface SearchSelectionProps {
-    // onChange: (start: string, end: string) => void
     onSelectStart: (str: string) => void
     onSelectEnd: (str: string) => void
     onSearchList: (list: JSX.Element[]) => void
@@ -31,7 +30,7 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
         }
     }
 
-    // fetch all building names for dropfown list
+    // fetch all building names for dropdown list
     componentDidMount() {
         fetch('http://localhost:4567/names')
             .then(response => response.json())
@@ -85,7 +84,8 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
                 let end = endStr.substring(0, endStr.indexOf(" -"))
 
                 // send request to find path
-                let response = await fetch('http://localhost:4567/path?start=' + start + '&end=' + end)
+                let response = await fetch('http://localhost:4567/path?start=' +
+                    start + '&end=' + end)
                 if (!response.ok) {
                     alert("Input is invalid (fetch failed).")
                 }
@@ -105,9 +105,14 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
                         ></MapLine>
                     )
                 }
-                this.setState({lines: arrayOfLines}, ()=> {this.props.onSearchList(this.state.lines)})
+                this.setState({lines: arrayOfLines}, () => {
+                    this.props.onSearchList(this.state.lines)
+                })
             } else {
-                this.setState({lines: []}, ()=> {this.props.onSearchList(this.state.lines)})}
+                this.setState({lines: []}, () => {
+                    this.props.onSearchList(this.state.lines)
+                })
+            }
         } catch (e) {
             alert("Input is invalid (to json() failed).")
         }
@@ -123,7 +128,8 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
                                 this.handleStartChange(start)
                             }}>
                         <option id="dropdownItems">Choose an option</option>
-                        {this.state.buildingNames.map((name) => (<option key={name}>{name}</option>))}
+                        {this.state.buildingNames.map((name) => (
+                            <option key={name}>{name}</option>))}
                     </select>
                 </h3>
                 <h3 id="prompt">To destination:
@@ -133,7 +139,8 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
                                 this.handleEndChange(end)
                             }}>
                         <option id="dropdownItems">Choose an option</option>
-                        {this.state.buildingNames.map((name) => (<option key={name}>{name}</option>))}
+                        {this.state.buildingNames.map((name) => (
+                            <option key={name}>{name}</option>))}
                     </select>
                 </h3>
                 <h3 id="prompt">

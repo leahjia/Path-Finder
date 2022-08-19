@@ -29,12 +29,12 @@ import StartMarker from "./StartMarker";
 import EndMarker from "./EndMarker";
 
 // coordinates of the UW Seattle campus
-let position: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER];
+let defaultPosition: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER];
 
 interface MapProps {
-    lines: JSX.Element[],
-    coordinatesStart: LatLngExpression,
-    coordinatesEnd: LatLngExpression,
+    mapLines: JSX.Element[],
+    startPt: LatLngExpression,
+    endPt: LatLngExpression,
 }
 
 // Converts x coordinate to longitude and y coordinate to latitude
@@ -48,17 +48,17 @@ class Map extends Component<MapProps, {}> {
     render() {
 
         //calculate the mid-point of the path to later zoom in on
-        const paths = this.props.lines
+        const paths = this.props.mapLines
         let median = paths.length % 2 === 1 ? paths.length / 2 + .5 : paths.length / 2
-        let newCenter = paths.length === 0 ? position :
+        let newCenter = paths.length === 0 ? defaultPosition :
             toLatLon(Number(paths[median].props.y1), Number(paths[median].props.x1))
 
         // helper method to initiate zoom in
         function FlyToHelper() {
-            if (newCenter !== position) {
+            if (newCenter !== defaultPosition) {
                 FlyTo(newCenter, 4, 14)
             } else {
-                FlyTo(position, 1, 15)
+                FlyTo(defaultPosition, 1, 15)
             }
             return null
         }
@@ -73,9 +73,9 @@ class Map extends Component<MapProps, {}> {
             return null
         }
 
-        // pin a marker on user's current location, with a popup message
+        // pin a marker on user's current location with a popup message
         function LocationMarker() {
-            const [currPosition, setPosition] = useState(position)
+            const [currPosition, setPosition] = useState(defaultPosition)
             const map = useMapEvents({
                 mousemove() {
                     map.locate()
@@ -84,7 +84,9 @@ class Map extends Component<MapProps, {}> {
                     setPosition(e.latlng)
                 }
             })
-            return currPosition === position ? (<Marker position={[0, 0]}></Marker>) : (
+
+            return currPosition === defaultPosition ?
+                <Marker position={[0, 0]}></Marker> :
                 <Marker position={currPosition}
                         icon={new Icon({
                             iconUrl: markerIcon,
@@ -96,7 +98,6 @@ class Map extends Component<MapProps, {}> {
                     <Popup><h3>This is your current location</h3></Popup>
                     <Tooltip>You are here</Tooltip>
                 </Marker>
-            )
         }
 
         return (
@@ -111,9 +112,9 @@ class Map extends Component<MapProps, {}> {
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                    <StartMarker position={this.props.coordinatesStart}/>
-                    <EndMarker position={this.props.coordinatesEnd}/>
-                    {<div>{this.props.lines}</div>}
+                    <StartMarker position={this.props.startPt}/>
+                    <EndMarker position={this.props.endPt}/>
+                    <div>{this.props.mapLines}</div>
                     <FlyToHelper/>
                 </MapContainer>
             </div>

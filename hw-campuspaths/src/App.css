@@ -17,38 +17,21 @@ and only exists for aesthetic purposes. The app would work just fine if this
 file was empty.
 */
 
-
+/* style for searching area */
 #prompt {
-    /*border: 1px solid #1a202c;*/
-    /*padding: 8px;*/
-    /*min-width: 64px;*/
-    /*transition: all 0.1s ease-in;*/
-    /*position: absolute;*/
-    /*top: 58px;*/
-    /*width: 300px;*/
-    /*align-items: center;*/
-
-    --bg: #242526;
-    --bg-accent: #484a4d;
-    --text-color: #dadce1;
-    --border: 1px solid #474a4d;
-    --border-radius: 8px;
-    --speed: 500ms;
-
+    transition: all 0.1s ease-in;
     list-style: none;
     color: #dadce1;
     text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: center;
-
     --button-size: 30;
     width: var(--button-size);
     height: var(--button-size);
     border-radius: 50%;
     padding: 5px;
     margin: 2px;
-    transition: filter 300ms;
 }
 
 /* theme style */
@@ -64,7 +47,7 @@ file was empty.
 }
 
 /* feature: hover behavior for the dropdown lists */
-#dropdownList:hover {
+#dropdownList:hover, #buttons:hover {
     cursor: pointer;
     filter: brightness(1.5);
     transition: filter 300ms;
@@ -79,12 +62,7 @@ file was empty.
     margin: 6px;
 }
 
-#buttons:hover {
-    cursor: pointer;
-    filter: brightness(1.2);
-    transition: filter 300ms;
-}
-
+/* style for buttons */
 #buttons {
     padding: .5rem;
     color: whitesmoke;
@@ -94,9 +72,10 @@ file was empty.
     block-size: 40px;
     background-color: saddlebrown;
     width: 200px;
-    margin: 10px 40px 20px 40px;    /* top left? bottom right? */
+    margin: 10px 40px 20px 40px; /* top left? bottom right? */
 }
 
+/* style for the web title */
 #appTitle {
     color: #dadce1;
     display: flex;
