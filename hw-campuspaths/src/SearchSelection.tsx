@@ -14,6 +14,7 @@ interface SearchSelectionState {
     lines: JSX.Element[],
     selectStart: string,
     selectEnd: string,
+    color: string,
 }
 
 class SearchSelection extends Component<SearchSelectionProps, SearchSelectionState> {
@@ -27,6 +28,7 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
             lines: [],
             selectStart: "",
             selectEnd: "",
+            color: "RED",
         }
     }
 
@@ -71,6 +73,9 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
             })
     }
 
+    handleColor = (color: any) => {
+        this.setState({color: color.target.value})
+    }
 
     // fetch the paths from start to end
     async sendRequest(startStr: string, endStr: string) {
@@ -94,13 +99,14 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
                 // collect MapLines for map
                 const arrayOfLines: JSX.Element[] = []
                 for (let i = 0; i < parsed.path.length; i++) {
+                    console.log(this.state.color)
                     arrayOfLines.push(
                         <MapLine
                             x1={parsed.path[i].start.x}
                             y1={parsed.path[i].start.y}
                             x2={parsed.path[i].end.x}
                             y2={parsed.path[i].end.y}
-                            color={"red"}
+                            color={this.state.color}
                             key={"Line #" + i}
                         ></MapLine>
                     )
@@ -119,6 +125,7 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
     }
 
     render() {
+        const colors = ["BLUE", "CYAN", "GREEN", "MAGENTA", "RED", "BLACK"]
         return (
             <div>
                 <h3 id="prompt">Start from:
@@ -143,6 +150,19 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
                             <option key={name}>{name}</option>))}
                     </select>
                 </h3>
+
+                <h3 id="prompt">Color:
+                    <select id="dropdownList"
+                            value={this.state.color}
+                            onChange={(color) => {
+                                this.handleColor(color)
+                            }}>
+                        <option id="dropdownItems">{"RED"}</option>
+                        {colors.map((name) => (
+                            <option key={name}>{name}</option>))}
+                    </select>
+                </h3>
+
                 <h3 id="prompt">
                     <button id="buttons"
                             onClick={() => this.sendRequest(this.state.start, this.state.end)}>Search
