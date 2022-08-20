@@ -37,7 +37,7 @@ class App extends Component<{}, AppState> {
         this.state = {startPt: [0, 0], endPt: [0, 0], mapLines: []}
     }
 
-    // request the name of the given selection
+    // request the states for the start and end points
     async putPin(opt: string, rep: string) {
 
         // check if selection is not a default value
@@ -61,10 +61,6 @@ class App extends Component<{}, AppState> {
         }
     }
 
-    setList(list: JSX.Element[]) {
-        this.setState({mapLines: list})
-    }
-
     render() {
         return (
             <div className={"app"}>
@@ -75,7 +71,7 @@ class App extends Component<{}, AppState> {
                     mapLines={this.state.mapLines}
                 />
                 <SearchSelection
-                    onSearchList={(list) => this.setList(list)}
+                    onSearchList={(list) => this.setState({mapLines: list})}
                     onSelectStart={(start) => this.putPin(start, "start")}
                     onSelectEnd={(end) => this.putPin(end, "end")}
                 />
