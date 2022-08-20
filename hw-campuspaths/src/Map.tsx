@@ -72,7 +72,8 @@ class Map extends Component<MapProps, {}> {
 
         // pin a marker on user's current location with a popup message
         function LocationMarker() {
-            const [currPosition, setPosition] = useState(defaultPosition)
+            let initPt = toLatLon(0, 0)
+            const [currPosition, setPosition] = useState(initPt)
             const map = useMapEvents({
                 mousemove() {
                     map.locate()
