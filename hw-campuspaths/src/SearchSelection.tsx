@@ -125,7 +125,7 @@ class SearchSelection extends Component<SearchSelectionProps, SearchSelectionSta
     }
 
     render() {
-        const colors = ["BLUE", "CYAN", "GREEN", "MAGENTA", "RED", "BLACK"]
+        const colors = ["BLUE", "CYAN", "GREEN", "MAGENTA", "BLACK"]
         return (
             <div>
                 <h3 id="prompt">Start from:
