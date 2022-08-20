@@ -25,9 +25,9 @@ function toLatLon(y: number, x: number): LatLng {
 }
 
 interface AppState {
-    startPt: LatLngExpression,
-    endPt: LatLngExpression,
-    mapLines: JSX.Element[],
+    startPt: LatLngExpression, // coordinates of start point
+    endPt: LatLngExpression,   // coordinates of end point
+    mapLines: JSX.Element[],   // list of MapLines to be drawn
 }
 
 class App extends Component<{}, AppState> {

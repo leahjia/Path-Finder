@@ -8,13 +8,13 @@ interface SearchSelectionProps {
 }
 
 interface SearchSelectionState {
-    start: string,
-    end: string,
-    buildingNames: string[],
-    lines: JSX.Element[],
-    selectStart: string,
-    selectEnd: string,
-    color: string,
+    start: string,           // start building name
+    end: string,             // end building name
+    buildingNames: string[], // all building names in a list
+    lines: JSX.Element[],    // lines to be drawn
+    selectStart: string,     // selected start building
+    selectEnd: string,       // selected destination
+    color: string,           // color of the path
 }
 
 class SearchSelection extends Component<SearchSelectionProps, SearchSelectionState> {
