@@ -14,4 +14,4 @@ extra features:
 3. smoother (than the default) appearance of the buttons and dropdown lists
 4. marking start and end buildings upon selection(s) before users clicked search
 5. allowing users to select color of the path if the users needed or wanted to
-   and memorize the previous color selection even if users search other paths
+   and memorizing the previous color selection when users search other paths

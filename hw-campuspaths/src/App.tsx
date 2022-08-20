@@ -37,8 +37,8 @@ class App extends Component<{}, AppState> {
         this.state = {startPt: [0, 0], endPt: [0, 0], mapLines: []}
     }
 
-    // request the states for the start and end points
-    async putPin(opt: string, rep: string) {
+    // set locations for markers immediately upon selection of the start or end building
+    async setPoints(opt: string, rep: string) {
 
         // check if selection is not a default value
         if (opt !== "" && opt !== "Choose an option") {
@@ -72,8 +72,8 @@ class App extends Component<{}, AppState> {
                 />
                 <SearchSelection
                     onSearchList={(list) => this.setState({mapLines: list})}
-                    onSelectStart={(start) => this.putPin(start, "start")}
-                    onSelectEnd={(end) => this.putPin(end, "end")}
+                    onSelectStart={(start) => this.setPoints(start, "start")}
+                    onSelectEnd={(end) => this.setPoints(end, "end")}
                 />
             </div>
         )

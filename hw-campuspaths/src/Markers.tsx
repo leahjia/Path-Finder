@@ -12,7 +12,6 @@ interface MarkersProps {
 
 class Markers extends Component<MarkersProps, {}> {
 
-
     render() {
         return (
             <Marker
