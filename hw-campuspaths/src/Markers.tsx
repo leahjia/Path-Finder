@@ -1,15 +1,17 @@
 import {Icon, LatLngExpression} from "leaflet";
-import React, {Component} from "react";
-import {Marker, Popup, Tooltip} from "react-leaflet";
+import React, {Component, useState} from "react";
+import {Marker, Popup, Tooltip, useMapEvents} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import markerPinIcon from "leaflet/dist/images/marker-icon.png"
 import markerPinShadow from "leaflet/dist/images/marker-shadow.png"
 
-interface StartMarkerProps {
+interface MarkersProps {
     position: LatLngExpression,
+    message: string
 }
 
-class StartMarker extends Component<StartMarkerProps, {}> {
+class Markers extends Component<MarkersProps, {}> {
+
 
     render() {
         return (
@@ -22,11 +24,11 @@ class StartMarker extends Component<StartMarkerProps, {}> {
                     iconAnchor: [12.5, 40],
                     popupAnchor: [0, -40],
                 })}>
-                <Popup><h3>START</h3></Popup>
-                <Tooltip>START POINT</Tooltip>
+                <Popup><h3>{this.props.message}</h3></Popup>
+                <Tooltip>{this.props.message} POINT</Tooltip>
             </Marker>
         )
     }
 }
 
-export default StartMarker;
+export default Markers;

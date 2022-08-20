@@ -25,8 +25,7 @@ import {
     UW_LONGITUDE_OFFSET,
     UW_LONGITUDE_SCALE
 } from "./Constants";
-import StartMarker from "./StartMarker";
-import EndMarker from "./EndMarker";
+import Markers from "./Markers";
 
 // coordinates of the UW Seattle campus
 let defaultPosition: LatLngExpression = [UW_LATITUDE_CENTER, UW_LONGITUDE_CENTER];
@@ -78,7 +77,7 @@ class Map extends Component<MapProps, {}> {
             const [currPosition, setPosition] = useState(defaultPosition)
             const map = useMapEvents({
                 mousemove() {
-                    map.locate()
+                    let mouseLocat = map.locate()
                 },
                 locationfound(e) {
                     setPosition(e.latlng)
@@ -112,8 +111,8 @@ class Map extends Component<MapProps, {}> {
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                    <StartMarker position={this.props.startPt}/>
-                    <EndMarker position={this.props.endPt}/>
+                    <Markers position={this.props.startPt} message={"START"}/>
+                    <Markers position={this.props.endPt} message={"END"}/>
                     <div>{this.props.mapLines}</div>
                     <FlyToHelper/>
                 </MapContainer>
