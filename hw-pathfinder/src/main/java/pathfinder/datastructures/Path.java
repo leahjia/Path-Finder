@@ -176,7 +176,6 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
         if(!(obj instanceof Path)) {
             return false;
         }
-//        @SuppressWarnings("unchecked")
         Path<?> other = (Path<?>) obj;
         if(this.path.size() != other.path.size()) {
             return false;
@@ -268,7 +267,6 @@ public class Path<T> implements Iterable<Path<T>.Segment> {
          * @return The beginning object of this segment.
          */
         public T getStart() {
-            // Note: Since objects are immutable, this isn't rep exposure.
             return this.start;
         }
 

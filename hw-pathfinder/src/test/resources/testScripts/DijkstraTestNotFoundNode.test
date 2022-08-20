@@ -1,7 +1,7 @@
 # Find a path with Dijkstra's algorithm when
 # unknown nodes are found.
 
-CreateGraph simpleGraph
+createGraph simpleGraph
 
 addNode simpleGraph S
 addNode simpleGraph T
@@ -17,8 +17,8 @@ addEdge simpleGraph T Z 4.0
 addEdge simpleGraph T X 5.0
 addEdge simpleGraph Z X 7.0
 
-FindPath simpleGraph S A
+findPath simpleGraph S A
 
-FindPath simpleGraph B S
+findPath simpleGraph B S
 
-FindPath simpleGraph C D
+findPath simpleGraph C D

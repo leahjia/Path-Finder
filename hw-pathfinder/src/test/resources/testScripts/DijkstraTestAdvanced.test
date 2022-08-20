@@ -1,7 +1,7 @@
 # Find a path with Dijkstra's algorithm when
 # multiple paths are possible.
 
-CreateGraph simpleGraph
+createGraph simpleGraph
 
 addNode simpleGraph S
 addNode simpleGraph T
@@ -19,4 +19,4 @@ addEdge simpleGraph T X 5.0
 addEdge simpleGraph X T 2.0
 addEdge simpleGraph Z X 7.0
 
-FindPath simpleGraph S X
+findPath simpleGraph S X

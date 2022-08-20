@@ -1,7 +1,7 @@
 # Find a path with Dijkstra's algorithm when
 # the path found by BFS is different.
 
-CreateGraph simpleGraph
+createGraph simpleGraph
 
 addNode simpleGraph A
 addNode simpleGraph B
@@ -13,4 +13,4 @@ addEdge simpleGraph A C 1.0
 addEdge simpleGraph C D 1.0
 addEdge simpleGraph D B 1.0
 
-FindPath simpleGraph A B
+findPath simpleGraph A B

@@ -31,7 +31,7 @@ public class DijkstraPathFinder<T, E> {
      * @param map the DesignMap that contains all the nodes and edges to be evaluated
      * @param start the start node of the path
      * @param dest the end node of the path
-     * @spec.requires map, start, and dest are not null
+     * @spec.requires map, start, and dest are not null, and edges in map are non-negative
      */
     public Path<T> DijkstraPath(DesignMap<T, E> map, T start, T dest) {
         // Each element is a path from start to a given node.

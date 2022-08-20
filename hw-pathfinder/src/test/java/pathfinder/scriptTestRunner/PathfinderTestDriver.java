@@ -76,7 +76,7 @@ public class PathfinderTestDriver {
     private void executeCommand(String command, List<String> arguments) {
         try {
             switch(command) {
-                case "CreateGraph":
+                case "createGraph":
                     createGraph(arguments);
                     break;
                 case "addNode":
@@ -85,7 +85,7 @@ public class PathfinderTestDriver {
                 case "addEdge":
                     addEdge(arguments);
                     break;
-                case "FindPath":
+                case "findPath":
                     FindPath(arguments);
                     break;
                 default:
