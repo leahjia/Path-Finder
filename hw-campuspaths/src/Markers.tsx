@@ -1,6 +1,6 @@
 import {Icon, LatLngExpression} from "leaflet";
-import React, {Component, useState} from "react";
-import {Marker, Popup, Tooltip, useMapEvents} from "react-leaflet";
+import React, {Component} from "react";
+import {Marker, Popup, Tooltip} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import markerPinIcon from "leaflet/dist/images/marker-icon.png"
 import markerPinShadow from "leaflet/dist/images/marker-shadow.png"
@@ -25,7 +25,7 @@ class Markers extends Component<MarkersProps, {}> {
                     popupAnchor: [0, -40],
                 })}>
                 <Popup><h3>{this.props.message}</h3></Popup>
-                <Tooltip>{this.props.message} POINT</Tooltip>
+                <Tooltip>{this.props.message}</Tooltip>
             </Marker>
         )
     }

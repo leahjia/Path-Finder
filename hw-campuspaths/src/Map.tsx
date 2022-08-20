@@ -9,12 +9,10 @@
  * author.
  */
 
-import {Icon, LatLng, latLng, LatLngExpression} from "leaflet";
+import {LatLng, latLng, LatLngExpression} from "leaflet";
 import React, {Component, useState} from "react";
-import {MapContainer, Marker, Popup, TileLayer, Tooltip, useMapEvents} from "react-leaflet";
+import {MapContainer, TileLayer, useMapEvents} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import markerIcon from "leaflet/dist/images/marker-icon-2x.png"
-import markerShadow from "leaflet/dist/images/marker-shadow.png"
 import {
     UW_LATITUDE,
     UW_LATITUDE_CENTER,
@@ -46,11 +44,11 @@ class Map extends Component<MapProps, {}> {
 
     render() {
 
-        //calculate the mid-point of the path to later zoom in on
         const paths = this.props.mapLines
-        let median = paths.length % 2 === 1 ? paths.length / 2 + .5 : paths.length / 2
+        //calculate the mid-point of the path to zoom in on
+        let midPt = Math.round(paths.length / 2)
         let newCenter = paths.length === 0 ? defaultPosition :
-            toLatLon(Number(paths[median].props.y1), Number(paths[median].props.x1))
+            toLatLon(Number(paths[midPt].props.y1), Number(paths[midPt].props.x1))
 
         // helper method to initiate zoom in
         function FlyToHelper() {
@@ -77,26 +75,13 @@ class Map extends Component<MapProps, {}> {
             const [currPosition, setPosition] = useState(defaultPosition)
             const map = useMapEvents({
                 mousemove() {
-                    let mouseLocat = map.locate()
+                    map.locate()
                 },
-                locationfound(e) {
-                    setPosition(e.latlng)
-                }
+                locationfound(event) {
+                    setPosition(event.latlng)
+                },
             })
-
-            return currPosition === defaultPosition ?
-                <Marker position={[0, 0]}></Marker> :
-                <Marker position={currPosition}
-                        icon={new Icon({
-                            iconUrl: markerIcon,
-                            shadowUrl: markerShadow,
-                            iconSize: [25, 40],
-                            iconAnchor: [12.5, 40],
-                            popupAnchor: [0, -40],
-                        })}>
-                    <Popup><h3>This is your current location</h3></Popup>
-                    <Tooltip>You are here</Tooltip>
-                </Marker>
+            return <Markers position={currPosition} message={"YOU ARE HERE"}/>
         }
 
         return (
@@ -107,12 +92,12 @@ class Map extends Component<MapProps, {}> {
                     zoom={15}
                     doubleClickZoom={true}
                     scrollWheelZoom={true}>
-                    <LocationMarker/>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                    <Markers position={this.props.startPt} message={"START"}/>
-                    <Markers position={this.props.endPt} message={"END"}/>
+                    <LocationMarker/>
+                    <Markers position={this.props.startPt} message={"START BUILDING"}/>
+                    <Markers position={this.props.endPt} message={"END BUILDING"}/>
                     <div>{this.props.mapLines}</div>
                     <FlyToHelper/>
                 </MapContainer>
