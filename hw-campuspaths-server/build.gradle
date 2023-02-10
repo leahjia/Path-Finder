@@ -6,13 +6,9 @@ task runSpark(type: JavaExec) {
 }
 
 dependencies {
-  implementation 'com.google.code.gson:gson:2.9.0'
-  implementation 'com.sparkjava:spark-core:2.9.4'
-  implementation 'org.slf4j:slf4j-simple:2.0.3'
+  implementation "com.google.code.gson:gson:2.8.5"
+  implementation "com.sparkjava:spark-core:2.8.0"
+  implementation "org.slf4j:slf4j-simple:1.7.21"
   implementation project(':hw-graph')
   implementation project(':hw-pathfinder')
-}
-
-repositories {
-    mavenCentral()
 }
