@@ -16,8 +16,8 @@ allprojects {
     }
 
     dependencies {
-        testImplementation group: "junit", name: "junit", version: "4.13"
-        testImplementation group: "org.hamcrest", name: "hamcrest-core", version: "1.3"
+        testImplementation group: "junit", name: "junit", version: '4.13.2'
+        testImplementation group: "org.hamcrest", name: "hamcrest-core", version: '2.2'
         testImplementation group: "org.hamcrest", name: "hamcrest-all", version: "1.3"
     }
 
