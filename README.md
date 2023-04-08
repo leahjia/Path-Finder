@@ -46,16 +46,13 @@
   ```
 
 <!-- CONTACT -->
-## Contact
+## Contact / Feedback
 
 Email: yuwenj3@uw.edu
 
-Personal Web - [@leahjia](https://leahjia.com/)
+Personal Web - [leahjia.com](https://leahjia.com/)
 
 LinkedIn - [@leahjia](https://www.linkedin.com/in/leahjia/)
-
-Project Link: [https://github.com/leahjia/PathFinder](https://github.com/leahjia/PathFinder)
-
 
 
 <!-- ACKNOWLEDGMENTS -->
