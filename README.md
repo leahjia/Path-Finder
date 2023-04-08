@@ -34,12 +34,16 @@
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 
 ### Prerequisites
+* Spark
+  ```sh
+  cd campuspaths-server
+  gradle runSpark
+  ```
 * npm
   ```sh
   npm install
   npm start
   ```
-* runSpark is needed before launching
 
 <!-- CONTACT -->
 ## Contact
