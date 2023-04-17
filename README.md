@@ -1,4 +1,4 @@
-# PathFinder
+# Path Finder 🗺️
 
 [![LinkedIn][linkedin-shield]][linkedin-url]
 [![Personal][personal-shield]][personal-url]
