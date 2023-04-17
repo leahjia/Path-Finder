@@ -45,6 +45,11 @@
   npm start
   ```
 
+#### Potential Issue Fix
+  ```sh
+  export NODE_OPTIONS=--openssl-legacy-provider
+  ```
+
 <!-- CONTACT -->
 ## Contact / Feedback
 
